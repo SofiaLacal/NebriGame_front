@@ -7,6 +7,7 @@ function NotFound({ code = 404, title = "Page Not Found", message }) {
   return (
     <div className="not-found">
       <h2>{code} - {title}</h2>
+      <p className="tipo-unown">ABCDEFGHIJKLMNÑOPQRSTUVWYZ</p>
       <p>{message}</p>
       <button onClick={() => navigate("/")}>Home</button>
     </div>
@@ -14,5 +15,3 @@ function NotFound({ code = 404, title = "Page Not Found", message }) {
 }
 
 export default NotFound;
-
-
