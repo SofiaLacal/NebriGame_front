@@ -1,0 +1,60 @@
+@font-face {
+  font-family: 'Bates';
+  src: url('../../assets/fonts/Bates\ Shower.ttf') format(truetype);
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Bloodseeker';
+  src: url('') format(truetype);
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Dripping';
+  src: url('') format(truetype);
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'LethalSlime';
+  src: url('') format(truetype);
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Slayer';
+  src: url('') format(truetype);
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'StormGust';
+  src: url('') format(truetype);
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Stranger';
+  src: url('') format(truetype);
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Unown';
+  src: url('') format(truetype);
+  font-weight: bold;
+  font-style: normal;
+}
+
+body {
+  margin: 0;
+
+}
