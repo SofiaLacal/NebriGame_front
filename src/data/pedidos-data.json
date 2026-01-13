@@ -1,0 +1,54 @@
+{
+  "pedidos": [
+    {
+      "id": 1,
+      "usuario_id": 1,
+      "metodo_pago_id": 1,
+      "total": 609.98,
+      "estado": "entregado",
+      "direccion_envio": "Calle Mayor 123, Madrid",
+      "telefono_contacto": "612345678",
+      "notas": "Entregar en horario de tarde"
+    },
+    {
+      "id": 2,
+      "usuario_id": 2,
+      "metodo_pago_id": 3,
+      "total": 99.98,
+      "estado": "enviado",
+      "direccion_envio": "Avenida Principal 45, Barcelona",
+      "telefono_contacto": "623456789",
+      "notas": null
+    },
+    {
+      "id": 3,
+      "usuario_id": 3,
+      "metodo_pago_id": 4,
+      "total": 109.98,
+      "estado": "procesando",
+      "direccion_envio": "Plaza Central 7, Valencia",
+      "telefono_contacto": "634567890",
+      "notas": "Urgente"
+    },
+    {
+      "id": 4,
+      "usuario_id": 4,
+      "metodo_pago_id": 5,
+      "total": 409.98,
+      "estado": "pendiente",
+      "direccion_envio": "Calle Nueva 12, Sevilla",
+      "telefono_contacto": "645678901",
+      "notas": null
+    },
+    {
+      "id": 5,
+      "usuario_id": 1,
+      "metodo_pago_id": 2,
+      "total": 24.99,
+      "estado": "entregado",
+      "direccion_envio": "Calle Mayor 123, Madrid",
+      "telefono_contacto": "612345678",
+      "notas": null
+    }
+  ]
+}

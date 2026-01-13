@@ -1,0 +1,44 @@
+{
+  "usuarios": [
+    {
+      "nombre": "Juan",
+      "apellido1": "García",
+      "apellido2": "López",
+      "DNI": "12345678A",
+      "email": "juan.garcia@email.com",
+      "password": "$2b$10$ejemploHashPassword123"
+    },
+    {
+      "nombre": "María",
+      "apellido1": "Martínez",
+      "apellido2": "Sánchez",
+      "DNI": "23456789B",
+      "email": "maria.martinez@email.com",
+      "password": "$2b$10$ejemploHashPassword456"
+    },
+    {
+      "nombre": "Carlos",
+      "apellido1": "Rodríguez",
+      "apellido2": null,
+      "DNI": "34567890C",
+      "email": "carlos.rodriguez@email.com",
+      "password": "$2b$10$ejemploHashPassword789"
+    },
+    {
+      "nombre": "Ana",
+      "apellido1": "Fernández",
+      "apellido2": "González",
+      "DNI": "45678901D",
+      "email": "ana.fernandez@email.com",
+      "password": "$2b$10$ejemploHashPassword012"
+    },
+    {
+      "nombre": "Luis",
+      "apellido1": "Pérez",
+      "apellido2": "Torres",
+      "DNI": "56789012E",
+      "email": "luis.perez@email.com",
+      "password": "$2b$10$ejemploHashPassword345"
+    }
+  ]
+}

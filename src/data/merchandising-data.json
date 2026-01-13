@@ -1,0 +1,64 @@
+{  
+  "merchandising": [
+  {
+    "id": 11,
+    "tipo": "merchandising",
+    "nombre": "Camiseta Zelda",
+    "descripcion": "Camiseta oficial de The Legend of Zelda",
+    "precio": 24.99,
+    "stock": 50,
+    "categoria": "Ropa",
+    "juegoAsociado": "The Legend of Zelda: Breath of the Wild"
+  },
+  {
+    "id": 12,
+    "tipo": "merchandising",
+    "nombre": "Figura Funko Pop Mario",
+    "descripcion": "Figura coleccionable de Super Mario",
+    "precio": 14.99,
+    "stock": 30,
+    "categoria": "Figuras",
+    "juegoAsociado": "Super Mario Odyssey"
+  },
+  {
+    "id": 13,
+    "tipo": "merchandising",
+    "nombre": "Mando DualSense PS5",
+    "descripcion": "Mando inalámbrico para PlayStation 5",
+    "precio": 69.99,
+    "stock": 25,
+    "categoria": "Accesorios",
+    "juegoAsociado": null
+  },
+  {
+    "id": 14,
+    "tipo": "merchandising",
+    "nombre": "Poster Elden Ring",
+    "descripcion": "Póster oficial del juego Elden Ring",
+    "precio": 9.99,
+    "stock": 100,
+    "categoria": "Decoración",
+    "juegoAsociado": "Elden Ring"
+  },
+  {
+    "id": 15,
+    "tipo": "merchandising",
+    "nombre": "Funda Nintendo Switch",
+    "descripcion": "Funda protectora para Nintendo Switch",
+    "precio": 19.99,
+    "stock": 40,
+    "categoria": "Accesorios",
+    "juegoAsociado": null
+  },
+  {
+    "id": 16,
+    "tipo": "merchandising",
+    "nombre": "Llavero PlayStation",
+    "descripcion": "Llavero oficial de PlayStation",
+    "precio": 7.99,
+    "stock": 60,
+    "categoria": "Accesorios",
+    "juegoAsociado": null
+  }
+]
+}

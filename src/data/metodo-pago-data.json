@@ -1,0 +1,40 @@
+{
+  "metodosPago": [
+  {
+    "id": 1,
+    "tipo": "Tarjeta de Crédito",
+    "detalles": "**** **** **** 1234",
+    "usuario_id": 1
+  },
+  {
+    "id": 2,
+    "tipo": "PayPal",
+    "detalles": "juan.garcia@email.com",
+    "usuario_id": 1
+  },
+  {
+    "id": 3,
+    "tipo": "Tarjeta de Débito",
+    "detalles": "**** **** **** 5678",
+    "usuario_id": 2
+  },
+  {
+    "id": 4,
+    "tipo": "Transferencia Bancaria",
+    "detalles": "ES12 3456 7890 1234 5678",
+    "usuario_id": 3
+  },
+  {
+    "id": 5,
+    "tipo": "Tarjeta de Crédito",
+    "detalles": "**** **** **** 9012",
+    "usuario_id": 4
+  },
+  {
+    "id": 6,
+    "tipo": "PayPal",
+    "detalles": "ana.fernandez@email.com",
+    "usuario_id": 4
+  }
+]
+}

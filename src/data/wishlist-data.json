@@ -1,0 +1,42 @@
+{
+  "wishlist": [
+    {
+      "usuario_id": 1,
+      "producto_id": 2
+    },
+    {
+      "usuario_id": 1,
+      "producto_id": 8
+    },
+    {
+      "usuario_id": 2,
+      "producto_id": 7
+    },
+    {
+      "usuario_id": 2,
+      "producto_id": 4
+    },
+    {
+      "usuario_id": 3,
+      "producto_id": 7
+    },
+    {
+      "usuario_id": 3,
+      "producto_id": 1
+    },
+    {
+      "usuario_id": 4,
+      "producto_id": 2
+    },
+    {
+      "usuario_id": 5,
+      "producto_id": 7
+    },
+    {
+      "usuario_id": 5,
+      "producto_id": 3
+    }
+  ]
+}
+
+
