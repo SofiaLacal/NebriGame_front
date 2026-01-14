@@ -11,11 +11,11 @@ body {
   align-items: center;
   text-align: center;
   gap: 1rem;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 
 .not-found h2{
-  font-size: 4.8rem;
+  font-size: 3.4rem;
   margin: 0;
 }
 
@@ -35,19 +35,18 @@ body {
 }
 
 
-
 /*FUENTES*/
 
 @font-face {
   font-family: 'Bates';
-  src: url('./fonts/Bates\ Shower.ttf') format(truetype);
+  src: url('../src/assets/fonts/Bates\ Shower.ttf') format(truetype);
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Unown';
-  src: url('./fonts/unown.ttf') format(truetype);
+  src: url('../src/assets/fonts/unown.ttf') format(truetype);
   font-weight: bold;
   font-style: normal;
 }
