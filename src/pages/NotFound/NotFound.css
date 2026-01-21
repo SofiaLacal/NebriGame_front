@@ -1,9 +1,6 @@
-body {
-  margin: 0;
-  font-family: 'Bates', sans-serif;
-}
 
 .not-found {
+  font-family: 'Bates', sans-serif;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
