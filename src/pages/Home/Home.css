@@ -23,6 +23,12 @@
   opacity: 0.9;
 }
 
+.hero-content li {
+  list-style: none;
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
 .hero-stats {
   display: flex;
   justify-content: center;

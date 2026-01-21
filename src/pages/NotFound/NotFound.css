@@ -1,7 +1,8 @@
 
 .not-found {
   font-family: 'Bates', sans-serif;
-  min-height: 100vh;
+  /* ARREGLAR EL HEIGHT*/
+  min-height: 97.5vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,6 +10,7 @@
   text-align: center;
   gap: 1rem;
   font-size: 1.4rem;
+  background: linear-gradient(#667eea, #764ba2);
 }
 
 .not-found h2{
