@@ -49,7 +49,7 @@ function Home() {
         </section>
       </div>
 
-      <Footer></Footer>
+      <Footer />
     </>
   )
 }
