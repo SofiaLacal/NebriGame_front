@@ -1,7 +1,10 @@
+import Header from "../../components/Header/Header";
+
 function Login() {
   return (
     <div>
-      Login
+      <Header />
+      PAGINA DE LOGIN
     </div>
   )
 }

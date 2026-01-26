@@ -22,21 +22,20 @@ function Home() {
       <div className="home">
         {/* Hero Section */}
         <section className="hero">
-          <h1> Esto es la página HOME </h1>
-            <h1>NebriGame 🎮 - PRUEBA CON BDD</h1>
+          <h1>NebriGame 🎮 - PRUEBA CON BDD</h1>
 
-            <div className="hero-content">
-              {videojuegos.length === 0 ? (<p>Cargando videojuegos...</p>) : 
-              (
-                <ul>
-                  {videojuegos.map((juego) => (
-                    <li key={juego.id}>
-                      {juego.nombre}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+          <div className="hero-content">
+            {videojuegos.length === 0 ? (<p>Cargando videojuegos...</p>) : 
+            (
+              <ul>
+                {videojuegos.map((juego) => (
+                  <li key={juego.id}>
+                    {juego.nombre}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </section>
 
         {/* Featured Products */}
