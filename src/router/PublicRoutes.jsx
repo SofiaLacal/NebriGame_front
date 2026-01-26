@@ -9,7 +9,7 @@ function PublicRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/productos" element={<Product />}/>
+      <Route path="/productos/:tipo" element={<Product />}/>
       <Route path="/login" element= {<Login/>} />
       <Route path="/register" element={<Register />} />
       <Route
