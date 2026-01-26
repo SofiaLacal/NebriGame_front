@@ -1,7 +1,10 @@
+import Header from "../../components/Header/Header";
+
 function Register() {
   return (
     <div>
-      Register
+      <Header />
+      PAGINA DE REGISTRO
     </div>
   )
 }
