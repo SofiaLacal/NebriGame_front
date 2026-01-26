@@ -1,17 +1,11 @@
 import Header from '../../components/Header/Header';
 import './Home.css'
 import { useEffect, useState } from "react";
+import { useVideojuegos } from "../../api/useProduct";  
 
 function Home() {
 
-  const [videojuegos, setVideojuegos] = useState([]);
-
-  useEffect(() => {
-    fetch("http://localhost:4004/videojuegos")
-      .then(res => res.json())
-      .then(data => setVideojuegos(data.videojuegos))
-      .catch(err => console.error(err));
-  }, []);
+  const { videojuegos, loading } = useVideojuegos();
 
 /*   const [selectedCategory, setSelectedCategory] = useState('all')
 
