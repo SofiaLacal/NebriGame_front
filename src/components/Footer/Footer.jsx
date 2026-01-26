@@ -1,31 +1,34 @@
+import { FaDiscord, FaReddit, FaTwitch, FaXTwitter, FaInstagram, FaYoutube } from 'react-icons/fa6';
+import './Footer.css';
+
 function Footer() {
   return (
-    <footer className="text-dark text-center py-4">
-      <p className="mb-1">&copy; 2026 NebriGame. Todos los derechos reservados</p>
+    <footer className="footer">
+      <p>&copy; 2026 NebriGame. Todos los derechos reservados</p>
 
-      <div className="text-center social">
+      <div className="social">
         <a href="https://discord.com/" target="_blank" rel="noreferrer">
-          <i className="fa-solid fa-discord"></i> Discord
+          <FaDiscord size={20} /> Discord
         </a>
 
         <a href="https://www.reddit.com/" target="_blank" rel="noreferrer">
-          <i className="fa-brands fa-reddit"></i> Reddit
+          <FaReddit size={20} /> Reddit
         </a>
 
         <a href="https://www.twitch.tv/" target="_blank" rel="noreferrer">
-          <i className="fa-brands fa-twitch"></i> Twitch
+          <FaTwitch size={20} /> Twitch
         </a>
 
         <a href="https://x.com/" target="_blank" rel="noreferrer">
-          <i className="fa-brands fa-x"></i> X
+          <FaXTwitter size={20} /> 
         </a>
 
         <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
-          <i className="fa-brands fa-instagram"></i> Instagram
+          <FaInstagram size={20} /> Instagram
         </a>
 
         <a href="https://www.youtube.com/" target="_blank" rel="noreferrer">
-          <i className="fa-brands fa-youtube"></i> Youtube
+          <FaYoutube size={20} /> Youtube
         </a>
       </div>
     </footer>

@@ -23,7 +23,12 @@ function Home() {
         {/* Hero Section */}
         <section className="hero">
           <h1>NebriGame 🎮 - PRUEBA CON BDD</h1>
+        </section>
 
+        {/* Featured Products */}
+        <section className="featured-section">
+          <h2>⭐ Productos Destacados</h2>
+          
           <div className="hero-content">
             {videojuegos.length === 0 ? (<p>Cargando videojuegos...</p>) : 
             (
@@ -36,11 +41,6 @@ function Home() {
               </ul>
             )}
           </div>
-        </section>
-
-        {/* Featured Products */}
-        <section className="featured-section">
-          <h2>⭐ Productos Destacados</h2>
         </section>
 
         {/* Categories Filter */}
