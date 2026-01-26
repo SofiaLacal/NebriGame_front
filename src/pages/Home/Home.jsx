@@ -2,6 +2,7 @@ import Header from '../../components/Header/Header';
 import './Home.css'
 import { useEffect, useState } from "react";
 import { useVideojuegos } from "../../api/useProduct";  
+import Footer from '../../components/Footer/Footer';
 
 function Home() {
 
@@ -47,6 +48,8 @@ function Home() {
           <h2>📦 Explorar por Categoría</h2>
         </section>
       </div>
+
+      <Footer />
     </>
   )
 }
