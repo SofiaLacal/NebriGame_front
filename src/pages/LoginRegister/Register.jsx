@@ -4,7 +4,17 @@ function Register() {
   return (
     <div>
       <Header />
-      PAGINA DE REGISTRO
+
+      <div className="register">
+
+        <h1> PAGINA DE REGISTRO </h1>
+        
+        <form action="" className="form-register">
+          
+        </form>
+
+      </div>
+      
     </div>
   )
 }

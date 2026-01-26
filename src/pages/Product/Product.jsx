@@ -4,7 +4,14 @@ function Product() {
   return (
     <div>
       <Header />
-      <h1>Product</h1>
+      <h1>Páginas de productos</h1>
+
+      <h3>VIDEOJUEGOS</h3>
+
+      <h3>CONSOLAS</h3>
+
+      <h3>MERCHANDISING</h3>
+
     </div>
   )
 }
