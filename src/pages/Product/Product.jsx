@@ -1,6 +1,7 @@
 import Header from "../../components/Header/Header"
 import { useVideojuegos, useConsolas, useMerchandising } from "../../api/useProduct";
 import ProductCard from "../../components/ProductCard/ProductCard"
+import { useParams } from "react-router-dom";
 
 
 function Product() {

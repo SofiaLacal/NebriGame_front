@@ -19,13 +19,13 @@ function Header() {
             <Link to="/" className={location.pathname === '/' ? 'active' : ''}> Principal </Link>
           </li>
           <li> 
-            <Link to="/productos" className={location.pathname === '/products' ? 'active' : ''}> <Gamepad2 size={18} /> Juegos </Link>
+            <Link to="/productos/videojuegos" className={location.pathname.startsWith === '/products/videojuegos' ? 'active' : ''}> <Gamepad2 size={18} /> Juegos </Link>
           </li>
           <li>
-            <Link to="/productos" className={location.pathname === '/consolas' ? 'active' : ''}><Tv size={18} /> Consolas </Link>
+            <Link to="/productos/consolas" className={location.pathname.startsWith === '/productos/consolas' ? 'active' : ''}><Tv size={18} /> Consolas </Link>
           </li>
           <li>
-            <Link to="/productos" className={location.pathname === '/merchandising' ? 'active' : ''}><Gift size={18} /> Merchandising </Link>
+            <Link to="/productos/merchandising" className={location.pathname.startsWith === '/productos/merchandising' ? 'active' : ''}><Gift size={18} /> Merchandising </Link>
           </li>
           <li>
             <Link to="/ofertas" className={location.pathname === '/ofertas' ? 'active' : ''}> <Percent size={18} /> Ofertas </Link>
