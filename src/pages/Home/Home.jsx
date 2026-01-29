@@ -2,6 +2,7 @@ import Header from '../../components/Header/Header';
 import './Home.css'
 import { useVideojuegos } from "../../api/useProduct";  
 import Footer from '../../components/Footer/Footer';
+import getImageUrl from '../../utils/getImage';
 
 function Home() {
 
@@ -37,6 +38,7 @@ function Home() {
                   {videojuegos.map((juego) => (
                     <li key={juego.id}>
                       {juego.nombre}
+                      <img src={getImageUrl(juego.imagen_url)} alt={juego.nombre} />
                     </li>
                   ))}
                 </ul>
