@@ -2,6 +2,7 @@ import Header from "../../components/Header/Header"
 import { useVideojuegos, useConsolas, useMerchandising } from "../../api/useProduct";
 import ProductCard from "../../components/ProductCard/ProductCard"
 import { useParams } from "react-router-dom";
+import "./Product.css"
 
 
 function Product() {
@@ -18,11 +19,10 @@ function Product() {
   return (
     <div>
       <Header />
-
+      {/* !!!!!!!!!! F U T U R O   B U S C A D O R !!!!!!!!!! */}
       {tipo === "videojuegos" && (
         <section>
-          <h2>Videojuegos</h2>
-          <div className="grid">
+          <div className="products-grid">
             {videojuegos.map((v) => (
               <ProductCard
                 key={v.id}
@@ -38,8 +38,7 @@ function Product() {
 
       {tipo === "consolas" && (
         <section>
-          <h2>Consolas</h2>
-          <div className="grid">
+          <div className="products-grid">
             {consolas.map((c) => (
               <ProductCard
                 key={c.id}
@@ -55,8 +54,7 @@ function Product() {
 
       {tipo === "merchandising" && (
         <section>
-          <h2>Merchandising</h2>
-          <div className="grid">
+          <div className="products-grid">
             {merchandising.map((m) => (
               <ProductCard
                 key={m.id}
