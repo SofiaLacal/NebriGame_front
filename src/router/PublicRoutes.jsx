@@ -7,38 +7,41 @@ import Register from "../pages/LoginRegister/Register";
 
 function PublicRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/productos/:tipo" element={<Product />}/>
-      <Route path="/login" element= {<Login/>} />
-      <Route path="/register" element={<Register />} />
-      <Route
-        path="/error-500"
-        element={
-          <NotFound
-            code={500}
-            title="Internal Server Error"
-            message="Oops! Algo ha salido mal. Inténtalo más tarde"
-          />
-        }
-      />
+    <>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/productos/:tipo" element={<Product />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        
+        <Route
+          path="/error-500"
+          element={
+            <NotFound
+              code={500}
+              title="Internal Server Error"
+              message="Oops! Algo ha salido mal. Inténtalo más tarde"
+            />
+          }
+        />
 
-      <Route
-        path="/error-403"
-        element={
-          <NotFound
-            code={403}
-            title="Forbidden"
-            message="Ande vaaaas?"
-          />
-        }
-      />
+        <Route
+          path="/error-403"
+          element={
+            <NotFound
+              code={403}
+              title="Forbidden"
+              message="Ande vaaaas?"
+            />
+          }
+        />
 
-      <Route
-        path="/*"
-        element={<NotFound message="La página que buscas no existe" />}
-      />
+        <Route
+          path="/*"
+          element={<NotFound message="La página que buscas no existe" />}
+        />
       </Routes>
+    </>
   );
 }
 
@@ -46,7 +49,7 @@ export default PublicRoutes;
 
 
 {/*       
-  <Route path="games" element={<Games />} />
-  <Route path="cart" element={<Cart />} />
-  <Route path="wishlist" element={<Wishlist />} /> 
+  Rutas comentadas para agregar más adelante:
+  <Route path="/cart" element={<Cart />} />
+  <Route path="/wishlist" element={<Wishlist />} /> 
 */}

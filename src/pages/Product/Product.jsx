@@ -1,5 +1,6 @@
-import Header from "../../components/Header/Header"
 import { useVideojuegos, useConsolas, useMerchandising } from "../../api/useProduct";
+import Footer from "../../components/Footer/Footer";
+import Header from "../../components/Header/Header";
 import ProductCard from "../../components/ProductCard/ProductCard"
 import { useParams } from "react-router-dom";
 
@@ -17,7 +18,7 @@ function Product() {
 
   return (
     <div>
-      <Header />
+      <Header/>
 
       {tipo === "videojuegos" && (
         <section>
@@ -69,7 +70,9 @@ function Product() {
           </div>
         </section>
       )}
+      <Footer/>
     </div>
+
   );
 }
 

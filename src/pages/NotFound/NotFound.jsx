@@ -5,10 +5,11 @@ function NotFound({ code = 404, title = "Page Not Found", message }) {
   const navigate = useNavigate();
 
   return (
-      <div className="not-found">
+      <div className="not-found not-found-background ">
         <h2>{code} - {title}</h2>
         <p className="tipo-unown">ABCDEFGHIJKLMNÑOPQRSTUVWYZ</p>
         <p>{message}</p>
+
         <button onClick={() => navigate("/")}>Home</button>
 
         {/* Sección de pruebas de errores */}

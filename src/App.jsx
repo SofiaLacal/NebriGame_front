@@ -11,7 +11,7 @@ function App() {
       <Route path="/*" element={<PublicRoutes />} />
 
       {/* Rutas privadas */}
-{/*       <Route path="/" element={<PrivateRoutes />} /> */}
+      {/* <Route path="/" element={<PrivateRoutes />} /> */}
     </Routes>
   );
 }

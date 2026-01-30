@@ -1,25 +1,99 @@
-import Header from "../../components/Header/Header";
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import "./LoginRegister.css"
+import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
+
 
 function Login() {
+
+  const navigate = useNavigate();
+  
+  const [formData, setFormData] = useState({
+    email: '',
+    contrasenna: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const goToRegister = () => {
+    navigate('/register');
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Login enviado:', formData);
+    // Aquí irá la conexión a la BD más tarde
+  };
+
   return (
-    <div>
-      <Header />
+    <div className='background-login'>
+      <SimpleHeader/>
+      <div className="auth-container">
+        <div className="auth-card">
+          <div className="auth-header">
+            <h1>Inicia Sesión</h1>
+            <p>Pon tu usuario y contraseña para entrar</p>
+          </div>
 
-      <div className="login">
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="tu@email.com"
+              />
+            </div>
 
-        <h1> PAGINA DE LOGIN </h1>
-        
-        <button>Iniciar sesión</button>
+            <div className="form-group">
+              <label htmlFor="contrasenna">Contraseña</label>
+              <input
+                type="password"
+                id="contrasenna"
+                name="contrasenna"
+                value={formData.contrasenna}
+                onChange={handleChange}
+                placeholder="••••••••"
+              />
+            </div>
 
-        <p>
-          ¿No estás registrado? Regístrate aquí: <Link to="/register">REGISTRO</Link>
-        </p> 
+            <div className="form-footer">
+              <a href="#" className="forgot-password">
+                ¿Olvidaste tu contraseña?
+              </a>
+             {/* MODIFICAR ESTO */}
+            </div>
+            
 
+            <button type="submit" className="btn-primary">
+              Iniciar Sesión
+            </button>
+
+            <div className="auth-switch">
+              <p>¿No tienes una cuenta?</p>
+              <button 
+                type="button" 
+                onClick={goToRegister}
+                className="btn-link"
+              >
+                Regístrate aquí
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-      
     </div>
   )
 }
 
-export default Login
+export default Login;
+

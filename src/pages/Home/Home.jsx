@@ -1,7 +1,7 @@
-import Header from '../../components/Header/Header';
 import './Home.css'
 import { useVideojuegos } from "../../api/useProduct";  
-import Footer from '../../components/Footer/Footer';
+import Header from "../../components/Header/Header"
+import Footer from "../../components/Footer/Footer";
 
 function Home() {
 
@@ -10,9 +10,7 @@ function Home() {
   return (
     <>
     <div className="background">
-
       <Header/>
-
         <div className="home">
           {/* Hero Section */}
           <section className="hero">
@@ -25,33 +23,32 @@ function Home() {
         </div>
     </div>
 
-        <div className="home">
-          {/* Featured Products */}
-          <section className="featured-section">
-            <h2>⭐ Productos Destacados</h2>
-            
-            <div className="hero-content">
-              {videojuegos.length === 0 ? (<p>Cargando videojuegos...</p>) : 
-              (
-                <ul>
-                  {videojuegos.map((juego) => (
-                    <li key={juego.id}>
-                      {juego.nombre}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </section>
-
-          {/* Categories Filter */}
-          <section className="categories-section">
-            <h2>📦 Explorar por Categoría</h2>
-          </section>
+    <div className="home">
+      {/* Featured Products */}
+      <section className="featured-section">
+        <h2>⭐ Productos Destacados</h2>
+        
+        <div className="hero-content">
+          {videojuegos.length === 0 ? (<p>Cargando videojuegos...</p>) : 
+          (
+            <ul>
+              {videojuegos.map((juego) => (
+                <li key={juego.id}>
+                  {juego.nombre}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
+      </section>
 
-      <Footer />
-    </>
+      {/* Categories Filter */}
+      <section className="categories-section">
+        <h2>📦 Explorar por Categoría</h2>
+      </section>
+    </div>
+    <Footer/>
+</>
   )
 }
 
