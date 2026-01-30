@@ -2,7 +2,9 @@ import { useVideojuegos, useConsolas, useMerchandising } from "../../api/useProd
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import ProductCard from "../../components/ProductCard/ProductCard"
+import Loading from "../../components/Loading/Loading"
 import { useParams } from "react-router-dom";
+import "./Product.css"
 
 
 function Product() {
@@ -12,63 +14,73 @@ function Product() {
   const { consolas, loading: loadingConsolas } = useConsolas();
   const { merchandising, loading: loadingMerch } = useMerchandising();
 
-  if (loadingVideojuegos || loadingConsolas || loadingMerch) {
-    return <p>Cargando productos...</p>;
-  }
-
   return (
     <div>
-      <Header/>
-
+      {/* !!!!!!!!!! F U T U R O   B U S C A D O R !!!!!!!!!! */}
       {tipo === "videojuegos" && (
-        <section>
-          <h2>Videojuegos</h2>
-          <div className="grid">
-            {videojuegos.map((v) => (
-              <ProductCard
-                key={v.id}
-                imagen={v.imagen}
-                nombre={v.nombre}
-                precio={v.precio}
-                tipo="videojuego"
-              />
-            ))}
-          </div>
-        </section>
+        <>
+          {loadingVideojuegos ? (
+            <Loading />
+          ) : (
+            <section>
+              <div className="productos-grid">
+                {videojuegos.map((v) => (
+                  <ProductCard
+                    key={v.id}
+                    imagen={v.imagen_url}
+                    nombre={v.nombre}
+                    precio={v.precio}
+                    tipo="videojuego"
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+        </>
       )}
 
       {tipo === "consolas" && (
-        <section>
-          <h2>Consolas</h2>
-          <div className="grid">
-            {consolas.map((c) => (
-              <ProductCard
-                key={c.id}
-                imagen={c.imagen}
-                nombre={c.nombre}
-                precio={c.precio}
-                tipo="consola"
-              />
-            ))}
-          </div>
-        </section>
+        <>
+          {loadingConsolas ? (
+            <Loading />
+          ) : (
+            <section>
+              <div className="productos-grid">
+                {consolas.map((c) => (
+                  <ProductCard
+                    key={c.id}
+                    imagen={c.imagen_url}
+                    nombre={c.nombre}
+                    precio={c.precio}
+                    tipo="consola"
+                  />
+                ))}
+              </div>
+            </section>
+          )}
+        </>
       )}
 
       {tipo === "merchandising" && (
-        <section>
-          <h2>Merchandising</h2>
-          <div className="grid">
-            {merchandising.map((m) => (
-              <ProductCard
-                key={m.id}
-                imagen={m.imagen}
-                nombre={m.nombre}
-                precio={m.precio}
-                tipo="merchandising"
-              />
-            ))}
-          </div>
-        </section>
+        <>
+          {loadingMerch ? (
+            <Loading />
+          ) : (
+            <section>
+              <div className="productos-grid">
+                {merchandising.map((m) => (
+                  <ProductCard
+                    key={m.id}
+                    imagen={m.imagen_url}
+                    nombre={m.nombre}
+                    precio={m.precio}
+                    tipo="merchandising"
+                />
+                ))}
+              </div>
+            </section>
+          )}
+        </>
       )}
       <Footer/>
     </div>
