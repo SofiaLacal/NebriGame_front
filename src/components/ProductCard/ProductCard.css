@@ -7,27 +7,6 @@
   cursor: pointer;
 }
 
-.product-card.loading {
-  background-color: #dc2626;
-  height: 350px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.loading-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.loading-content p {
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-  margin: 0;
-}
-
 .product-card:hover {
   transform: scale(1.03);
 }
