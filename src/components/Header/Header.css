@@ -6,13 +6,12 @@
   top: 0;
   z-index: 100;
   border-radius: 20px;
-  max-width: 1400px;
-  margin: 0 auto;
+  width: 100% auto;
 }
 
 .logo img {
-  width: 5vw;
-  height: 9.2vh;
+  width: 60px;
+  height: auto;
 }
 
 .navbar {
@@ -23,6 +22,7 @@
   padding: 0.8rem 1.5rem;
   max-width: auto;
   margin: 0 auto;
+  position: relative;
 }
 
 .logo h2 {
@@ -65,4 +65,89 @@
 .nav-links a.active {
   background-color: #7F30BC;
   color: #ffffff;
+}
+
+/* Botón hamburguesa (oculto por defecto) */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: #ecf0f1;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-left: auto;
+}
+
+/* RESPONSIVE - Tablets y móviles */
+@media (max-width: 1024px) {
+  .navbar {
+    gap: 1rem;
+  }
+  
+  .nav-links {
+    gap: 0.3rem;
+  }
+  
+  .nav-links a {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* RESPONSIVE - Móviles */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+  
+  .navbar {
+    flex-wrap: wrap;
+  }
+  
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .nav-links.active {
+    display: flex;
+  }
+  
+  .nav-links-right {
+    margin-left: 0;
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .nav-links a {
+    width: auto;
+    justify-content: flex-start;
+    padding: 0.8rem 1rem;
+  }
+  
+  .nav-links-right a {
+    width: auto;
+  }
+  
+  .logo img {
+    width: 50px;
+  }
+}
+
+/* RESPONSIVE - Móviles pequeños */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.6rem 1rem;
+  }
+  
+  .logo img {
+    width: 40px;
+  }
+  
+  .nav-links a {
+    font-size: 0.9rem;
+  }
 }

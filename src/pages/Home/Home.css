@@ -3,12 +3,19 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.background {
+  background-image: url("../../../public/fondo_home.jpg");
+  border-radius: 20px;
+  height: 60vh;
+  width: auto; 
+}
+
 .hero {
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   padding: 4rem 2rem;
-  border-radius: 16px;
   margin-bottom: 3rem;
-  text-align: center;
+  text-align: left;
+
 }
 
 .hero-content h1 {
