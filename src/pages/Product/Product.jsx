@@ -16,6 +16,7 @@ function Product() {
 
   return (
     <div>
+      <Header/>
       {/* !!!!!!!!!! F U T U R O   B U S C A D O R !!!!!!!!!! */}
       {tipo === "videojuegos" && (
         <>
