@@ -28,10 +28,11 @@ function Product() {
                 {videojuegos.map((v) => (
                   <ProductCard
                     key={v.id}
+                    id={v.id}
                     imagen={v.imagen_url}
                     nombre={v.nombre}
                     precio={v.precio}
-                    tipo="videojuego"
+                    tipo="videojuegos"
                   />
                 ))}
               </div>
@@ -50,10 +51,11 @@ function Product() {
                 {consolas.map((c) => (
                   <ProductCard
                     key={c.id}
+                    id={c.id}
                     imagen={c.imagen_url}
                     nombre={c.nombre}
                     precio={c.precio}
-                    tipo="consola"
+                    tipo="consolas"
                   />
                 ))}
               </div>
@@ -72,6 +74,7 @@ function Product() {
                 {merchandising.map((m) => (
                   <ProductCard
                     key={m.id}
+                    id={m.id}
                     imagen={m.imagen_url}
                     nombre={m.nombre}
                     precio={m.precio}
