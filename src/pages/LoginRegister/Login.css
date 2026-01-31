@@ -3,18 +3,17 @@
 }
 
 /* Contenedor principal */
-
 .background-login {
   background-image: url("../../assets/images/backgroundLogin.jpeg");
-  background-size: cover;       
-  background-position: center;   
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
   border-radius: 20px;
-  height: 98vh;  
+  height: 98vh;
 }
 
 .auth-container {
-  min-height: calc(100vh - 140px); 
+  min-height: calc(100vh - 140px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,7 +30,6 @@
   animation: slideIn 0.4s ease-out;
 }
 
-/* REVISAR ESTO */
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -42,7 +40,6 @@
     transform: translateY(0);
   }
 }
-
 
 /* Header */
 .auth-header {
@@ -188,24 +185,13 @@
   margin: 0;
 }
 
-/* Términos */
-.terms-text {
-  text-align: center;
-  color: #999;
-  font-size: 12px;
-  margin: 20px 0 0 0;
-  line-height: 1.6;
-  padding: 0;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
-
   .auth-container {
-    min-height: auto;         
-    align-items: flex-start;   
-    justify-content: center;   
-    padding-top: 20px;         
+    min-height: auto;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 20px;
   }
 
   .auth-card {

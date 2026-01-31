@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import "./LoginRegister.css"
+import "./Login.css"
 import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
 
 
@@ -96,4 +96,3 @@ function Login() {
 }
 
 export default Login;
-

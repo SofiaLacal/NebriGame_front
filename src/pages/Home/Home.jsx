@@ -12,7 +12,7 @@ function Home() {
     <>
       <div className="background">
         <Header/>
-          <div className="home">
+          <div className="welcome">
             {/* Hero Section */}
             <section className="hero">
               <h1>Bienvenido a NebriGame</h1>
@@ -24,7 +24,7 @@ function Home() {
           </div>
       </div>
 
-      <div className="home">
+      <div className="home-container">
         {/* Featured Products */}
         <section className="featured-section">
           <h2>⭐ Productos Destacados</h2>
@@ -49,11 +49,6 @@ function Home() {
           <h2>📦 Explorar por Categoría</h2>
         </section>
       </div>
-
-      {/* Categories Filter */}
-      <section className="categories-section">
-        <h2>📦 Explorar por Categoría</h2>
-      </section>
 
     <Footer/>
   </>

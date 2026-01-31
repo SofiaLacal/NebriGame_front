@@ -1,4 +1,4 @@
-.home {
+.welcome {
   padding-bottom: 3rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
@@ -9,6 +9,12 @@
   height: 60vh;
   margin-top: 2px;
   width: auto; 
+}
+
+.home-container {
+  padding-bottom: 3rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 12vh;
 }
 
 .hero {

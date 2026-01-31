@@ -18,8 +18,7 @@
 }
 
 .not-found h2{
-  /*CAMBIAR LA TIPOGRAFÍA*/
-  font-family: 'Bates', sans-serif;
+  font-family: 'Gameplay', sans-serif;
   font-size: 3.4rem;
   margin: 0;
 }
@@ -43,8 +42,8 @@
 /*FUENTES*/
 
 @font-face {
-  font-family: 'Bates';
-  src: url('../../../src/assets/fonts/Bates\ Shower.ttf') format(truetype);
+  font-family: 'Gameplay';
+  src: url('../../../src/assets/fonts/Gameplay.ttf') format(truetype);
   font-weight: bold;
   font-style: normal;
 }
