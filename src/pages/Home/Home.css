@@ -4,7 +4,7 @@
 }
 
 .background {
-  background-image: url("../../../public/fondo_home.jpg");
+  background-image: url("../../assets/images/fondo_home.jpg");
   border-radius: 20px;
   height: 60vh;
   margin-top: 2px;
