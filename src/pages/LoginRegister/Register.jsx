@@ -32,8 +32,7 @@ function Register() {
     const envioForm = {
       nombre: formData.nombre,
       apellido1: formData.apellidos,
-      apellido2: "wololo",
-      DNI: "12345678Z",
+      apellido2: "",
       email: formData.email,
       contrasenna: formData.contrasenna,
     }
