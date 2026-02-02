@@ -3,6 +3,7 @@ import { useVideojuegos, useConsolas, useMerchandising } from "../../api/useProd
 import Header from "../../components/Header/Header"
 import Footer from "../../components/Footer/Footer";
 import ProductCard from "../../components/ProductCard/ProductCard";
+import getImageUrl from "../../utils/getImage";
 
 function Home() {
 
@@ -51,7 +52,7 @@ function Home() {
               <ProductCard
                 key={producto.id}
                 id={producto.id}
-                imagen={producto.imagen_url}
+                imagen={getImageUrl(producto.imagen_url)}
                 nombre={producto.nombre}
                 precio={producto.precio}
                 tipo={producto.tipo}
