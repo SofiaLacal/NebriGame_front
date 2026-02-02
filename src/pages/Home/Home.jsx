@@ -1,12 +1,29 @@
 import './Home.css'
-import { useVideojuegos } from "../../api/useProduct";  
-import getImageUrl from '../../utils/getImage';
+import { useVideojuegos, useConsolas, useMerchandising } from "../../api/useProduct";  
 import Header from "../../components/Header/Header"
 import Footer from "../../components/Footer/Footer";
+import ProductCard from "../../components/ProductCard/ProductCard";
 
 function Home() {
 
   const { videojuegos } = useVideojuegos();
+  const { consolas } = useConsolas();
+  const { merchandising } = useMerchandising();
+
+  // Combinar todos los productos
+  const todosLosProductos = [
+    ...videojuegos.map(v => ({ ...v, tipo: 'videojuegos' })),
+    ...consolas.map(c => ({ ...c, tipo: 'consolas' })),
+    ...merchandising.map(m => ({ ...m, tipo: 'merchandising' }))
+  ];
+
+  // IDs de los productos que queremos
+  const productosDestacadosIds = [1, 6, 13, 16, 17, 23];
+  
+  // Filtrar solo los productos destacados puestos arriba
+  const productosDestacados = todosLosProductos.filter(producto => 
+    productosDestacadosIds.includes(producto.id)
+  );
 
   return (
     <>
@@ -29,24 +46,18 @@ function Home() {
         <section className="featured-section">
           <h2>⭐ Productos Destacados</h2>
           
-          <div className="hero-content">
-            {videojuegos.length === 0 ? (<p>Cargando videojuegos...</p>) : 
-            (
-              <ul>
-                {videojuegos.map((juego) => (
-                  <li key={juego.id}>
-                    {juego.nombre}
-                    <img src={getImageUrl(juego.imagen_url)} alt={juego.nombre} />
-                  </li>
-                ))}
-              </ul>
-            )}
+          <div className="productos-grid">
+            {productosDestacados.map((producto) => (
+              <ProductCard
+                key={producto.id}
+                id={producto.id}
+                imagen={producto.imagen_url}
+                nombre={producto.nombre}
+                precio={producto.precio}
+                tipo={producto.tipo}
+              />
+            ))}
           </div>
-        </section>
-
-        {/* Categories Filter */}
-        <section className="categories-section">
-          <h2>📦 Explorar por Categoría</h2>
         </section>
       </div>
 

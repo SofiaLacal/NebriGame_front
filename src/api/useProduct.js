@@ -78,6 +78,39 @@ const useMerchandising = () => {
         });
     }, []);
     return { merchandising, loading };
-};  
+};
 
-export { useVideojuegos, useConsolas, useMerchandising };
+const useSearch = (busqueda) => {
+    const [resultados, setResultados] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        if (!busqueda || busqueda.trim() === "") {
+            setResultados([]);
+            return;
+        }
+
+        setLoading(true);
+        const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+        fetch(`${apiUrl}/buscar?q=${encodeURIComponent(busqueda)}`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+        })
+        .then(data => {
+            setResultados(data.resultados || []);
+            setLoading(false);
+        })
+        .catch(err => {
+            console.error('Error en búsqueda:', err);
+            setResultados([]);
+            setLoading(false);
+        });
+    }, [busqueda]);
+
+    return { resultados, loading };
+};
+
+export { useVideojuegos, useConsolas, useMerchandising, useSearch };

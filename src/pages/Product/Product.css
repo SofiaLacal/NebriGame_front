@@ -7,6 +7,126 @@
   margin: 0 auto;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+.buscador-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.buscador-form {
+  display: flex;
+  gap: 12px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.buscador-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #7439b3;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+}
+
+.buscador-input:focus {
+  border-color: #65319c;
+}
+
+.buscador-boton {
+  padding: 12px 24px;
+  background: #7439b3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.buscador-boton:hover {
+  background: #65319c;
+}
+
+.resultados-y-filtros {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 16px auto 0;
+  padding: 0 24px;
+}
+
+.search-info {
+  color: black;
+  font-size: 14px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.search-info p {
+  margin: 0;
+}
+
+.filtros-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filtros-container label {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.filtro-select {
+  width: 220px;
+  padding: 8px 12px;
+  border: 2px solid #7439b3;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+  outline: none;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.filtro-select:focus {
+  border-color: #65319c;
+  box-shadow: 0 0 0 3px rgba(116, 57, 179, 0.4); /* borde gordito sin mover nada */
+}
+
+/* Color de fondo de las opciones */
+.filtro-select option {
+  background: white;
+  color: black;
+}
+
+/* Hover morado (funciona en Firefox y algunos Chromium) */
+.filtro-select option:hover,
+.filtro-select option:checked {
+  background-color: #e5d4f7 !important;
+  color: black;
+}
+
+.limpiar-btn {
+  padding: 8px 16px;
+  background: #7439b3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.limpiar-btn:hover {
+  background: #65319c;
+}
 
 
 @media (max-width: 1024px) {

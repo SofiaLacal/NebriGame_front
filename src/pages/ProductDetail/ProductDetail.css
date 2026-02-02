@@ -1,10 +1,10 @@
-.product-detail-container {
+.contenedor-detalle {
   max-width: 1200px;
   margin: 40px auto;
   padding: 24px;
 }
 
-.product-detail {
+.detalle {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
@@ -14,7 +14,7 @@
   margin-bottom: 24px;
 }
 
-.product-image img {
+.imagen {
   width: 100%;
   height: 100%;
   max-height: 440px;
@@ -22,26 +22,26 @@
   border-radius: 8px;
 }
 
-.product-details h1 {
+.info h1 {
   color: white;
   font-size: 32px;
   margin-bottom: 16px;
 }
 
-.product-details .price {
+.precio {
   color: white;
   font-size: 36px;
   font-weight: bold;
   margin-bottom: 24px;
 }
 
-.button-group {
+.botones {
   display: flex;
   gap: 16px;
   align-items: center;
 }
 
-.wishlist-btn {
+.boton-wishlist {
   background: #7439b3;
   border: none;
   color: white;
@@ -56,11 +56,11 @@
   height: 56px;
 }
 
-.wishlist-btn:hover {
+.boton-wishlist:hover {
   background: #65319c;
 }
 
-.add-to-cart {
+.boton-carrito {
   background: #7439b3;
   color: white;
   border: none;
@@ -74,38 +74,86 @@
   height: 56px;
 }
 
-.add-to-cart:hover {
+.boton-carrito:hover {
   background: #65319c;
 }
 
-.product-description-section {
+.seccion-descripcion {
   background: #8a63b4;
   border-radius: 12px;
   padding: 30px 40px;
 }
 
-.product-description-section h2 {
+.seccion-descripcion h2 {
   color: white;
   font-size: 24px;
   margin-bottom: 16px;
 }
 
-.product-description-section .description {
+.descripcion {
   color: white;
   font-size: 16px;
   line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.especificaciones {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.dato {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.etiqueta {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.valor {
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.lista-plataformas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.plataforma {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {
-  .product-detail {
+  .detalle {
     grid-template-columns: 1fr;
   }
   
-  .button-group {
+  .especificaciones {
+    grid-template-columns: 1fr;
+  }
+  
+  .botones {
     flex-direction: column;
   }
   
-  .wishlist-btn {
+  .boton-wishlist {
     width: 100%;
   }
 }
