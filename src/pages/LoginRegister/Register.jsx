@@ -9,7 +9,8 @@ function Register() {
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     nombre: '',
-    apellidos: '',
+    apellido1: '',
+    apellido2: '',
     email: '',
     emailConfirmar: '',
     contrasenna: '',
@@ -22,6 +23,8 @@ function Register() {
       ...prev,
       [name]: value
     }));
+
+    if (error) setError(null);
   };
 
   const goToLogin = () => {
@@ -29,28 +32,56 @@ function Register() {
   };
 
   const handleSubmit = async (e) => {
+    
+    e.preventDefault();
+
+    // Validar que los emails coincidan
+    if (formData.email !== formData.emailConfirmar) {
+      setError('Los emails no coinciden');
+      return;
+    }
+    
+    // Validar que las contraseñas coincidan
+    if (formData.contrasenna !== formData.contrasennaConfirmar) {
+      setError('Las contraseñas no coinciden');
+      return;
+    }
+
     const envioForm = {
       nombre: formData.nombre,
+<<<<<<< HEAD
       apellido1: formData.apellidos,
       apellido2: "",
+=======
+      apellido1: formData.apellido1,
+      apellido2: formData.apellido2,
+>>>>>>> 2c3a0e1724399107ffd6b22f7035102142719743
       email: formData.email,
       contrasenna: formData.contrasenna,
     }
-    e.preventDefault();
-    const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-    const res = await fetch(`${apiUrl}/usuarios/registro`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(envioForm)
-    });
-    const data = res.json();
-    console.log(envioForm);
-    if (data.success) {
-      navigate('/login');
-    } else {
-      setError(data.message);
+
+    try {
+      const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+      const res = await fetch(`${apiUrl}/usuarios/registro`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(envioForm)
+      });
+      
+      const data = await res.json();
+      
+      console.log('Respuesta del servidor:', data);
+      
+      if (data.success) {
+        navigate('/login');
+      } else {
+        setError(data.message || 'Error al registrarse');
+      }
+    } catch (error) {
+      console.error('Error en el registro:', error);
+      setError('Error de conexión. Por favor, intenta de nuevo.');
     }
   };
 
@@ -81,18 +112,32 @@ function Register() {
                   required
                 />
               </div>
+            </div>
 
+            <div className="form-row">
               <div className="form-group">
-                <label htmlFor="apellidos">Apellidos <span className="must-do">*</span></label>
+                <label htmlFor="apellidos">Apellido<span className="must-do"> *</span></label>
                 <input
                   type="text"
-                  id="apellidos"
-                  name="apellidos"
-                  value={formData.apellidos}
+                  id="apellido1"
+                  name="apellido1"
+                  value={formData.apellido1}
                   onChange={handleChange}
-                  placeholder="Apellidos"
+                  placeholder="Primer apellido"
                   required
                 />
+              </div>
+                <div className="form-group">
+                  <label htmlFor="apellidos">Apellido<span className="must-do"> *</span></label>
+                  <input
+                    type="text"
+                    id="apellido2"
+                    name="apellido2"
+                    value={formData.apellido2}
+                    onChange={handleChange}
+                    placeholder="Segundo apellido"
+                    required
+                  />
               </div>
             </div>
 
