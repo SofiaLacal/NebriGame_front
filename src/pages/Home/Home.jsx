@@ -59,11 +59,6 @@ function Home() {
             ))}
           </div>
         </section>
-
-        {/* Categories Filter */}
-        <section className="categories-section">
-          <h2>📦 Explorar por Categoría</h2>
-        </section>
       </div>
 
     <Footer/>

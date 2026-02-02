@@ -4,6 +4,7 @@ import { Heart } from 'lucide-react';
 import Header from "../../components/Header/Header";
 import Loading from "../../components/Loading/Loading";
 import "./ProductDetail.css";
+import Footer from "../../components/Footer/Footer";
 
 function ProductDetail() {
   const { id, tipo } = useParams();
@@ -135,6 +136,7 @@ function ProductDetail() {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
