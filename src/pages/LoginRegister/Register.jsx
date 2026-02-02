@@ -49,13 +49,8 @@ function Register() {
 
     const envioForm = {
       nombre: formData.nombre,
-<<<<<<< HEAD
-      apellido1: formData.apellidos,
-      apellido2: "",
-=======
       apellido1: formData.apellido1,
       apellido2: formData.apellido2,
->>>>>>> 2c3a0e1724399107ffd6b22f7035102142719743
       email: formData.email,
       contrasenna: formData.contrasenna,
     }
