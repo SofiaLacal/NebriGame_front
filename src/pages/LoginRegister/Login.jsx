@@ -25,10 +25,18 @@ function Login() {
     navigate('/register');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login enviado:', formData);
-    // Aquí irá la conexión a la BD más tarde
+    const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+    const res = await fetch(`${apiUrl}/usuarios/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+    const data = await res.json();
+    console.log(data);
   };
 
   return (

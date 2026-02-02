@@ -7,6 +7,7 @@ import { Search } from 'lucide-react';
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./Product.css"
+import getImageUrl from "../../utils/getImage";
 
 
 function Product() {
@@ -167,7 +168,7 @@ function Product() {
               <ProductCard
                 key={producto.id}
                 id={producto.id}
-                imagen={producto.imagen_url}
+                imagen={getImageUrl(producto.imagen_url)}
                 nombre={producto.nombre}
                 precio={producto.precio}
                 tipo={buscando ? getTipoProducto(producto) : tipo}

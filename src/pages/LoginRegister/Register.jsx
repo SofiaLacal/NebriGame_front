@@ -6,7 +6,7 @@ import "./Register.css"
 function Register() {
   
   const navigate = useNavigate();
-  
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     nombre: '',
     apellidos: '',
@@ -28,10 +28,31 @@ function Register() {
     navigate('/login');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    const envioForm = {
+      nombre: formData.nombre,
+      apellido1: formData.apellidos,
+      apellido2: "wololo",
+      DNI: "12345678Z",
+      email: formData.email,
+      contrasenna: formData.contrasenna,
+    }
     e.preventDefault();
-    console.log('Registro enviado:', formData);
-    // Aquí irá la conexión a la BD más tarde
+    const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+    const res = await fetch(`${apiUrl}/usuarios/registro`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(envioForm)
+    });
+    const data = res.json();
+    console.log(envioForm);
+    if (data.success) {
+      navigate('/login');
+    } else {
+      setError(data.message);
+    }
   };
 
   return (
@@ -44,7 +65,8 @@ function Register() {
             <h1>Crear cuenta</h1>
             <p>Rellena el formulario para registrarte</p>
           </div>
-
+          {error && <div className="error-message">{error}</div>}
+        
           <form onSubmit={handleSubmit} className="auth-form">
 
             <div className="form-row">
