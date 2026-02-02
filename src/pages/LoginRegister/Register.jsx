@@ -131,7 +131,6 @@ function Register() {
                     value={formData.apellido2}
                     onChange={handleChange}
                     placeholder="Segundo apellido"
-                    required
                   />
               </div>
             </div>
