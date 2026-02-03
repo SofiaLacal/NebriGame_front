@@ -1,14 +1,13 @@
 import { useVideojuegos, useConsolas, useMerchandising } from "../../api/useProduct";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
-import ProductCard from "../../components/ProductCard/ProductCard"
-import Loading from "../../components/Loading/Loading"
-import { Search } from 'lucide-react';
+import ProductCard from "../../components/ProductCard/ProductCard";
+import Search from "../../components/Search/Search";
+import Loading from "../../components/Loading/Loading";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import "./Product.css"
+import "./Product.css";
 import getImageUrl from "../../utils/getImage";
-
 
 function Product() {
   const { tipo } = useParams();
@@ -23,6 +22,7 @@ function Product() {
     setResultados([]);
     setOrdenar("defecto");
   };
+
   const hayFiltros = ordenar !== "defecto" || busqueda.trim() !== "" || buscando;
 
   const { videojuegos, loading: loadingVideojuegos } = useVideojuegos();
@@ -109,55 +109,18 @@ function Product() {
 
   return (
     <div>
-      <Header/>
-      
-      {/* BUSCADOR Y FILTROS */}
-      <div className="buscador-container">
-        <form onSubmit={handleSearch} className="buscador-form">
-          <input
-            type="text"
-            placeholder="Buscar productos..."
-            value={busqueda}
-            onChange={(e) => setBusqueda(e.target.value)}
-            className="buscador-input"
-          />
-          <button type="submit" className="buscador-boton">
-            <Search size={24} />
-          </button>
-        </form>
-
-        {/* FILTRO DE ORDENAR Y RESULTADO DE BÚSQUEDA */}
-        <div className="resultados-y-filtros">
-          <div className="search-info">
-            {buscando && (
-              <p>{productos.length} resultados</p>
-            )}
-          </div>
-          
-          <div className="filtros-container">
-            {hayFiltros && (
-              <button className="limpiar-btn" onClick={limpiarFiltros}>
-                Limpiar filtro
-              </button>
-            )}
-            <select 
-              id="ordenar"
-              value={ordenar} 
-              onChange={(e) => setOrdenar(e.target.value)}
-              className="filtro-select"
-            >
-              <option value="defecto" disabled hidden>
-                Ordenar por:
-              </option>
-
-              <option value="precio-asc">Precio: Menor a Mayor</option>
-              <option value="precio-desc">Precio: Mayor a Menor</option>
-              <option value="nombre-asc">Nombre: A-Z</option>
-              <option value="nombre-desc">Nombre: Z-A</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      <Header />
+      <Search
+        busqueda={busqueda}
+        setBusqueda={setBusqueda}
+        handleSearch={handleSearch}
+        buscando={buscando}
+        resultadosCount={productos.length}
+        ordenar={ordenar}
+        setOrdenar={setOrdenar}
+        onLimpiarFiltros={limpiarFiltros}
+        hayFiltros={hayFiltros}
+      />
 
       {isLoading() ? (
         <Loading />
@@ -182,7 +145,8 @@ function Product() {
           )}
         </section>
       )}
-      <Footer/>
+      
+      <Footer />
     </div>
   );
 }
