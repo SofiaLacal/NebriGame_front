@@ -5,6 +5,7 @@ import Header from "../../components/Header/Header";
 import Loading from "../../components/Loading/Loading";
 import "./ProductDetail.css";
 import Footer from "../../components/Footer/Footer";
+import getImageUrl from "../../utils/getImage";
 
 function ProductDetail() {
   const { id, tipo } = useParams();
@@ -55,7 +56,7 @@ function ProductDetail() {
       <div className="contenedor-detalle">
         <div className="detalle">
           <div>
-            <img src={producto.imagen_url} alt={producto.nombre} className="imagen" />
+            <img src={getImageUrl(producto.imagen_url)} alt={producto.nombre} className="imagen" />
           </div>
           <div className="info">
             <h1>{producto.nombre}</h1>
