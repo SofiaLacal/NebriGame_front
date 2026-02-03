@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./Login.css"
 import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
+import useUserStore from '../../stores/userStore';
 
 
 function Login() {
@@ -37,6 +38,21 @@ function Login() {
     });
     const data = await res.json();
     console.log(data);
+
+    useUserStore.setState({
+      id: data.usuarioData.id,
+      nombre: data.usuarioData.nombre,
+      apellido1: data.usuarioData.apellido1,
+      apellido2: data.usuarioData.apellido2,
+      email: data.usuarioData.email,
+      fecha_registro: data.usuarioData.fecha_registro
+    });
+    if (data.success) {
+      console.log(useUserStore.getState());
+      navigate('/');
+    } else {
+      setError(data.message || 'Error al iniciar sesión');
+    }
   };
 
   return (

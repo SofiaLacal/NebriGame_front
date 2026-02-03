@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useUserStore from '../../stores/userStore';
 import SimpleHeader from "../../components/SimpleHeader/SimpleHeader"
 import "./Register.css"
 
@@ -66,11 +67,18 @@ function Register() {
       });
       
       const data = await res.json();
-      
+      useUserStore.setState({
+        nombre: data.usuario.nombre,
+        apellido1: data.usuario.apellido1,
+        apellido2: data.usuario.apellido2,
+        email: data.usuario.email,
+        fecha_registro: data.usuario.fecha_registro
+      });
       console.log('Respuesta del servidor:', data);
       
       if (data.success) {
-        navigate('/login');
+        console.log(useUserStore.getState());
+        navigate('/');
       } else {
         setError(data.message || 'Error al registrarse');
       }
