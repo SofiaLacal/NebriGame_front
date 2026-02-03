@@ -31,7 +31,6 @@ function Home() {
       <div className="background">
         <Header/>
           <div className="welcome">
-            {/* Hero Section */}
             <section className="hero">
               <h1>Bienvenido a NebriGame</h1>
               <p>Tu tienda online de videojuegos, consolas y merchandising. <br/>
@@ -43,10 +42,11 @@ function Home() {
       </div>
 
       <div className="home-container">
-        {/* Featured Products */}
         <section className="featured-section">
-          <h2>⭐ Productos Destacados</h2>
-          
+          <div className="section-name">
+            <h2> Productos Destacados</h2>
+          </div>
+                    
           <div className="productos-grid">
             {productosDestacados.map((producto) => (
               <ProductCard
