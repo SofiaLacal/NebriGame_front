@@ -1,3 +1,7 @@
+body {
+  background-color: rgb(247, 242, 235);
+}
+
 .welcome {
   padding-bottom: 3rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -88,7 +92,7 @@
 @media (max-width: 768px) {
 
   .background {
-    height: fit-content;
+    height: 100%;
   }
 
   .hero-content h1 {

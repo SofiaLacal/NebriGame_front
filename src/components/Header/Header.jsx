@@ -46,6 +46,7 @@ function Header() {
             <Link to="/ofertas" className={location.pathname === '/ofertas' ? 'active' : ''} onClick={toggleMenu}> <Percent size={18} /> 
             Ofertas </Link>
           </li>
+          
         </ul>
 
           {/* Links de usuario (derecha) */}

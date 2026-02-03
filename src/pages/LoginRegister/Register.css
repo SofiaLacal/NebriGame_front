@@ -2,7 +2,7 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.background-login {
+.background-register {
   background-image: url("../../assets/images/backgroundLogin.jpeg");
   background-size: cover;
   background-position: center;
@@ -11,17 +11,16 @@
   height: 100%;
 }
 
-.auth-container {
+.auth-container-reg {
   min-height: calc(100vh - 140px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  padding: 10px;
+  margin-bottom: 12px;
 }
 
-.auth-card {
+.auth-card-reg {
   background: white;
   border-radius: 12px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
@@ -43,57 +42,57 @@
 }
 
 /* Header */
-.auth-header {
+.auth-header-reg {
   text-align: center;
   margin-bottom: 24px;
 }
 
-.auth-header h1 {
+.auth-header-reg h1 {
   color: #333;
   font-size: 28px;
   margin: 0 0 8px 0;
   font-weight: 600;
 }
 
-.auth-header p {
+.auth-header-reg p {
   color: #666;
   font-size: 14px;
   margin: 0;
 }
 
 /* Formulario */
-.auth-form {
+.auth-form-reg {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
 /* Fila para campos */
-.form-row {
+.form-row-reg {
   display: flex;
   flex-direction: row;
   gap: 12px;
 }
 
-.form-row .form-group {
+.form-row-reg .form-group-reg {
   flex: 1;
 }
 
 /* Grupos de campos */
-.form-group {
+.form-group-reg {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.form-group label {
+.form-group-reg label {
   color: #333;
   font-size: 14px;
   font-weight: 500;
   margin: 0;
 }
 
-.form-group input {
+.form-group-reg input {
   padding: 12px 16px;
   border: 2px solid #e0e0e0;
   border-radius: 8px;
@@ -104,21 +103,21 @@
   box-sizing: border-box;
 }
 
-.form-group input:focus {
+.form-group-reg input:focus {
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-.form-group input::placeholder {
+.form-group-reg input::placeholder {
   color: #999;
 }
 
-.form-group input:hover {
+.form-group-reg input:hover {
   border-color: #c0c0c0;
 }
 
 /* Botones */
-.btn-primary {
+.btn-primary-reg {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
@@ -132,17 +131,17 @@
   font-family: inherit;
 }
 
-.btn-primary:hover {
+.btn-primary-reg:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
-.btn-primary:active {
+.btn-primary-reg:active {
   transform: translateY(0);
   box-shadow: 0 2px 10px rgba(102, 126, 234, 0.3);
 }
 
-.btn-link {
+.btn-link-reg {
   background: none;
   border: none;
   color: #667eea;
@@ -155,13 +154,13 @@
   font-family: inherit;
 }
 
-.btn-link:hover {
+.btn-link-reg:hover {
   color: #764ba2;
   text-decoration: underline;
 }
 
 /* Switch entre login/register */
-.auth-switch {
+.auth-switch-reg {
   text-align: center;
   margin-top: 24px;
   display: flex;
@@ -172,14 +171,14 @@
   flex-wrap: wrap;
 }
 
-.auth-switch p {
+.auth-switch-reg p {
   color: #666;
   font-size: 14px;
   margin: 0;
 }
 
 /* Términos */
-.terms-text {
+.terms-text-reg {
   text-align: center;
   color: #999;
   font-size: 12px;
@@ -201,27 +200,27 @@
 /* Responsive */
 @media (max-width: 768px) {
 
-  .auth-container {
+  .auth-container-reg {
     min-height: auto;
     align-items: flex-start;
     justify-content: center;
     padding-top: 20px;
   }
 
-  .auth-card {
+  .auth-card-reg {
     padding: 35px 25px;
   }
 
-  .auth-header h1 {
+  .auth-header-reg h1 {
     font-size: 26px;
   }
 
-  .auth-form {
+  .auth-form-reg {
     gap: 16px;
   }
 
   /* En móvil los campos en pareja se apilan verticalmente */
-  .form-row {
+  .form-row-reg {
     flex-direction: column;
     gap: 16px;
   }
@@ -229,48 +228,48 @@
 
 @media (max-width: 480px) {
 
-  .auth-container {
+  .auth-container-reg {
     padding: 30px 15px;
   }
 
-  .auth-card {
+  .auth-card-reg {
     padding: 30px 20px;
   }
 
-  .auth-header h1 {
+  .auth-header-reg h1 {
     font-size: 24px;
   }
 
-  .auth-header p {
+  .auth-header-reg p {
     font-size: 13px;
   }
 
-  .form-group input {
+  .form-group-reg input {
     padding: 11px 14px;
     font-size: 14px;
   }
 
-  .btn-primary {
+  .btn-primary-reg {
     padding: 13px 18px;
     font-size: 15px;
   }
 
-  .auth-switch {
+  .auth-switch-reg {
     flex-direction: column;
     gap: 4px;
   }
 }
 
 @media (max-height: 700px) {
-  .auth-container {
+  .auth-container-reg {
     padding: 30px 20px;
   }
 
-  .auth-card {
+  .auth-card-reg {
     padding: 30px;
   }
 
-  .auth-form {
+  .auth-form-reg {
     gap: 14px;
   }
 }

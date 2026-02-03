@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import "./Login.css"
 import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
 import useUserStore from '../../stores/userStore';
+import Footer from '../../components/Footer/Footer';
 
 
 function Login() {
@@ -56,17 +57,18 @@ function Login() {
   };
 
   return (
+    <>
     <div className='background-login'>
       <SimpleHeader/>
-      <div className="auth-container">
-        <div className="auth-card">
-          <div className="auth-header">
+      <div className="auth-container-log">
+        <div className="auth-card-log">
+          <div className="auth-header-log">
             <h1>Inicia Sesión</h1>
             <p>Pon tu usuario y contraseña para entrar</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="auth-form">
-            <div className="form-group">
+          <form onSubmit={handleSubmit} className="auth-form-log">
+            <div className="form-group-log">
               <label htmlFor="email">Email</label>
               <input
                 type="email"
@@ -78,7 +80,7 @@ function Login() {
               />
             </div>
 
-            <div className="form-group">
+            <div className="form-group-log">
               <label htmlFor="contrasenna">Contraseña</label>
               <input
                 type="password"
@@ -90,24 +92,24 @@ function Login() {
               />
             </div>
 
-            <div className="form-footer">
-              <a href="#" className="forgot-password">
+            <div className="form-footer-log">
+              <a href="#" className="forgot-password-log">
                 ¿Olvidaste tu contraseña?
               </a>
              {/* MODIFICAR ESTO */}
             </div>
             
 
-            <button type="submit" className="btn-primary">
+            <button type="submit" className="btn-primary-log">
               Iniciar Sesión
             </button>
 
-            <div className="auth-switch">
+            <div className="auth-switch-log">
               <p>¿No tienes una cuenta?</p>
               <button 
                 type="button" 
                 onClick={goToRegister}
-                className="btn-link"
+                className="btn-link-log"
               >
                 Regístrate aquí
               </button>
@@ -116,6 +118,10 @@ function Login() {
         </div>
       </div>
     </div>
+
+    <Footer/>
+
+   </>
   )
 }
 
