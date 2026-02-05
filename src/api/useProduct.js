@@ -27,6 +27,30 @@ const useVideojuegos = () => {
     return { videojuegos, loading };
 };
 
+const useOneProduct = (id) => {
+    const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        setLoading(true);
+        const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+        fetch(`${apiUrl}/producto/${id}`)
+        .then(res => {
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+        })
+        .then(data => {
+            setProduct(data.producto);
+            setLoading(false);
+        })
+        .catch(err => {
+            console.error('Error fetching product:', err);
+            setProduct(null);
+        });
+    }, []);
+    return { product, loading };
+};
 
 const useConsolas = () => {
     const [consolas, setConsolas] = useState([]);
@@ -113,4 +137,4 @@ const useSearch = (busqueda) => {
     return { resultados, loading };
 };
 
-export { useVideojuegos, useConsolas, useMerchandising, useSearch };
+export { useVideojuegos, useConsolas, useMerchandising, useSearch, useOneProduct };

@@ -5,6 +5,7 @@ import Product from "../pages/Product/Product";
 import ProductDetail from "../pages/ProductDetail/ProductDetail";
 import Login from "../pages/LoginRegister/Login";
 import Register from "../pages/LoginRegister/Register";
+import Wishlist from "../pages/Wishlist/Wishlist";
 
 function PublicRoutes() {
   return (
@@ -15,7 +16,7 @@ function PublicRoutes() {
       <Route path="/producto/:tipo/:id" element={<ProductDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route
           path="/error-500"
           element={
