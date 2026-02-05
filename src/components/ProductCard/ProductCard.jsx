@@ -9,7 +9,7 @@ function ProductCard({ id, imagen, nombre, precio, tipo }) {
   };
 
   return (
-    <div className="product-card" onClick={handleClick}>
+    <div className={`product-card product-card--${tipo}`} onClick={handleClick}>
       <img src={imagen} alt={nombre} className="product-img" />
       <div className="product-info">
         <h3 className="product-name">{nombre}</h3>
