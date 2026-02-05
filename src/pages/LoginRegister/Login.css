@@ -1,4 +1,4 @@
-* {
+body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -9,7 +9,8 @@
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 20px;
-  height: 100%;
+  min-height: 100vh;
+  margin-bottom: 12px;
 }
 
 .auth-container-log {
@@ -22,9 +23,8 @@
 }
 
 .auth-card-log {
-  background: white;
+  background: rgba(255, 255, 255, 0.747); 
   border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   width: 100%;
   max-width: 450px;
   padding: 40px;
@@ -49,7 +49,7 @@
 }
 
 .auth-header-log h1 {
-  color: #333;
+  color: #642f99dc;
   font-size: 28px;
   margin: 0 0 8px 0;
   font-weight: 600;
@@ -76,7 +76,7 @@
 }
 
 .form-group-log label {
-  color: #333;
+  color: #642f99dc;
   font-size: 14px;
   font-weight: 500;
   margin: 0;
@@ -240,19 +240,5 @@
   .auth-switch-log {
     flex-direction: column;
     gap: 4px;
-  }
-}
-
-@media (max-height: 700px) {
-  .auth-container {
-    padding: 30px 20px;
-  }
-
-  .auth-card {
-    padding: 30px;
-  }
-
-  .auth-form {
-    gap: 14px;
   }
 }
