@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../../stores/userStore';
-import SimpleHeader from "../../components/SimpleHeader/SimpleHeader"
+import SimpleHeader from "../../components/SimpleHeader/SimpleHeader";
+import Footer from '../../components/Footer/Footer';
 import "./Register.css"
+
 
 function Register() {
   
@@ -89,136 +91,142 @@ function Register() {
   };
 
   return (
-    <div className='background-login'>
-      <SimpleHeader/>
-      <div className="auth-container">
-        <div className="auth-card">
 
-          <div className="auth-header">
-            <h1>Crear cuenta</h1>
-            <p>Rellena el formulario para registrarte</p>
-          </div>
-          {error && <div className="error-message">{error}</div>}
-        
-          <form onSubmit={handleSubmit} className="auth-form">
+    <>
+      <div className='background-register'>
+        <SimpleHeader/>
+        <div className="auth-container-reg">
+          <div className="auth-card-reg">
 
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="nombre">Nombre <span className="must-do">*</span></label>
-                <input
-                  type="text"
-                  id="nombre"
-                  name="nombre"
-                  value={formData.nombre}
-                  onChange={handleChange}
-                  placeholder="Nombre"
-                  required
-                />
-              </div>
+            <div className="auth-header-reg">
+              <h1>Crear cuenta</h1>
+              <p>Rellena el formulario para registrarte</p>
             </div>
+            {error && <div className="error-message-reg">{error}</div>}
+          
+            <form onSubmit={handleSubmit} className="auth-form-reg">
 
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="apellidos">Apellido<span className="must-do"> *</span></label>
-                <input
-                  type="text"
-                  id="apellido1"
-                  name="apellido1"
-                  value={formData.apellido1}
-                  onChange={handleChange}
-                  placeholder="Primer apellido"
-                  required
-                />
+              <div className="form-row-reg">
+                <div className="form-group-reg">
+                  <label htmlFor="nombre">Nombre <span className="must-do">*</span></label>
+                  <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    value={formData.nombre}
+                    onChange={handleChange}
+                    placeholder="Nombre"
+                    required
+                  />
+                </div>
               </div>
-                <div className="form-group">
+
+              <div className="form-row-reg">
+                <div className="form-group-reg">
                   <label htmlFor="apellidos">Apellido<span className="must-do"> *</span></label>
                   <input
                     type="text"
-                    id="apellido2"
-                    name="apellido2"
-                    value={formData.apellido2}
+                    id="apellido1"
+                    name="apellido1"
+                    value={formData.apellido1}
                     onChange={handleChange}
-                    placeholder="Segundo apellido"
+                    placeholder="Primer apellido"
+                    required
                   />
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="email">Email <span className="must-do">*</span></label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="tu@email.com"
-                  required
-                />
+                </div>
+                  <div className="form-group-reg">
+                    <label htmlFor="apellidos">Apellido<span className="must-do"> *</span></label>
+                    <input
+                      type="text"
+                      id="apellido2"
+                      name="apellido2"
+                      value={formData.apellido2}
+                      onChange={handleChange}
+                      placeholder="Segundo apellido"
+                    />
+                </div>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="emailConfirmar">Confirma tu email <span className="must-do">*</span></label>
-                <input
-                  type="email"
-                  id="emailConfirmar"
-                  name="emailConfirmar"
-                  value={formData.emailConfirmar}
-                  onChange={handleChange}
-                  placeholder="tu@email.com"
-                  required
-                />
+              <div className="form-row-reg">
+                <div className="form-group-reg">
+                  <label htmlFor="email">Email <span className="must-do">*</span></label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="tu@email.com"
+                    required
+                  />
+                </div>
+
+                <div className="form-group-reg">
+                  <label htmlFor="emailConfirmar">Confirma tu email <span className="must-do">*</span></label>
+                  <input
+                    type="email"
+                    id="emailConfirmar"
+                    name="emailConfirmar"
+                    value={formData.emailConfirmar}
+                    onChange={handleChange}
+                    placeholder="tu@email.com"
+                    required
+                  />
+                </div>
               </div>
-            </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="contrasenna">Contraseña <span className="must-do">*</span></label>
-                <input
-                  type="password"
-                  id="contrasenna"
-                  name="contrasenna"
-                  value={formData.contrasenna}
-                  onChange={handleChange}
-                  placeholder="••••••••"
-                  required
-                />
+              <div className="form-row-reg">
+                <div className="form-group-reg">
+                  <label htmlFor="contrasenna">Contraseña <span className="must-do">*</span></label>
+                  <input
+                    type="password"
+                    id="contrasenna"
+                    name="contrasenna"
+                    value={formData.contrasenna}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
+
+                <div className="form-group-reg">
+                  <label htmlFor="contrasennaConfirmar">Confirma tu contraseña <span className="must-do">*</span></label>
+                  <input
+                    type="password"
+                    id="contrasennaConfirmar"
+                    name="contrasennaConfirmar"
+                    value={formData.contrasennaConfirmar}
+                    onChange={handleChange}
+                    placeholder="••••••••"
+                    required
+                  />
+                </div>
               </div>
-
-              <div className="form-group">
-                <label htmlFor="contrasennaConfirmar">Confirma tu contraseña <span className="must-do">*</span></label>
-                <input
-                  type="password"
-                  id="contrasennaConfirmar"
-                  name="contrasennaConfirmar"
-                  value={formData.contrasennaConfirmar}
-                  onChange={handleChange}
-                  placeholder="••••••••"
-                  required
-                />
-              </div>
-            </div>
-            
-            <button type="submit" className="btn-primary">
-              Registrarse
-            </button>
-
-            <p className="must-do-p">* Campos obligatorios</p>
-
-            <div className="auth-switch">
-              <p>¿Ya tienes una cuenta?</p>
-              <button 
-                type="button" 
-                onClick={goToLogin}
-                className="btn-link"
-              >
-                Inicia sesión aquí
+              
+              <button type="submit" className="btn-primary-reg">
+                Registrarse
               </button>
-            </div>
-          </form>
+
+              <p className="must-do-p">* Campos obligatorios</p>
+
+              <div className="auth-switch-reg">
+                <p>¿Ya tienes una cuenta?</p>
+                <button 
+                  type="button" 
+                  onClick={goToLogin}
+                  className="btn-link-reg"
+                >
+                  Inicia sesión aquí
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+
+      <Footer/>
+
+    </>
   )
 }
 
