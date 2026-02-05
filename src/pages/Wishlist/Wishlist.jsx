@@ -10,11 +10,20 @@ const Wishlist = () => {
   const userId = useUserStore.getState().id;
   const { wishlist, loading } = useWishlist(userId);
 
+  // Función para obtener el tipo correcto de producto
+  const getTipoProducto = (producto) => {
+    if (producto.tipo === "juego") return "videojuegos";
+    if (producto.tipo === "consola") return "consolas";
+    if (producto.tipo === "merchandising") return "merchandising";
+    return producto.tipo;
+  };
+
   // Función para eliminar producto de la wishlist
-  const handleRemoveFromWishlist = async (productId, productType) => {
+  const handleRemoveFromWishlist = async (productId, producto) => {
     try {
+      const tipoProducto = getTipoProducto(producto);
       const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-      const response = await fetch(`${apiUrl}/wishlist/${userId}/${productType}/${productId}`, {
+      const response = await fetch(`${apiUrl}/wishlist/${userId}/${tipoProducto}/${productId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'
@@ -46,38 +55,6 @@ const Wishlist = () => {
               : 'Aún no has añadido productos a tu wishlist'
             }
           </p>
-    const userId = useUserStore.getState().id;
-    const { wishlist, loading } = useWishlist(userId);
-    const getTipoProducto = (producto) => {
-      if (producto.tipo === "juego") return "videojuegos";
-      if (producto.tipo === "consola") return "consolas";
-      if (producto.tipo === "merchandising") return "merchandising";
-      return tipo;
-    };
-    return (
-      <>
-        <Header />
-        <div>
-            {loading ? (
-                <p>Cargando wishlist...</p>
-            ) : (
-                wishlist.length > 0 ? (
-                    <ul>
-                        {wishlist.map((product) => (
-                            <ProductCard
-                                key={product.id}
-                                id={product.id}
-                                imagen={getImageUrl(product.imagen_url)}
-                                nombre={product.nombre}
-                                precio={product.precio}
-                                tipo={getTipoProducto(product)}
-                            />
-                        ))}
-                    </ul>
-                ) : (
-                    <p>No hay wishlist</p>
-                )
-            )}
         </div>
 
         {/* Contenido principal */}
@@ -102,13 +79,13 @@ const Wishlist = () => {
                   <div className="wishlist-info">
                     <h3 className="wishlist-product-name">{product.nombre}</h3>
                     <p className="wishlist-product-price">{product.precio}€</p>
-                    <span className="wishlist-product-type">{product.tipo}</span>
+                    <span className="wishlist-product-type">{getTipoProducto(product)}</span>
                   </div>
 
                   {/* Corazón rojo en la esquina inferior derecha - CLICKEABLE */}
                   <button 
                     className="wishlist-heart-icon"
-                    onClick={() => handleRemoveFromWishlist(product.id, product.tipo)}
+                    onClick={() => handleRemoveFromWishlist(product.id, product)}
                     title="Quitar de la wishlist"
                     aria-label="Quitar de la wishlist"
                   >
