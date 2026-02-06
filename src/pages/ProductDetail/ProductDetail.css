@@ -12,17 +12,20 @@
   border-radius: 12px;
   padding: 30px 40px;
   margin-bottom: 24px;
-  align-items: start; /* ← Añadido para alinear arriba */
+  align-items: start;
 }
 
 .imagen {
   width: 100%;
-  height: 310px; 
-  max-height: 440px;
+  aspect-ratio: 16 / 9;
   object-fit: contain;
   border-radius: 8px;
   background-color: white;
-  align-self: start; /* ← Añadido para que se mantenga arriba */
+  align-self: start;
+}
+
+.imagen-container--videojuegos .imagen{
+  object-fit: cover;
 }
 
 .info {
