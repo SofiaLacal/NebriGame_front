@@ -1,4 +1,4 @@
-* {
+body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -8,7 +8,8 @@
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 20px;
-  height: 100%;
+  min-height: 100vh;
+  margin-bottom: 12px;
 }
 
 .auth-container-reg {
@@ -21,9 +22,8 @@
 }
 
 .auth-card-reg {
-  background: white;
+  background: rgba(255, 255, 255, 0.747);
   border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   width: 100%;
   max-width: 500px;
   padding: 30px;
@@ -48,7 +48,7 @@
 }
 
 .auth-header-reg h1 {
-  color: #333;
+  color: #642f99dc;
   font-size: 28px;
   margin: 0 0 8px 0;
   font-weight: 600;
@@ -86,7 +86,7 @@
 }
 
 .form-group-reg label {
-  color: #333;
+  color: #642f99dc;
   font-size: 14px;
   font-weight: 500;
   margin: 0;
@@ -104,7 +104,7 @@
 }
 
 .form-group-reg input:focus {
-  border-color: #667eea;
+  border-color: #66eaac;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
@@ -188,12 +188,13 @@
 }
 
 .must-do {
-  color: red;
+/*   color: red;  */
+  color: #b9291f;
   font-weight: 600;
 }
 
 .must-do-p {
-  color: red;
+  color: #b9291f;
   font-size: 14px;
 }
 
