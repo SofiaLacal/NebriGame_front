@@ -1,15 +1,16 @@
-import { useWishlist } from "../../api/useWishlist";
+import { useDeleteWishlist, useWishlist } from "../../api/useWishlist";
 import useUserStore from "../../stores/userStore";
 import getImageUrl from "../../utils/getImage";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Heart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import './Wishlist.css';
 
 const Wishlist = () => {
   const userId = useUserStore.getState().id;
   const { wishlist, loading } = useWishlist(userId);
-
+  const navigate = useNavigate();
   // Función para obtener el tipo correcto de producto
   const getTipoProducto = (producto) => {
     if (producto.tipo === "juego") return "videojuegos";
@@ -19,28 +20,14 @@ const Wishlist = () => {
   };
 
   // Función para eliminar producto de la wishlist
-  const handleRemoveFromWishlist = async (productId, producto) => {
-    try {
-      const tipoProducto = getTipoProducto(producto);
-      const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-      const response = await fetch(`${apiUrl}/wishlist/${userId}/${tipoProducto}/${productId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        // Recargar la página para actualizar la lista
-        window.location.reload();
-      } else {
-        console.error('Error al eliminar el producto de la wishlist');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
+  const handleRemoveFromWishlist = async (productId) => {
+    useDeleteWishlist(userId, productId)
+    console.log("producto eliminado")
+    window.location.reload()
   };
-
+  const handleClick = (product) => {
+    navigate(`/producto/${getTipoProducto(product)}/${product.id}`);
+  };
   return (
     <>
       <Header />
@@ -67,12 +54,13 @@ const Wishlist = () => {
           ) : wishlist.length > 0 ? (
             <ul className="wishlist-grid">
               {wishlist.map((product) => (
-                <li key={product.id} className="wishlist-card">
+                <li key={product.id} className="wishlist-card" onClick={() => handleClick(product)}>
                   {/* Imagen del producto */}
                   <div className="wishlist-image-container">
                     <img 
                       src={getImageUrl(product.imagen_url)} 
                       alt={product.nombre}
+                      onClick={() => handleClick(product)}
                     />
                   </div>
 
