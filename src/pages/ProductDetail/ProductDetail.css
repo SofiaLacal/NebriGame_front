@@ -12,15 +12,23 @@
   border-radius: 12px;
   padding: 30px 40px;
   margin-bottom: 24px;
+  align-items: start; /* ← Añadido para alinear arriba */
 }
 
 .imagen {
   width: 100%;
-  height: auto;
+  height: 310px; 
   max-height: 440px;
   object-fit: contain;
   border-radius: 8px;
   background-color: white;
+  align-self: start; /* ← Añadido para que se mantenga arriba */
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* ← Añadido */
 }
 
 .info h1 {
@@ -40,6 +48,7 @@
   display: flex;
   gap: 16px;
   align-items: center;
+  margin-top: auto; /* ← Añadido para empujar botones hacia abajo */
 }
 
 .boton-wishlist {
