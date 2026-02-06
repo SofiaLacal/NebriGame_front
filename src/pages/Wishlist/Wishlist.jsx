@@ -80,8 +80,6 @@ const Wishlist = () => {
                       <Heart fill="#e74c3c" color="#e74c3c" size={24} />
                     </button>
                   </div>
-
-
                 </li>
               ))}
             </ul>

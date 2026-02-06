@@ -36,8 +36,8 @@ body {
 
 .wishlist-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 26px;
+  grid-template-columns: repeat(4, minmax(200px, 1fr));
+  gap: 54px 22px;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -169,7 +169,8 @@ body {
 }
 
 /* Responsive */
-@media (max-width: 930px) {
+
+@media (max-width: 980px) {
 
   .wishlist-container {
     padding: 24px 16px;
@@ -177,6 +178,10 @@ body {
 
   .wishlist-content {
     height: auto;
+  }
+
+  .wishlist-grid {
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
   }
 
   .wishlist-header h1 {
