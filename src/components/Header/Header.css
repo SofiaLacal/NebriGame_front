@@ -112,6 +112,7 @@
 
 /* RESPONSIVE - Tablets y móviles */
 @media (max-width: 1024px) {
+
   .navbar {
     gap: 1rem;
   }
@@ -132,7 +133,8 @@
 }
 
 /* RESPONSIVE - Móviles */
-@media (max-width: 768px) {
+@media (max-width: 930px) {
+
   .menu-toggle {
     display: block;
   }
@@ -182,6 +184,7 @@
 
 /* RESPONSIVE - Móviles pequeños */
 @media (max-width: 480px) {
+  
   .navbar {
     padding: 0.6rem 1rem;
   }

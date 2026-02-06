@@ -48,7 +48,8 @@ const Wishlist = () => {
       <div className="wishlist-container">
         {/* Título de la página */}
         <div className="wishlist-header">
-          <h1>Mi Lista de Deseos</h1>
+          <h1>Lista de Deseos</h1>
+          <br/>
           <p>
             {wishlist.length > 0 
               ? `Tienes ${wishlist.length} producto${wishlist.length !== 1 ? 's' : ''} guardado${wishlist.length !== 1 ? 's' : ''}`
@@ -77,20 +78,22 @@ const Wishlist = () => {
 
                   {/* Información del producto */}
                   <div className="wishlist-info">
-                    <h3 className="wishlist-product-name">{product.nombre}</h3>
+                    <h2 className="wishlist-product-name">{product.nombre}</h2>
                     <p className="wishlist-product-price">{product.precio}€</p>
                     <span className="wishlist-product-type">{getTipoProducto(product)}</span>
+
+                    {/* Corazón rojo en la esquina inferior derecha - CLICKEABLE */}
+                    <button 
+                      className="wishlist-heart-icon"
+                      onClick={() => handleRemoveFromWishlist(product.id, product)}
+                      title="Quitar de la wishlist"
+                      aria-label="Quitar de la wishlist"
+                    >
+                      <Heart fill="#e74c3c" color="#e74c3c" size={24} />
+                    </button>
                   </div>
 
-                  {/* Corazón rojo en la esquina inferior derecha - CLICKEABLE */}
-                  <button 
-                    className="wishlist-heart-icon"
-                    onClick={() => handleRemoveFromWishlist(product.id, product)}
-                    title="Quitar de la wishlist"
-                    aria-label="Quitar de la wishlist"
-                  >
-                    <Heart fill="#e74c3c" color="#e74c3c" size={24} />
-                  </button>
+
                 </li>
               ))}
             </ul>
