@@ -13,7 +13,8 @@ function PublicRoutes() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/productos/:tipo" element={<Product />} />
-      <Route path="/producto/:tipo/:id" element={<ProductDetail />} />
+        <Route path="/productos" element={<Product />} />
+        <Route path="/producto/:tipo/:id" element={<ProductDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/wishlist" element={<Wishlist />} />
@@ -49,10 +50,3 @@ function PublicRoutes() {
 }
 
 export default PublicRoutes;
-
-
-{/*       
-  Rutas comentadas para agregar más adelante:
-  <Route path="/cart" element={<Cart />} />
-  <Route path="/wishlist" element={<Wishlist />} /> 
-*/}

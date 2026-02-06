@@ -1,4 +1,5 @@
 import { Search as SearchIcon } from 'lucide-react';
+import { useState } from 'react';
 import './Search.css';
 
 function Search({ 
@@ -7,11 +8,25 @@ function Search({
   handleSearch, 
   buscando, 
   resultadosCount,
-  ordenar,
-  setOrdenar,
+  onOrdenarChange,
   onLimpiarFiltros,
-  hayFiltros 
 }) {
+
+  const [ordenar, setOrdenar] = useState("defecto");
+  
+  const hayFiltros = ordenar !== "defecto" || busqueda.trim() !== "" || buscando;
+
+  const handleOrdenarChange = (e) => {
+    const nuevoValor = e.target.value;
+    setOrdenar(nuevoValor);
+    onOrdenarChange(nuevoValor);
+  };
+
+  const handleLimpiarFiltros = () => {
+    setOrdenar("defecto");
+    onLimpiarFiltros();
+  };
+
   return (
     <div className="buscador-container">
       <form onSubmit={handleSearch} className="buscador-form">
@@ -36,7 +51,7 @@ function Search({
         
         <div className="filtros-container">
           {hayFiltros && (
-            <button className="limpiar-btn" onClick={onLimpiarFiltros}>
+            <button className="limpiar-btn" onClick={handleLimpiarFiltros}>
               Limpiar filtro
             </button>
           )}
@@ -44,7 +59,7 @@ function Search({
           <select 
             id="ordenar"
             value={ordenar} 
-            onChange={(e) => setOrdenar(e.target.value)}
+            onChange={handleOrdenarChange}
             className="filtro-select"
           >
             <option value="defecto" disabled hidden>

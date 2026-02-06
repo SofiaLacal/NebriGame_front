@@ -92,7 +92,7 @@ function ProductDetail() {
       <Header />
       <div className="contenedor-detalle">
         <div className="detalle">
-          <div>
+          <div className={`imagen-container imagen-container--${tipo}`}>
             <img src={getImageUrl(producto.imagen_url)} alt={producto.nombre} className="imagen" />
           </div>
           <div className="info">
