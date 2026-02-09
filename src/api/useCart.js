@@ -34,15 +34,25 @@ const useCart = (userId) => {
     return { cart, loading };
 };
 
-const useAddCart = (userId, productoId, cantidad) => {
+const useAddCart = async (userId, productoId, cantidad) => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-    fetch(`${apiUrl}/usuarios/${userId}/carrito`, {
+    try {
+        const res = await fetch(`${apiUrl}/usuarios/${userId}/carrito`, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
         method: 'POST',
         body: JSON.stringify({ producto_id: productoId, cantidad: cantidad })
-    })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.error(err));
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            throw new Error(data.error || 'Error al añadir al carrito');
+        }
+        return data;
+    } catch (err) {
+        console.error('Error adding to cart:', err);
+        throw err;
+    }
 };
 
 const useChangeQuantity = (userId, productoId, cantidad) => {
@@ -74,4 +84,4 @@ const useDeleteCart = async (userId, productoId) => {
 };
 
 
-export { useCart, useAddCart, useChangeQuantity, useDeleteCart };
+export { useCart, useAddCart, useChangeQuantity, useDeleteCart, useIsInCart };

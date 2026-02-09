@@ -9,6 +9,7 @@ import Footer from "../../components/Footer/Footer";
 import getImageUrl from "../../utils/getImage";
 import useUserStore from "../../stores/userStore";
 import { useIsInWishlist, useAddWishlist, useDeleteWishlist } from "../../api/useWishlist";
+import { useIsInCart, useAddCart, useDeleteCart } from "../../api/useCart";
 
 function ProductDetail() {
   const { id, tipo } = useParams();
@@ -16,11 +17,16 @@ function ProductDetail() {
   const { isInWishlist, loading: loadingWishlist } = useIsInWishlist(userId, id);
   const [isUpdating, setIsUpdating] = useState(false);
   const [localIsInWishlist, setLocalIsInWishlist] = useState(isInWishlist);
+  const { isInCart, loading: loadingCart } = useIsInCart(userId, id);
+  const [localIsInCart, setLocalIsInCart] = useState(isInCart);
 
   // Sincronizar el estado local con el hook cuando cambie
   useEffect(() => {
     setLocalIsInWishlist(isInWishlist);
   }, [isInWishlist]);
+  useEffect(() => {
+    setLocalIsInCart(isInCart);
+  }, [isInCart]);
 
   const handleToggleWishlist = async (productId) => {
     if (isUpdating) return; // Evitar múltiples clicks
@@ -46,6 +52,14 @@ function ProductDetail() {
       setLocalIsInWishlist(!newState);
       setIsUpdating(false);
     }
+  }
+  const handleAddToCart = async (productId) => {
+    if (isUpdating) return; // Evitar múltiples clicks
+    setIsUpdating(true);
+    await useAddCart(userId, productId);
+    console.log("producto añadido");
+    // Recargar la página para sincronizar con el backend
+    window.location.reload();
   }
   const { videojuegos, loading: loadingVideojuegos } = useVideojuegos();
   const { consolas, loading: loadingConsolas } = useConsolas();
@@ -107,7 +121,7 @@ function ProductDetail() {
                   color={localIsInWishlist ? "#e74c3c" : "white"} 
                 />
               </button>
-              <button className="boton-carrito">Añadir a la cesta</button>
+              <button className="boton-carrito" onClick={() => handleAddToCart(producto.id)} disabled={isUpdating || loadingCart}>Añadir al carrito</button>
             </div>
           </div>
         </div>
