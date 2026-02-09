@@ -153,6 +153,27 @@
   font-weight: 500;
 }
 
+.no-encontrado-pantalla {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+  padding: 40px 20px;
+}
+
+.no-encontrado-imagen {
+  max-width: 500px;
+  width: 100%;
+  height: auto;
+}
+
+
+@media (max-width: 768px) {
+  .no-encontrado-imagen {
+    max-width: 350px;
+  }
+}
+
 @media (max-width: 768px) {
   .detalle {
     grid-template-columns: 1fr;

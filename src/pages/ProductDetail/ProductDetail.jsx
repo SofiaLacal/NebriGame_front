@@ -41,12 +41,7 @@ function ProductDetail() {
 
   if (!producto) {
     return (
-      <div>
-        <Header />
-        <div className="contenedor-detalle">
-          <p style={{ color: 'white', textAlign: 'center' }}>Producto no encontrado</p>
-        </div>
-      </div>
+      navigate ("/*")
     );
   }
 

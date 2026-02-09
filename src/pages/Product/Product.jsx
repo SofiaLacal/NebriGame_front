@@ -8,6 +8,7 @@ import Search from "../../components/Search/Search";
 import Loading from "../../components/Loading/Loading";
 import getImageUrl from "../../utils/getImage";
 import "./Product.css";
+import imagenUps from "../../assets/images/ups.jpg";
 
 function Product() {
   const { tipo } = useParams();
@@ -75,7 +76,7 @@ function Product() {
     navigate(`/productos?query=${encodeURIComponent(busqueda)}`);
   };
 
-  const limpiarFiltros = () => {
+  const limpiarFiltros = (tipo) => () => {
     setBusqueda("");
     setBuscando(false);
     setResultados([]);
@@ -84,7 +85,7 @@ function Product() {
     if (tipo) {
       navigate(`/productos/${tipo}`);
     } else {
-      navigate('/productos');
+      navigate(-1);
     }
   };
 
@@ -151,11 +152,19 @@ function Product() {
         buscando={buscando}
         resultadosCount={productos.length}
         onOrdenarChange={handleOrdenarChange}
-        onLimpiarFiltros={limpiarFiltros}
+        onLimpiarFiltros={limpiarFiltros(tipo)}
       />
 
       {isLoading() ? (
         <Loading />
+      ) : productos.length === 0 && buscando ? (
+        <div className="no-encontrado-pantalla">
+          <img 
+            src={imagenUps} 
+            alt="No se encontraron productos"
+            className="no-encontrado-imagen"
+          />
+        </div>
       ) : (
         <section>
           <div className="productos-grid">
@@ -170,11 +179,6 @@ function Product() {
               />
             ))}
           </div>
-          {productos.length === 0 && buscando && (
-            <p style={{ textAlign: 'center', color: 'white', padding: '40px' }}>
-              No se encontraron resultados
-            </p>
-          )}
         </section>
       )}
       
