@@ -1,77 +1,45 @@
-import { Search as SearchIcon } from 'lucide-react';
+import { Search as SearchIcon, X } from 'lucide-react';
 import { useState } from 'react';
 import './Search.css';
 
-function Search({ 
-  busqueda, 
-  setBusqueda, 
-  handleSearch, 
-  buscando, 
-  resultadosCount,
-  onOrdenarChange,
-  onLimpiarFiltros,
-}) {
+function Search({ busqueda, setBusqueda, handleSearch }) {
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  const [ordenar, setOrdenar] = useState("defecto");
-  
-  const hayFiltros = ordenar !== "defecto" || busqueda.trim() !== "" || buscando;
+  console.log('isExpanded:', isExpanded);
 
-  const handleOrdenarChange = (e) => {
-    const nuevoValor = e.target.value;
-    setOrdenar(nuevoValor);
-    onOrdenarChange(nuevoValor);
+  const handleToggle = () => {
+    setIsExpanded(!isExpanded);
+    if (isExpanded && busqueda) {
+      setBusqueda("");
+    }
   };
 
-  const handleLimpiarFiltros = () => {
-    setOrdenar("defecto");
-    onLimpiarFiltros();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (busqueda.trim()) {
+      handleSearch(e);
+      setIsExpanded(false);
+    }
   };
 
   return (
-    <div className="buscador-container">
-      <form onSubmit={handleSearch} className="buscador-form">
+    <div className="search-expandable">
+      <form onSubmit={handleSubmit} className={`search-form ${isExpanded ? 'expanded' : ''}`}>
         <input
           type="text"
           placeholder="Buscar productos..."
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
-          className="buscador-input"
+          className="search-input"
         />
-        <button type="submit" className="buscador-boton">
-          <SearchIcon size={24} />
+        <button 
+          type={isExpanded && busqueda ? "submit" : "button"}
+          onClick={isExpanded && busqueda ? undefined : handleToggle}
+          className="search-button"
+        >
+          {isExpanded && busqueda ? <SearchIcon size={22} /> : isExpanded ? <X size={22} /> : <SearchIcon size={22} />}
         </button>
       </form>
-
-      <div className="resultados-y-filtros">
-        <div className="search-info">
-          {buscando && (
-            <p>{resultadosCount} resultado{resultadosCount !== 1 ? 's' : ''}</p>
-          )}
-        </div>
-        
-        <div className="filtros-container">
-          {hayFiltros && (
-            <button className="limpiar-btn" onClick={handleLimpiarFiltros}>
-              Limpiar filtro
-            </button>
-          )}
-          
-          <select 
-            id="ordenar"
-            value={ordenar} 
-            onChange={handleOrdenarChange}
-            className="filtro-select"
-          >
-            <option value="defecto" disabled hidden>
-              Ordenar por:
-            </option>
-            <option value="precio-asc">Precio: Menor a Mayor</option>
-            <option value="precio-desc">Precio: Mayor a Menor</option>
-            <option value="nombre-asc">Nombre: A-Z</option>
-            <option value="nombre-desc">Nombre: Z-A</option>
-          </select>
-        </div>
-      </div>
     </div>
   );
 }
