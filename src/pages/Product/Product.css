@@ -98,16 +98,14 @@
 
 .filtro-select:focus {
   border-color: #65319c;
-  box-shadow: 0 0 0 3px rgba(116, 57, 179, 0.4); /* borde gordito sin mover nada */
+  box-shadow: 0 0 0 3px rgba(116, 57, 179, 0.4);
 }
 
-/* Color de fondo de las opciones */
 .filtro-select option {
   background: white;
   color: black;
 }
 
-/* Hover morado (funciona en Firefox y algunos Chromium) */
 .filtro-select option:hover,
 .filtro-select option:checked {
   background-color: #e5d4f7 !important;
@@ -129,6 +127,20 @@
   background: #65319c;
 }
 
+.no-encontrado-pantalla {
+  height: calc(84vh - 88px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.no-encontrado-imagen {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  object-fit: contain;
+}
 
 @media (max-width: 1024px) {
   .productos-grid {
