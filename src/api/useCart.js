@@ -55,15 +55,25 @@ const useAddCart = async (userId, productoId, cantidad) => {
     }
 };
 
-const useChangeQuantity = (userId, productoId, cantidad) => {
+const useChangeQuantity = async (userId, productoId, cantidad) => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-    fetch(`${apiUrl}/usuarios/${userId}/carrito/${productoId}`, {
-        method: 'PUT',
-        body: JSON.stringify({ cantidad: cantidad })
-    })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.error(err));
+    try {
+        const res = await fetch(`${apiUrl}/usuarios/${userId}/carrito/${productoId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ cantidad })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            throw new Error(data.error || 'Error al actualizar cantidad del producto');
+        }
+        return data;
+    } catch (err) {
+        console.error('Error updating quantity:', err);
+        throw err;
+    }
 };
 
 const useDeleteCart = async (userId, productoId) => {

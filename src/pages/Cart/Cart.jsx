@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlinePlus, AiOutlineMinus, AiOutlineDelete, AiOutlineShoppingCart } from 'react-icons/ai';
-import { useCart, useDeleteCart } from '../../api/useCart';
+import { useCart, useDeleteCart, useChangeQuantity } from '../../api/useCart';
 import Footer from '../../components/Footer/Footer';
 import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
 import './Cart.css';
@@ -13,6 +13,7 @@ function Cart() {
   const userId = useUserStore.getState().id;
   const { cart, loading: cartLoading } = useCart(userId);
   const [productosCarrito, setProductosCarrito] = useState([]);
+  const [editingQuantity, setEditingQuantity] = useState({});
 
   useEffect(() => {
     if (cart && cart.length > 0) {
@@ -42,38 +43,70 @@ function Cart() {
 
   // Eliminar producto
   const eliminarProducto = async (productoId) => {
-    if (userId) {
-      try {
-        await useDeleteCart(userId, productoId);
-        setProductosCarrito(productosCarrito.filter(p => p.producto_id !== productoId));
-      } catch (error) {
-        console.error('Error eliminando producto del carrito:', error);
-      }
+    if (!userId) return;
+    try {
+      await useDeleteCart(userId, productoId);
+      setProductosCarrito(prev => prev.filter(p => p.producto_id !== productoId));
+      setEditingQuantity(prev => {
+        const next = { ...prev };
+        delete next[productoId];
+        return next;
+      });
+    } catch (error) {
+      console.error('Error eliminando producto del carrito:', error);
+    }
+  };
+
+  // Persist quantity change to API and local state
+  const setCantidad = async (productoId, newCantidad) => {
+    if (!userId || newCantidad < 1) return;
+    try {
+      await useChangeQuantity(userId, productoId, newCantidad);
+      setProductosCarrito(prev =>
+        prev.map(p =>
+          p.producto_id === productoId ? { ...p, cantidad: newCantidad } : p
+        )
+      );
+      setEditingQuantity(prev => ({ ...prev, [productoId]: undefined }));
+    } catch (err) {
+      console.error('Error actualizando cantidad:', err);
     }
   };
 
   // Sumar producto
-  const sumarProducto = (producto) => {
-    setProductosCarrito(prevCarrito =>
-      prevCarrito.map(p =>
-        p.producto_id === producto.producto_id
-          ? { ...p, cantidad: p.cantidad + 1 }
-          : p
-      )
-    );
+  const sumarProducto = async (producto) => {
+    const newCantidad = producto.cantidad + 1;
+    await setCantidad(producto.producto_id, newCantidad);
   };
 
-  // Restar producto
-  const restarProducto = (producto) => {
-    setProductosCarrito(prevCarrito =>
-      prevCarrito
-        .map(p =>
-          p.producto_id === producto.producto_id
-            ? { ...p, cantidad: p.cantidad - 1 }
-            : p
-        )
-        .filter(p => p.cantidad > 0)
-    );
+  // Restar producto (si llega a 0, eliminar del carrito)
+  const restarProducto = async (producto) => {
+    const newCantidad = producto.cantidad - 1;
+    if (newCantidad < 1) {
+      await eliminarProducto(producto.producto_id);
+      return;
+    }
+    await setCantidad(producto.producto_id, newCantidad);
+  };
+
+  // Commit manual input (blur or Enter)
+  const commitQuantityInput = (producto) => {
+    const raw = editingQuantity[producto.producto_id];
+    if (raw === undefined || raw === '') {
+      setEditingQuantity(prev => {
+        const next = { ...prev };
+        delete next[producto.producto_id];
+        return next;
+      });
+      return;
+    }
+    const num = parseInt(raw, 10);
+    const newCantidad = Number.isNaN(num) ? producto.cantidad : Math.max(1, num);
+    if (newCantidad < 1) {
+      eliminarProducto(producto.producto_id);
+    } else {
+      setCantidad(producto.producto_id, newCantidad);
+    }
   };
 
   const continuarCompra = () => {
@@ -138,16 +171,25 @@ function Cart() {
                               className="btn-icon-cart btn-minus-cart"
                               onClick={() => restarProducto(producto)}
                               title="Restar producto"
+                              type="button"
                             >
                               <AiOutlineMinus />
                             </button>
-                            <span className="product-quantity-cart">
-                              {producto.cantidad}
-                            </span>
+                            <input
+                              type="number"
+                              min={1}
+                              className="product-quantity-cart product-quantity-input-cart"
+                              value={editingQuantity[producto.producto_id] ?? producto.cantidad}
+                              onChange={(e) => setEditingQuantity(prev => ({ ...prev, [producto.producto_id]: e.target.value }))}
+                              onBlur={() => commitQuantityInput(producto)}
+                              onKeyDown={(e) => e.key === 'Enter' && e.target.blur()}
+                              aria-label={`Cantidad de ${producto.nombre}`}
+                            />
                             <button 
                               className="btn-icon-cart btn-add-cart"
                               onClick={() => sumarProducto(producto)}
                               title="Añadir producto"
+                              type="button"
                             >
                               <AiOutlinePlus />
                             </button>

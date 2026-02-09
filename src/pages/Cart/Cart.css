@@ -235,6 +235,23 @@
   font-weight: 600;
 }
 
+.product-quantity-input-cart {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font: inherit;
+  max-width: 3.5rem;
+}
+
+.product-quantity-input-cart::-webkit-outer-spin-button,
+.product-quantity-input-cart::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.product-quantity-input-cart[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 /* Summary - right section */
 .cart-summary {
   background: rgba(91, 110, 245, 0.3);
