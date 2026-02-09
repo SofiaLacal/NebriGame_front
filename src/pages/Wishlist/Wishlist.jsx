@@ -9,7 +9,7 @@ import './Wishlist.css';
 
 const Wishlist = () => {
   const userId = useUserStore.getState().id;
-  const { wishlist, loading } = useWishlist(userId);
+  const { wishlist, loading, refetchWishlist } = useWishlist(userId);
   const navigate = useNavigate();
   // Función para obtener el tipo correcto de producto
   const getTipoProducto = (producto) => {
@@ -21,9 +21,13 @@ const Wishlist = () => {
 
   // Función para eliminar producto de la wishlist
   const handleRemoveFromWishlist = async (productId) => {
-    useDeleteWishlist(userId, productId)
-    console.log("producto eliminado")
-    window.location.reload()
+    try {
+      await useDeleteWishlist(userId, productId);
+      console.log("producto eliminado");
+      refetchWishlist();
+    } catch (err) {
+      console.error("No se pudo eliminar de la wishlist:", err);
+    }
   };
   const handleClick = (product) => {
     navigate(`/producto/${getTipoProducto(product)}/${product.id}`);
@@ -73,7 +77,10 @@ const Wishlist = () => {
                     {/* Corazón rojo en la esquina inferior derecha - CLICKEABLE */}
                     <button 
                       className="wishlist-heart-icon"
-                      onClick={() => handleRemoveFromWishlist(product.id, product)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemoveFromWishlist(product.id);
+                      }}
                       title="Quitar de la wishlist"
                       aria-label="Quitar de la wishlist"
                     >
