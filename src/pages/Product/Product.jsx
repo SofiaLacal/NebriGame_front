@@ -4,21 +4,20 @@ import { useVideojuegos, useConsolas, useMerchandising } from "../../api/useProd
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import ProductCard from "../../components/ProductCard/ProductCard";
-import Search from "../../components/Search/Search";
+import SearchFilter from "../../components/SearchFilter/SearchFilter";
 import Loading from "../../components/Loading/Loading";
 import getImageUrl from "../../utils/getImage";
-import "./Product.css";
 import imagenUps from "../../assets/images/ups.jpg";
+import "./Product.css";
 
 function Product() {
   const { tipo } = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   
-  const [busqueda, setBusqueda] = useState("");
   const [buscando, setBuscando] = useState(false);
   const [resultados, setResultados] = useState([]);
-  const [ordenActual, setOrdenActual] = useState("defecto");
+  const [ordenar, setOrdenar] = useState("defecto");
 
   const { videojuegos, loading: loadingVideojuegos } = useVideojuegos();
   const { consolas, loading: loadingConsolas } = useConsolas();
@@ -27,10 +26,8 @@ function Product() {
   useEffect(() => {
     const query = searchParams.get('query');
     if (query) {
-      setBusqueda(query);
       realizarBusqueda(query);
     } else {
-      setBusqueda("");
       setBuscando(false);
       setResultados([]);
     }
@@ -59,44 +56,17 @@ function Product() {
     }
   };
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    
-    if (!busqueda.trim()) {
-      if (tipo) {
-        navigate(`/productos/${tipo}`);
-      } else {
-        navigate('/productos');
-      }
-      setBuscando(false);
-      setResultados([]);
-      return;
-    }
-
-    navigate(`/productos?query=${encodeURIComponent(busqueda)}`);
-  };
-
-  const limpiarFiltros = (tipo) => () => {
-    setBusqueda("");
+  const limpiarBusqueda = () => {
     setBuscando(false);
     setResultados([]);
-    setOrdenActual("defecto");
-    
-    if (tipo) {
-      navigate(`/productos/${tipo}`);
-    } else {
-      navigate(-1);
-    }
-  };
-
-  const handleOrdenarChange = (nuevoOrden) => {
-    setOrdenActual(nuevoOrden);
+    setOrdenar("defecto");
+    navigate(-1);
   };
 
   const ordenarProductos = (productos) => {
     const productosOrdenados = [...productos];
 
-    switch(ordenActual) {
+    switch(ordenar) {
       case "precio-asc":
         return productosOrdenados.sort((a, b) => parseFloat(a.precio) - parseFloat(b.precio));
       case "precio-desc":
@@ -145,16 +115,17 @@ function Product() {
   return (
     <div>
       <Header />
-      <Search
-        busqueda={busqueda}
-        setBusqueda={setBusqueda}
-        handleSearch={handleSearch}
-        buscando={buscando}
-        resultadosCount={productos.length}
-        onOrdenarChange={handleOrdenarChange}
-        onLimpiarFiltros={limpiarFiltros(tipo)}
-      />
+      
+      {/* SearchFilter solo aparece cuando hay búsqueda activa */}
+      {buscando && (
+        <SearchFilter
+          resultadosCount={productos.length}
+          ordenar={ordenar}
+          setOrdenar={setOrdenar}
+        />
+      )}
 
+      {/* Contenido principal */}
       {isLoading() ? (
         <Loading />
       ) : productos.length === 0 && buscando ? (

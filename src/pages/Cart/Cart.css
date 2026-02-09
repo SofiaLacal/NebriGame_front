@@ -417,10 +417,6 @@
 
 @media (max-width: 768px) {
 
-  .cart-container {
-    padding: 1rem;
-  }
-
   .cart-header {
     flex-direction: column;
     gap: 1.5rem;
@@ -445,6 +441,10 @@
     text-align: center;
   }
 
+  .product-info-cart h3 {
+    font-size: 20px;
+  }
+
   .product-image-cart {
     width: 120px;
     height: 120px;
@@ -458,6 +458,12 @@
 
 @media (max-width: 480px) {
   
+  .cart-container {
+    padding: 1rem;
+    min-height: auto;
+    width: fit-content;
+  }
+
   .my-cart h2,
   .cart-summary h2 {
     font-size: 1.4rem;
