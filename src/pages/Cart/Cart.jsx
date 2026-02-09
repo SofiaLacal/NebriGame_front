@@ -1,51 +1,58 @@
 import { User, Heart, ShoppingCart, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useCart, useDeleteCart } from '../../api/useCart';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
 import './Cart.css';
+import useUserStore from '../../stores/userStore';
+import getImageUrl from '../../utils/getImage';
 
 function Cart() {
   const navigate = useNavigate();
-  
-  // Estado de ejemplo - reemplaza con tu lógica real del carrito
-  const [productosCarrito, setProductosCarrito] = useState([
-    {
-      id: 1,
-      nombre: "Producto 1",
-      precio: 59.99,
-      imagen: "/ruta/imagen1.jpg",
-      cantidad: 1,
-      tipo: 'videojuegos'
-    },
-    {
-      id: 2,
-      nombre: "Producto 2",
-      precio: 49.99,
-      imagen: "/ruta/imagen2.jpg",
-      cantidad: 1,
-      tipo: 'consolas'
-    },
-    {
-      id: 3,
-      nombre: "Producto 3",
-      precio: 39.99,
-      imagen: "/ruta/imagen3.jpg",
-      cantidad: 1,
-      tipo: 'merchandising'
+  const userId = useUserStore.getState().id;
+  const { cart, loading: cartLoading } = useCart(userId);
+  const [productosCarrito, setProductosCarrito] = useState([]);
+
+  useEffect(() => {
+    if (cart && cart.length > 0) {
+      const productos = cart.map((item) => {
+        // The backend includes producto data via Sequelize include
+        const producto = item.producto || {};
+        return {
+          id: item.id,
+          producto_id: item.producto_id,
+          nombre: producto.nombre || 'Producto',
+          precio: parseFloat(producto.precio || 0),
+          imagen: producto.imagen_url ? getImageUrl(producto.imagen_url) : '',
+          cantidad: item.cantidad
+        };
+      });
+      setProductosCarrito(productos);
+    } else {
+      setProductosCarrito([]);
     }
-  ]);
+  }, [cart]);
 
   // Calcular total
   const calcularTotal = () => {
+    if (productosCarrito.length === 0) return '0.00';
     return productosCarrito.reduce((total, producto) => 
       total + (producto.precio * producto.cantidad), 0
     ).toFixed(2);
   };
 
   // Eliminar producto del carrito
-  const eliminarProducto = (id) => {
-    setProductosCarrito(productosCarrito.filter(p => p.id !== id));
+  const eliminarProducto = async (productoId) => {
+    if (userId) {
+      try {
+        await useDeleteCart(userId, productoId);
+        // Update local state immediately for better UX
+        setProductosCarrito(productosCarrito.filter(p => p.producto_id !== productoId));
+      } catch (error) {
+        console.error('Error eliminando producto del carrito:', error);
+      }
+    }
   };
 
   // Añadir a wishlist
@@ -84,7 +91,14 @@ function Cart() {
           </div>
         </div>
 
-        {productosCarrito.length > 0 ? (
+        {cartLoading ? (
+          <div className="my-cart">
+            <div className="empty-cart">
+              <div className="empty-cart-icon">⏳</div>
+              <h3>Cargando carrito...</h3>
+            </div>
+          </div>
+        ) : productosCarrito.length > 0 ? (
           <div className="cart-content">
             <div className="my-cart">
               <h2>Carrito</h2>
@@ -116,7 +130,7 @@ function Cart() {
                           </button>
                           <button 
                             className="btn-icono btn-eliminar"
-                            onClick={() => eliminarProducto(producto.id)}
+                            onClick={() => eliminarProducto(producto.producto_id)}
                             title="Eliminar del carrito"
                           >
                             🗑️
