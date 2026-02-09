@@ -10,7 +10,7 @@ body {
 .background {
   background-image: url("../../assets/images/fondo_home.jpg");
   border-radius: 20px;
-  height: 60vh;
+  height: auto;
   margin-top: 2px;
   width: auto; 
 }
