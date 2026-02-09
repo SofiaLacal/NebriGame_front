@@ -6,6 +6,7 @@ import ProductDetail from "../pages/ProductDetail/ProductDetail";
 import Login from "../pages/LoginRegister/Login";
 import Register from "../pages/LoginRegister/Register";
 import Wishlist from "../pages/Wishlist/Wishlist";
+import Cart from "../pages/Cart/Cart";
 
 function PublicRoutes() {
   return (
@@ -18,6 +19,8 @@ function PublicRoutes() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/carrito" element={<Cart />} />
+
         <Route
           path="/error-500"
           element={

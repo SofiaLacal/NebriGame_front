@@ -96,14 +96,14 @@ function Login() {
               <a href="#" className="forgot-password-log">
                 ¿Olvidaste tu contraseña?
               </a>
-             {/* MODIFICAR ESTO */}
             </div>
-            
 
-            <button type="submit" className="btn-primary-log">
-              Iniciar Sesión
-            </button>
-
+            <div className="btn-cont-log">
+              <button type="submit" className="btn-primary-log">
+                Iniciar Sesión
+              </button>
+            </div>
+           
             <div className="auth-switch-log">
               <p>¿No tienes una cuenta?</p>
               <button 
