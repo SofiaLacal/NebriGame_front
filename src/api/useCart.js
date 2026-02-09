@@ -84,4 +84,4 @@ const useDeleteCart = async (userId, productoId) => {
 };
 
 
-export { useCart, useAddCart, useChangeQuantity, useDeleteCart, useIsInCart };
+export { useCart, useAddCart, useChangeQuantity, useDeleteCart };
