@@ -122,7 +122,6 @@ function Product() {
           resultadosCount={productos.length}
           ordenar={ordenar}
           setOrdenar={setOrdenar}
-          onLimpiarFiltros={limpiarBusqueda}
         />
       )}
 

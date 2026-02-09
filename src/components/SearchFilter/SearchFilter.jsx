@@ -1,10 +1,10 @@
+import BackButton from '../BackButton/BackButton';
 import './SearchFilter.css';
 
 function SearchFilter({ 
   resultadosCount, 
   ordenar, 
-  setOrdenar, 
-  onLimpiarFiltros 
+  setOrdenar
 }) {
   return (
     <div className="search-filter-wrapper">
@@ -15,9 +15,7 @@ function SearchFilter({
       </div>
       
       <div className="filtros-container">
-        <button className="limpiar-btn" onClick={onLimpiarFiltros}>
-          Limpiar búsqueda
-        </button>
+        <BackButton texto="Limpiar búsqueda" className="limpiar-btn" />
         <select 
           id="ordenar"
           value={ordenar} 

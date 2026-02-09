@@ -2,6 +2,35 @@
   max-width: 1200px;
   margin: 40px auto;
   padding: 24px;
+  padding-left: 96px;
+  position: relative;
+}
+
+.boton-volver {
+  background: #7439b3;
+  border: none;
+  color: white;
+  padding: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  z-index: 10;
+}
+
+.boton-volver:hover {
+  background: #65319c;
+}
+
+.contenedor-principal {
+  width: 100%;
 }
 
 .detalle {
@@ -31,7 +60,7 @@
 .info {
   display: flex;
   flex-direction: column;
-  height: 100%; /* ← Añadido */
+  height: 100%;
 }
 
 .info h1 {
@@ -51,7 +80,7 @@
   display: flex;
   gap: 16px;
   align-items: center;
-  margin-top: auto; /* ← Añadido para empujar botones hacia abajo */
+  margin-top: auto;
 }
 
 .boton-wishlist {
@@ -169,12 +198,20 @@
 
 
 @media (max-width: 768px) {
+  .contenedor-detalle {
+    padding: 16px;
+    padding-top: 88px;
+  }
+
+  .boton-volver {
+    left: 16px;
+    top: 16px;
+  }
+
   .no-encontrado-imagen {
     max-width: 350px;
   }
-}
 
-@media (max-width: 768px) {
   .detalle {
     grid-template-columns: 1fr;
   }
