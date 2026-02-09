@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useVideojuegos, useConsolas, useMerchandising } from "../../api/useProduct";
 import { Heart } from 'lucide-react';
 import Header from "../../components/Header/Header";
@@ -6,10 +7,46 @@ import Loading from "../../components/Loading/Loading";
 import "./ProductDetail.css";
 import Footer from "../../components/Footer/Footer";
 import getImageUrl from "../../utils/getImage";
+import useUserStore from "../../stores/userStore";
+import { useIsInWishlist, useAddWishlist, useDeleteWishlist } from "../../api/useWishlist";
 
 function ProductDetail() {
   const { id, tipo } = useParams();
-  
+  const userId = useUserStore.getState().id;
+  const { isInWishlist, loading: loadingWishlist } = useIsInWishlist(userId, id);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [localIsInWishlist, setLocalIsInWishlist] = useState(isInWishlist);
+
+  // Sincronizar el estado local con el hook cuando cambie
+  useEffect(() => {
+    setLocalIsInWishlist(isInWishlist);
+  }, [isInWishlist]);
+
+  const handleToggleWishlist = async (productId) => {
+    if (isUpdating) return; // Evitar múltiples clicks
+    
+    setIsUpdating(true);
+    // Actualizar el estado local inmediatamente para feedback visual
+    const newState = !localIsInWishlist;
+    setLocalIsInWishlist(newState);
+    
+    try {
+      if (localIsInWishlist) {
+        await useDeleteWishlist(userId, productId);
+        console.log("producto eliminado");
+      } else {
+        await useAddWishlist(userId, productId);
+        console.log("producto añadido");
+      }
+      // Recargar la página para sincronizar con el backend
+      window.location.reload();
+    } catch (error) {
+      console.error("Error al actualizar wishlist:", error);
+      // Revertir el estado local si hay error
+      setLocalIsInWishlist(!newState);
+      setIsUpdating(false);
+    }
+  }
   const { videojuegos, loading: loadingVideojuegos } = useVideojuegos();
   const { consolas, loading: loadingConsolas } = useConsolas();
   const { merchandising, loading: loadingMerch } = useMerchandising();
@@ -58,8 +95,17 @@ function ProductDetail() {
             <p className="precio">{producto.precio} €</p>
             
             <div className="botones">
-              <button className="boton-wishlist">
-                <Heart size={24} />
+              <button 
+                className="boton-wishlist"
+                onClick={() => handleToggleWishlist(producto.id)}
+                disabled={isUpdating || loadingWishlist}
+                title={localIsInWishlist ? "Quitar de la wishlist" : "Añadir a la wishlist"}
+              >
+                <Heart 
+                  size={24} 
+                  fill={localIsInWishlist ? "#e74c3c" : "none"} 
+                  color={localIsInWishlist ? "#e74c3c" : "white"} 
+                />
               </button>
               <button className="boton-carrito">Añadir a la cesta</button>
             </div>

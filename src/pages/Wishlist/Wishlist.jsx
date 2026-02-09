@@ -1,15 +1,16 @@
-import { useWishlist } from "../../api/useWishlist";
+import { useDeleteWishlist, useWishlist } from "../../api/useWishlist";
 import useUserStore from "../../stores/userStore";
 import getImageUrl from "../../utils/getImage";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Heart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import './Wishlist.css';
 
 const Wishlist = () => {
   const userId = useUserStore.getState().id;
   const { wishlist, loading } = useWishlist(userId);
-
+  const navigate = useNavigate();
   // Función para obtener el tipo correcto de producto
   const getTipoProducto = (producto) => {
     if (producto.tipo === "juego") return "videojuegos";
@@ -19,28 +20,14 @@ const Wishlist = () => {
   };
 
   // Función para eliminar producto de la wishlist
-  const handleRemoveFromWishlist = async (productId, producto) => {
-    try {
-      const tipoProducto = getTipoProducto(producto);
-      const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-      const response = await fetch(`${apiUrl}/wishlist/${userId}/${tipoProducto}/${productId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        // Recargar la página para actualizar la lista
-        window.location.reload();
-      } else {
-        console.error('Error al eliminar el producto de la wishlist');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
+  const handleRemoveFromWishlist = async (productId) => {
+    useDeleteWishlist(userId, productId)
+    console.log("producto eliminado")
+    window.location.reload()
   };
-
+  const handleClick = (product) => {
+    navigate(`/producto/${getTipoProducto(product)}/${product.id}`);
+  };
   return (
     <>
       <Header />
@@ -48,7 +35,8 @@ const Wishlist = () => {
       <div className="wishlist-container">
         {/* Título de la página */}
         <div className="wishlist-header">
-          <h1>Mi Lista de Deseos</h1>
+          <h1>Lista de Deseos</h1>
+          <br/>
           <p>
             {wishlist.length > 0 
               ? `Tienes ${wishlist.length} producto${wishlist.length !== 1 ? 's' : ''} guardado${wishlist.length !== 1 ? 's' : ''}`
@@ -66,31 +54,32 @@ const Wishlist = () => {
           ) : wishlist.length > 0 ? (
             <ul className="wishlist-grid">
               {wishlist.map((product) => (
-                <li key={product.id} className="wishlist-card">
+                <li key={product.id} className="wishlist-card" onClick={() => handleClick(product)}>
                   {/* Imagen del producto */}
                   <div className="wishlist-image-container">
                     <img 
                       src={getImageUrl(product.imagen_url)} 
                       alt={product.nombre}
+                      onClick={() => handleClick(product)}
                     />
                   </div>
 
                   {/* Información del producto */}
                   <div className="wishlist-info">
-                    <h3 className="wishlist-product-name">{product.nombre}</h3>
+                    <h2 className="wishlist-product-name">{product.nombre}</h2>
                     <p className="wishlist-product-price">{product.precio}€</p>
                     <span className="wishlist-product-type">{getTipoProducto(product)}</span>
-                  </div>
 
-                  {/* Corazón rojo en la esquina inferior derecha - CLICKEABLE */}
-                  <button 
-                    className="wishlist-heart-icon"
-                    onClick={() => handleRemoveFromWishlist(product.id, product)}
-                    title="Quitar de la wishlist"
-                    aria-label="Quitar de la wishlist"
-                  >
-                    <Heart fill="#e74c3c" color="#e74c3c" size={24} />
-                  </button>
+                    {/* Corazón rojo en la esquina inferior derecha - CLICKEABLE */}
+                    <button 
+                      className="wishlist-heart-icon"
+                      onClick={() => handleRemoveFromWishlist(product.id, product)}
+                      title="Quitar de la wishlist"
+                      aria-label="Quitar de la wishlist"
+                    >
+                      <Heart fill="#e74c3c" color="#e74c3c" size={24} />
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>

@@ -203,9 +203,11 @@ function Register() {
                 </div>
               </div>
               
-              <button type="submit" className="btn-primary-reg">
-                Registrarse
-              </button>
+              <div className="btn-cont-reg">
+                <button type="submit" className="btn-primary-reg">
+                  Registrarse
+                </button>
+              </div>
 
               <p className="must-do-p">* Campos obligatorios</p>
 

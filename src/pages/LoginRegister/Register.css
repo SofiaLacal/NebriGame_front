@@ -104,7 +104,7 @@ body {
 }
 
 .form-group-reg input:focus {
-  border-color: #66eaac;
+  border-color: #3a8dbd;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
@@ -121,14 +121,18 @@ body {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   border: none;
-  padding: 14px 20px;
+  padding: 14px;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 8px;
-  font-family: inherit;
+}
+
+.btn-cont-reg {
+  display: flex;
+  justify-content: center;
 }
 
 .btn-primary-reg:hover {

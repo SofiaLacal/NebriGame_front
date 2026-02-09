@@ -59,25 +59,76 @@ const useWishlist = (userId) => {
     return { wishlist, loading };
 };
 
-const useAddWishlist = (userId, productoId) => {
+const useAddWishlist = async (userId, productoId) => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-    fetch(`${apiUrl}/usuarios/${userId}/wishlist`, {
-        method: 'POST',
-        body: JSON.stringify({ producto_id: productoId })
-    })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.error(err));
+    try {
+        const res = await fetch(`${apiUrl}/usuarios/${userId}/wishlist`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ producto_id: productoId })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            throw new Error(data.error || 'Error al añadir a la wishlist');
+        }
+        return data;
+    } catch (err) {
+        console.error('Error adding to wishlist:', err);
+        throw err;
+    }
 };
 
-const useDeleteWishlist = (userId, productoId) => {
+const useDeleteWishlist = async (userId, productoId) => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-    fetch(`${apiUrl}/usuarios/${userId}/wishlist/${productoId}`, {
-        method: 'DELETE'
-    })
-    .then(res => res.json())
-    .then(data => console.log(data))
-    .catch(err => console.error(err));
+    try {
+        const res = await fetch(`${apiUrl}/usuarios/${userId}/wishlist/${productoId}`, {
+            method: 'DELETE'
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            throw new Error(data.error || 'Error al eliminar de la wishlist');
+        }
+        return data;
+    } catch (err) {
+        console.error('Error deleting from wishlist:', err);
+        throw err;
+    }
 };
 
-export { useWishlist, useAddWishlist, useDeleteWishlist };
+const useIsInWishlist = (userId, productId) => {
+    const [isInWishlist, setIsInWishlist] = useState(false);
+    const [loading, setLoading] = useState(true);
+    
+    useEffect(() => {
+        if (!userId || !productId) {
+            setLoading(false);
+            return;
+        }
+        
+        const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+        // Obtenemos la wishlist completa y verificamos si el producto está en ella
+        fetch(`${apiUrl}/usuarios/${userId}/wishlist`)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                // Verificamos si el producto está en la wishlist
+                const productIds = data.wishlist.map(item => item.producto_id);
+                setIsInWishlist(productIds.includes(parseInt(productId)));
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error('Error checking wishlist:', err);
+                setIsInWishlist(false);
+                setLoading(false);
+            });
+    }, [userId, productId]);
+    
+    return { isInWishlist, loading };
+};
+export { useWishlist, useAddWishlist, useDeleteWishlist, useIsInWishlist };
