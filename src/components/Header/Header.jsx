@@ -1,7 +1,9 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Gamepad2, Tv, Gift, Percent, User, Heart, ShoppingCart, Menu, X, Search as SearchIcon } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { Gamepad2, Tv, Gift, Percent, Heart, ShoppingCart, Menu, X, Search as SearchIcon } from 'lucide-react';
+import { useState, useRef } from 'react';
+import UsuarioDropdown from '../UsuarioDropdown/UsuarioDropdown';
 import './Header.css';
+import logo from "../../../public/logo.png"
 import useUserStore from '../../stores/userStore';
 
 function Header() {
@@ -150,37 +152,7 @@ function Header() {
         </ul>
 
         <ul className={`nav-links-right ${isMenuOpen ? 'active' : ''}`}>
-          <li className="usuario-container">
-            {nombre ? (
-              <>
-                <button
-                  type="button"
-                  className="hola-usuario"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                >
-                  <User size={24} /> ¡Hola, {nombre}!
-                </button>
-                {isDropdownOpen && (
-                  <div className="usuario-dropdown">
-                    <Link to="/perfil" onClick={() => setIsDropdownOpen(false)}>
-                      Mi cuenta
-                    </Link>
-                    <button type="button" onClick={handleLogout}>
-                      Cerrar sesión
-                    </button>
-                  </div>
-                )}
-              </>
-            ) : (
-              <Link
-                to="/login"
-                className={location.pathname === '/login' ? 'active' : ''}
-                onClick={toggleMenu}
-              >
-                <User size={24} />
-              </Link>
-            )}
-          </li>
+          <UsuarioDropdown />
           <li>
             <Link
               to="/wishlist"

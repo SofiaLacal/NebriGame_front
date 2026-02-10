@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../../stores/userStore';
 import SimpleHeader from "../../components/SimpleHeader/SimpleHeader";
@@ -7,8 +7,14 @@ import "./Register.css"
 
 
 function Register() {
-  
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const user = useUserStore.getState();
+    if (user.id) {
+      navigate('/');
+    }
+  }, []);
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     nombre: '',

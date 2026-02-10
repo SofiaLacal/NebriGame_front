@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { User, Heart, ShoppingCart, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import UsuarioDropdown from '../UsuarioDropdown/UsuarioDropdown';
 import './SimpleHeader.css';
 
 function SimpleHeader() {
@@ -36,6 +37,7 @@ function SimpleHeader() {
 
         {/* Links de usuario (derecha) */}
         <ul className={`nav-links-right-sh ${isMenuOpen ? 'active' : ''}`}>
+          <UsuarioDropdown />
           <li>
             <Link
               to="/login"
@@ -47,11 +49,8 @@ function SimpleHeader() {
             </Link>
           </li>
           <li>
-            <Link
-              to="/wishlist"
-              className={location.pathname === '/wishlist' ? 'active' : ''}
-              onClick={toggleMenu}
-            >
+            <Link to="/wishlist" className={location.pathname === '/wishlist' ? 'active' : ''} onClick={toggleMenu}>
+            <Heart size={24} /><p className="text-menu-sh">Wishlist</p></Link>
               <Heart size={24} />
               <span className="text-menu-sh">Wishlist</span>
             </Link>

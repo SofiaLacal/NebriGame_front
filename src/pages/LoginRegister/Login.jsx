@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./Login.css"
 import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
@@ -9,12 +9,17 @@ import Footer from '../../components/Footer/Footer';
 function Login() {
 
   const navigate = useNavigate();
-  
+  useEffect(() => {
+    const user = useUserStore.getState();
+    if (user.id) {
+      navigate('/');
+    }
+  }, []);
   const [formData, setFormData] = useState({
     email: '',
     contrasenna: ''
   });
-
+  const [error, setError] = useState(null);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -40,20 +45,27 @@ function Login() {
     const data = await res.json();
     console.log(data);
 
-    useUserStore.setState({
-      id: data.usuarioData.id,
-      nombre: data.usuarioData.nombre,
-      apellido1: data.usuarioData.apellido1,
-      apellido2: data.usuarioData.apellido2,
-      email: data.usuarioData.email,
-      fecha_registro: data.usuarioData.fecha_registro
-    });
+    if (data.error) {
+      setError(data.error);
+      setFormData({
+        email: '',
+        contrasenna: ''
+      });
+      return;
+    }
+
     if (data.success) {
+      useUserStore.setState({
+        id: data.usuarioData.id,
+        nombre: data.usuarioData.nombre,
+        apellido1: data.usuarioData.apellido1,
+        apellido2: data.usuarioData.apellido2,
+        email: data.usuarioData.email,
+        fecha_registro: data.usuarioData.fecha_registro
+      });
       console.log(useUserStore.getState());
       navigate('/');
-    } else {
-      setError(data.message || 'Error al iniciar sesión');
-    }
+    } 
   };
 
   return (
@@ -91,6 +103,8 @@ function Login() {
                 placeholder="••••••••"
               />
             </div>
+
+            {error && <div className="error-message-log">{error}</div>}
 
             <div className="form-footer-log">
               <a href="#" className="forgot-password-log">
