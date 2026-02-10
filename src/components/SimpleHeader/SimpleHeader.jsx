@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
-import { User, Heart, ShoppingCart, Menu, X } from 'lucide-react';
+import { Heart, ShoppingCart, Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import UsuarioDropdown from '../UsuarioDropdown/UsuarioDropdown';
 import './SimpleHeader.css';
 import logo from "../../../public/logo.png"
 
@@ -26,10 +27,7 @@ function SimpleHeader() {
 
         {/* Links de usuario (derecha) */}
         <ul className={`nav-links-right-sh ${isMenuOpen ? 'active' : ''}`}>
-          <li>
-            <Link to="/login" className={location.pathname === '/login' ? 'active' : ''} onClick={toggleMenu}> 
-            <User size={24} /><p className="text-menu-sh">Login</p></Link>
-          </li>
+          <UsuarioDropdown />
           <li>
             <Link to="/wishlist" className={location.pathname === '/wishlist' ? 'active' : ''} onClick={toggleMenu}>
             <Heart size={24} /><p className="text-menu-sh">Wishlist</p></Link>
