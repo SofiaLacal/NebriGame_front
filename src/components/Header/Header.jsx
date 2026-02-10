@@ -3,6 +3,7 @@ import { Gamepad2, Tv, Gift, Percent, User, Heart, ShoppingCart, Menu, X, Search
 import { useState, useRef } from 'react';
 import './Header.css';
 import logo from "../../../public/logo.png"
+import useUserStore from '../../stores/userStore'; 
 
 function Header() {
   const location = useLocation();
@@ -11,6 +12,10 @@ function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const searchInputRef = useRef(null);
+
+  const nombre = useUserStore((state) => state.nombre);
+  const logout = useUserStore((state) => state.logout);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -74,7 +79,7 @@ function Header() {
             </Link>
           </li>
 
-          {/* BUSCADOR DENTRO DEL UL pero en un LI */}
+          {/* BUSCADOR */}
           <li className="search-item">
             <form onSubmit={handleSearch} className={`header-search ${isSearchExpanded ? 'expanded' : ''}`}>
               <button 
@@ -97,9 +102,28 @@ function Header() {
         </ul>
 
         <ul className={`nav-links-right ${isMenuOpen ? 'active' : ''}`}>
-          <li>
-            <Link to="/login" className={location.pathname === '/login' ? 'active' : ''} onClick={toggleMenu}> 
-            <User size={24} /></Link>
+          <li className="usuario-container">
+            {nombre ? (
+              <>
+                <span className="hola-usuario" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                  <User size={24} /> ¡Hola, {nombre}!
+                </span>
+                {isDropdownOpen && (
+                  <div className="usuario-dropdown">
+                    <Link to="/perfil" onClick={() => setIsDropdownOpen(false)}>
+                      Mi cuenta
+                    </Link>
+                    <button onClick={() => { logout(); setIsDropdownOpen(false); window.location.reload() }}>
+                      Cerrar sesión
+                    </button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <Link to="/login" className={location.pathname === '/login' ? 'active' : ''} onClick={toggleMenu}> 
+                <User size={24} />
+              </Link>
+            )}
           </li>
           <li>
             <Link to="/wishlist" className={location.pathname === '/wishlist' ? 'active' : ''} onClick={toggleMenu}>
