@@ -62,18 +62,16 @@ function CartHeader({ pasoActual = 1 }) {
         <div className="checkout-steps-cont">
           <ul className="checkout-steps-cart">
             {pasos.map((paso, index) => (
-              <>
-                <li
-                  key={paso.numero}
-                  className={`step-cart ${pasoActual === paso.numero ? 'active' : ''}`}
-                >
-                  <div className="step-number-cart">{paso.numero}</div>
-                  <span>{paso.label}</span>
-                </li>
+              <li
+                key={paso.numero}
+                className={`step-cart ${pasoActual === paso.numero ? 'active' : ''}`}
+              >
+                <div className="step-number-cart">{paso.numero}</div>
+                <span>{paso.label}</span>
                 {index < pasos.length - 1 && (
-                  <span key={`line-${index}`} className="step-line-cart" aria-hidden="true" />
+                  <span className="step-line-cart" aria-hidden="true" />
                 )}
-              </>
+              </li>
             ))}
           </ul>
         </div>

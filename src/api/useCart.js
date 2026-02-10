@@ -6,13 +6,17 @@ const useCart = (userId) => {
     
     useEffect(() => {
         if (!userId) {
+            // Sin usuario no tiene sentido mantener el carrito anterior
+            setCart([]);
             setLoading(false);
             return;
         }
+
+        const controller = new AbortController();
         
         setLoading(true);
         const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-        fetch(`${apiUrl}/usuarios/${userId}/carrito`)
+        fetch(`${apiUrl}/usuarios/${userId}/carrito`, { signal: controller.signal })
             .then(res => {
                 if (!res.ok) {
                     throw new Error(`HTTP error! status: ${res.status}`);
@@ -25,10 +29,13 @@ const useCart = (userId) => {
                 setLoading(false);
             })
             .catch(err => {
+                if (err.name === 'AbortError') return;
                 console.error('Error fetching cart:', err);
                 setCart([]);
                 setLoading(false);
             });
+
+        return () => controller.abort();
     }, [userId]);
     
     return { cart, loading };

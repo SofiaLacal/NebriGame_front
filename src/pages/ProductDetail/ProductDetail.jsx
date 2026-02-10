@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useVideojuegos, useConsolas, useMerchandising } from "../../api/useProduct";
 import { Heart, ArrowLeft } from 'lucide-react';
@@ -26,12 +26,12 @@ function ProductDetail() {
 
   const handleToggleWishlist = async (productId) => {
     if (isUpdating) return; // Evitar múltiples clicks
-    
+
     setIsUpdating(true);
     // Actualizar el estado local inmediatamente para feedback visual
     const newState = !localIsInWishlist;
     setLocalIsInWishlist(newState);
-    
+
     try {
       if (localIsInWishlist) {
         await useDeleteWishlist(userId, productId);
@@ -40,23 +40,28 @@ function ProductDetail() {
         await useAddWishlist(userId, productId);
         console.log("producto añadido");
       }
-      // Recargar la página para sincronizar con el backend
-      window.location.reload();
+      // Si todo va bien, liberamos el estado de actualización
+      setIsUpdating(false);
     } catch (error) {
       console.error("Error al actualizar wishlist:", error);
       // Revertir el estado local si hay error
       setLocalIsInWishlist(!newState);
       setIsUpdating(false);
     }
-  }
+  };
+
   const handleAddToCart = async (productId) => {
     if (isUpdating) return; // Evitar múltiples clicks
     setIsUpdating(true);
-    await useAddCart(userId, productId);
-    console.log("producto añadido");
-    // Recargar la página para sincronizar con el backend
-    window.location.reload();
-  }
+    try {
+      await useAddCart(userId, productId);
+      console.log("producto añadido");
+    } catch (error) {
+      console.error("Error al añadir al carrito:", error);
+    } finally {
+      setIsUpdating(false);
+    }
+  };
   const { videojuegos, loading: loadingVideojuegos } = useVideojuegos();
   const { consolas, loading: loadingConsolas } = useConsolas();
   const { merchandising, loading: loadingMerch } = useMerchandising();
@@ -87,9 +92,7 @@ function ProductDetail() {
   }
 
   if (!producto) {
-    return (
-      navigate ("/*")
-    );
+    return <Navigate to="/*" replace />;
   }
 
   return (

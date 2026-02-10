@@ -3,15 +3,48 @@ import { useState, useEffect } from "react";
 const usePayment = (userId) => {
     const [payment, setPayment] = useState([]);
     const [loading, setLoading] = useState(true);
-    useEffect(() => {
+
+    const fetchPayment = (signal) => {
+        if (!userId) {
+            setPayment([]);
+            setLoading(false);
+            return Promise.resolve();
+        }
+
         setLoading(true);
         const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-        fetch(`${apiUrl}/usuarios/${userId}/metodos-pago`)
-        .then(res => res.json())
-        .then(data => setPayment(data.metodosPago || []))
-        .catch(err => console.error(err));
-    }, []);
-    return { payment, loading };
+        const opts = signal ? { signal } : {};
+
+        return fetch(`${apiUrl}/usuarios/${userId}/metodos-pago`, opts)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                setPayment(data.metodosPago || []);
+                setLoading(false);
+            })
+            .catch(err => {
+                if (err.name === 'AbortError') return;
+                console.error('Error fetching payment methods:', err);
+                setPayment([]);
+                setLoading(false);
+            });
+    };
+
+    useEffect(() => {
+        const controller = new AbortController();
+        fetchPayment(controller.signal);
+        return () => controller.abort();
+    }, [userId]);
+
+    const refetchPayment = () => {
+        fetchPayment(undefined);
+    };
+
+    return { payment, loading, refetchPayment };
 };
 
 

@@ -1,6 +1,5 @@
-import { User, Heart, ShoppingCart, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { useCart, useDeleteCart } from '../../api/useCart';
+import { useCart } from '../../api/useCart';
 import { usePayment, useAddPaymentMethod, useDeletePaymentMethod } from '../../api/usePayment';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
@@ -11,9 +10,9 @@ import useUserStore from '../../stores/userStore';
 function Payment() {
     const navigate = useNavigate();
     const userId = useUserStore.getState().id;
-    const { cart, loading: cartLoading } = useCart(userId);
+    const { cart } = useCart(userId);
     const [productosCarrito, setProductosCarrito] = useState([]);
-    const { payment, loading: paymentLoading } = usePayment(userId);
+    const { payment, loading: paymentLoading, refetchPayment } = usePayment(userId);
     const [isAddingPaymentMethod, setIsAddingPaymentMethod] = useState(false);
     console.log(payment);
     useEffect(() => {
@@ -33,23 +32,32 @@ function Payment() {
             setProductosCarrito([]);
         }
     }, [cart]);
-    const handleAddPaymentMethod = async (tipo, detalles) => {
+    const handleAddPaymentMethod = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const tipo = formData.get('tipo')?.toString().trim();
+        const detalles = formData.get('detalles')?.toString().trim();
+        if (!tipo || !detalles) {
+            return;
+        }
         try {
             await useAddPaymentMethod(userId, tipo, detalles);
             setIsAddingPaymentMethod(false);
+            e.target.reset();
+            refetchPayment();
         } catch (error) {
             console.error('Error adding payment method:', error);
         }
-    }
+    };
 
     const deletePaymentMethod = async (metodoId) => {
         try {
             await useDeletePaymentMethod(userId, metodoId);
-            window.location.reload();
+            refetchPayment();
         } catch (error) {
             console.error('Error deleting payment method:', error);
         }
-    }
+    };
     const toggleAddPaymentMethod = () => {
         if(isAddingPaymentMethod) {
             setIsAddingPaymentMethod(false);
@@ -64,15 +72,19 @@ function Payment() {
                 <div className='payment-header'>
                     <h1>Pago</h1>
                     <div className='payment-methods'>
-                        {payment.map((method) => (
+                        {paymentLoading ? (
+                            <p>Cargando métodos de pago...</p>
+                        ) : payment.length === 0 ? (
+                            <p>No tienes métodos de pago guardados.</p>
+                        ) : payment.map((method) => (
                             <div className='payment-method' key={method.id}>
                                 <h2>{method.tipo}</h2>
                                 <p>{method.detalles}</p>
                                 <button onClick={() => deletePaymentMethod(method.id)}>Eliminar método</button>
                             </div>
                         ))}
-                        <button className='payment-method-button' onClick={() => toggleAddPaymentMethod()}>Añadir método de pago</button>
-                        <form className={isAddingPaymentMethod ? 'add-payment-method-form' : 'hidden'} onSubmit={(e) => handleAddPaymentMethod(e.target.tipo.value, e.target.detalles.value)}>    
+                        <button className='payment-method-button' onClick={toggleAddPaymentMethod}>Añadir método de pago</button>
+                        <form className={isAddingPaymentMethod ? 'add-payment-method-form' : 'hidden'} onSubmit={handleAddPaymentMethod}>    
                             <input type='text' name='tipo' placeholder='Tipo de método de pago' />
                             <input type='text' name='detalles' placeholder='Detalles del método de pago' />
                             <button type='submit'>Añadir método de pago</button>

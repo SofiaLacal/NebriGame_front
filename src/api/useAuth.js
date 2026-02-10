@@ -1,36 +1,75 @@
-import { useState, useEffect } from "react";
-
-const useAuth = () => {
-    const login = (email, contrasenna) => {
-        const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-        fetch(`${apiUrl}/login`, {
+const login = async (email, contrasenna) => {
+    const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+    try {
+        const res = await fetch(`${apiUrl}/usuarios/login`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({ email, contrasenna })
-        })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            throw new Error(data.error || 'Error al iniciar sesión');
+        }
+        return data;
+    } catch (err) {
+        console.error('Error in login:', err);
+        throw err;
     }
-    const logout = () => {
-        const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-        fetch(`${apiUrl}/logout`, {
+};
+
+const logout = async () => {
+    const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+    try {
+        const res = await fetch(`${apiUrl}/usuarios/logout`, {
             method: 'POST'
-        })
+        });
+        if (!res.ok) {
+            const data = await res.json().catch(() => ({}));
+            throw new Error(data.error || 'Error al cerrar sesión');
+        }
+    } catch (err) {
+        console.error('Error in logout:', err);
+        throw err;
     }
-    return { login, logout };
-}
+};
 
-const updateProfile = (userId, nombre, apellido1, apellido2, DNI, email, contrasenna) => {
+const updateProfile = async (userId, { nombre, apellido1, apellido2, DNI, email, contrasenna }) => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-    fetch(`${apiUrl}/usuarios/${userId}`, {
-        method: 'PUT',
-        body: JSON.stringify({ nombre, apellido1, apellido2, DNI, email, contrasenna })
-    })
-}
+    try {
+        const res = await fetch(`${apiUrl}/usuarios/${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nombre, apellido1, apellido2, DNI, email, contrasenna })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            throw new Error(data.error || 'Error al actualizar el perfil');
+        }
+        return data;
+    } catch (err) {
+        console.error('Error updating profile:', err);
+        throw err;
+    }
+};
 
-
-const deleteProfile = (userId) => {
+const deleteProfile = async (userId) => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-    fetch(`${apiUrl}/usuarios/${userId}`, {
-        method: 'DELETE'
-    })
-}
+    try {
+        const res = await fetch(`${apiUrl}/usuarios/${userId}`, {
+            method: 'DELETE'
+        });
+        if (!res.ok) {
+            const data = await res.json().catch(() => ({}));
+            throw new Error(data.error || 'Error al eliminar el perfil');
+        }
+    } catch (err) {
+        console.error('Error deleting profile:', err);
+        throw err;
+    }
+};
 
-export default { useAuth, updateProfile, deleteProfile };
+export { login, logout, updateProfile, deleteProfile };

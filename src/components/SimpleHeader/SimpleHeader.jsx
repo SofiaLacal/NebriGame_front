@@ -41,18 +41,11 @@ function SimpleHeader() {
           <li>
             <Link to="/wishlist" className={location.pathname === '/wishlist' ? 'active' : ''} onClick={toggleMenu}>
             <Heart size={24} /><p className="text-menu-sh">Wishlist</p>
-              <Heart size={24} />
-              <span className="text-menu-sh">Wishlist</span>
             </Link>
           </li>
           <li>
-            <Link
-              to="/carrito"
-              className={location.pathname === '/carrito' ? 'active' : ''}
-              onClick={toggleMenu}
-            >
-              <ShoppingCart size={24} />
-              <span className="text-menu-sh">Carrito</span>
+            <Link to="/carrito" className={location.pathname === '/carrito' ? 'active' : ''} onClick={toggleMenu}>
+            <ShoppingCart size={24} /><p className="text-menu-sh">Carrito</p>
             </Link>
           </li>
         </ul>
