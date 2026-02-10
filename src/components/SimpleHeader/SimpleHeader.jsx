@@ -39,18 +39,8 @@ function SimpleHeader() {
         <ul className={`nav-links-right-sh ${isMenuOpen ? 'active' : ''}`}>
           <UsuarioDropdown />
           <li>
-            <Link
-              to="/login"
-              className={location.pathname === '/login' ? 'active' : ''}
-              onClick={toggleMenu}
-            >
-              <User size={24} />
-              <span className="text-menu-sh">Login</span>
-            </Link>
-          </li>
-          <li>
             <Link to="/wishlist" className={location.pathname === '/wishlist' ? 'active' : ''} onClick={toggleMenu}>
-            <Heart size={24} /><p className="text-menu-sh">Wishlist</p></Link>
+            <Heart size={24} /><p className="text-menu-sh">Wishlist</p>
               <Heart size={24} />
               <span className="text-menu-sh">Wishlist</span>
             </Link>

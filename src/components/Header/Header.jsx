@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Gamepad2, Tv, Gift, Percent, Heart, ShoppingCart, Menu, X, Search as SearchIcon } from 'lucide-react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import UsuarioDropdown from '../UsuarioDropdown/UsuarioDropdown';
 import './Header.css';
 import logo from "../../../public/logo.png"
