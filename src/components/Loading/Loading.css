@@ -5,7 +5,6 @@
   align-items: center;
   min-height: calc(100vh - 100px);
   gap: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .loading-pantalla p {
@@ -18,8 +17,8 @@
 .loading-animacion {
   width: 60px;
   height: 60px;
-  border: 6px solid rgba(255, 255, 255, 0.3);
-  border-top-color: black;
+  border: 6px solid rgba(127, 48, 188, 0.2);
+  border-top-color: #7F30BC;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }

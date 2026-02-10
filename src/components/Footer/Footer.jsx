@@ -1,35 +1,33 @@
 import { FaDiscord, FaReddit, FaTwitch, FaXTwitter, FaInstagram, FaYoutube } from 'react-icons/fa6';
 import './Footer.css';
 
+const redes = [
+  { href: 'https://discord.com/',      icon: FaDiscord,   label: 'Discord'   },
+  { href: 'https://www.reddit.com/',   icon: FaReddit,    label: 'Reddit'    },
+  { href: 'https://www.twitch.tv/',    icon: FaTwitch,    label: 'Twitch'    },
+  { href: 'https://x.com/',            icon: FaXTwitter,  label: 'Twitter'   },
+  { href: 'https://www.instagram.com/', icon: FaInstagram, label: 'Instagram' },
+  { href: 'https://www.youtube.com/',  icon: FaYoutube,   label: 'Youtube'   },
+];
+
 function Footer() {
   return (
     <footer className="footer">
-      <p>&copy; 2026 NebriGame. Todos los derechos reservados</p>
+      <p>&copy; {new Date().getFullYear()} NebriGame. Todos los derechos reservados</p>
 
       <div className="social">
-        <a href="https://discord.com/" target="_blank">
-          <FaDiscord size={20} /> <p>Discord</p>
-        </a>
-
-        <a href="https://www.reddit.com/" target="_blank">
-          <FaReddit size={20} /> <p>Reddit</p>
-        </a>
-
-        <a href="https://www.twitch.tv/" target="_blank">
-          <FaTwitch size={20} /> <p>Twitch</p>
-        </a>
-
-        <a href="https://x.com/" target="_blank">
-          <FaXTwitter size={20} /> <p>Twitter</p>
-        </a>
-
-        <a href="https://www.instagram.com/" target="_blank">
-          <FaInstagram size={20} /> <p>Instagram</p>
-        </a>
-
-        <a href="https://www.youtube.com/" target="_blank">
-          <FaYoutube size={20} /> <p>Youtube</p>
-        </a>
+        {redes.map(({ href, icon: Icon, label }) => (
+          <a
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Visitar ${label}`}
+          >
+            <Icon size={20} />
+            <span>{label}</span>
+          </a>
+        ))}
       </div>
     </footer>
   );

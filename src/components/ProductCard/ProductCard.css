@@ -4,8 +4,9 @@
   overflow: hidden;
   transition: transform 0.2s;
   background: #8153b3;
-  cursor: pointer;
   box-shadow: 2px 2px 4px rgb(171, 249, 244), 6px 6px 8px rgb(125, 189, 235), 10px 10px 8px rgb(178, 133, 230);
+  text-decoration: none;
+  display: block;
 }
 
 .product-card:hover {

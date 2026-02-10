@@ -1,10 +1,8 @@
 .header {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #4C71FF;
   top: 0;
   z-index: 100;
   border-radius: 20px;
-  width: 100% auto;
 }
 
 .logo {
@@ -21,17 +19,10 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: 2rem; 
+  gap: 2rem;
   padding: 0.8rem 1.5rem;
-  max-width: auto;
   margin: 0 auto;
   position: relative;
-}
-
-.logo h2 {
-  color: #ecf0f1;
-  margin: 0;
-  font-size: 1.5rem;
 }
 
 .nav-links {
@@ -48,14 +39,16 @@
   gap: 0.8rem;
   margin: 0;
   margin-left: auto;
+  padding: 0;
 }
 
-.nav-links a {
+.nav-links a,
+.nav-links-right a {
   color: #ecf0f1;
   text-decoration: none;
   font-weight: 500;
   transition: all 0.3s ease;
-  padding: 0.6rem 1.2rem; 
+  padding: 0.6rem 1.2rem;
   border-radius: 25px;
   background-color: transparent;
   display: flex;
@@ -64,40 +57,15 @@
   font-size: 0.95rem;
 }
 
-.nav-links-right a {
-  color: #ecf0f1;
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  padding: 0.6rem 1.2rem; 
-  border-radius: 25px;
-  background-color: transparent;
-  display: flex;
-  align-items: center;
-  font-size: 0.95rem;
-}
-
-.nav-links a:hover {
-  background-color: #7F30BC;
-  color: #ffffff;
-}
-
-.nav-links-right a:hover {
-  background-color: #7F30BC;
-  color: #ffffff;
-}
-
-.nav-links a.active {
-  background-color: #7F30BC;
-  color: #ffffff;
-}
-
+.nav-links a:hover,
+.nav-links-right a:hover,
+.nav-links a.active,
 .nav-links-right a.active {
   background-color: #7F30BC;
   color: #ffffff;
 }
 
-/* ========== BUSCADOR EXPANDIBLE ========== */
+/* BUSCADOR EXPANDIBLE */
 .header-search {
   display: flex;
   align-items: center;
@@ -160,7 +128,7 @@
   opacity: 1;
 }
 
-/* Botón hamburguesa (oculto por defecto) */
+/* BOTÓN HAMBURGUESA */
 .menu-toggle {
   display: none;
   background: none;
@@ -171,8 +139,7 @@
   margin-left: auto;
 }
 
-/* ========== USUARIO ========== */
-
+/* USUARIO */
 .usuario-container {
   position: relative;
 }
@@ -187,6 +154,8 @@
   gap: 0.4rem;
   border-radius: 25px;
   transition: all 0.3s ease;
+  background: none;
+  border: none;
 }
 
 .hola-usuario:hover {
@@ -230,23 +199,19 @@
   background-color: #7F30BC;
 }
 
-/* RESPONSIVE - Tablets y móviles */
+/* RESPONSIVE: tablets */
 @media (max-width: 1024px) {
-
   .navbar {
     gap: 1rem;
   }
-  
-  .nav-links, .nav-links-right {
+
+  .nav-links,
+  .nav-links-right {
     gap: 0.3rem;
   }
-  
-  .nav-links a {
-    padding: 0.2rem 0.8rem;
-    font-size: 0.85rem;
-  }
 
-   .nav-links-right a {
+  .nav-links a,
+  .nav-links-right a {
     padding: 0.2rem 0.8rem;
     font-size: 0.85rem;
   }
@@ -256,17 +221,16 @@
   }
 }
 
-/* RESPONSIVE - Móviles */
+/* RESPONSIVE: móviles */
 @media (max-width: 930px) {
-
   .menu-toggle {
     display: block;
   }
-  
+
   .navbar {
     flex-wrap: wrap;
   }
-  
+
   .nav-links {
     display: none;
     flex-direction: column;
@@ -275,8 +239,10 @@
 
   .nav-links-right {
     display: none;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     width: 100%;
+    padding-bottom: 10px;
   }
 
   .header-search {
@@ -291,7 +257,6 @@
     opacity: 1 !important;
   }
 
-  /* La lupa se mantiene redonda en móvil también */
   .header-search-btn {
     border-radius: 50%;
   }
@@ -302,38 +267,33 @@
 
   .nav-links-right.active {
     display: flex;
-    justify-content: flex-start;
-    flex-direction: row;
-    padding-bottom: 10px;
-    margin-left: -38px;
   }
-    
+
   .nav-links a {
     width: auto;
     justify-content: flex-start;
     padding: 0.8rem 1rem;
   }
-  
+
   .nav-links-right a {
     width: auto;
   }
-  
+
   .logo img {
     width: 50px;
   }
 }
 
-/* RESPONSIVE - Móviles pequeños */
+/* RESPONSIVE: móviles pequeños */
 @media (max-width: 480px) {
-  
   .navbar {
     padding: 0.6rem 1rem;
   }
-  
+
   .logo img {
     width: 40px;
   }
-  
+
   .nav-links a {
     font-size: 0.9rem;
   }

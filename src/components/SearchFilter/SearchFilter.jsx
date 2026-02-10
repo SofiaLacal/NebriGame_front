@@ -1,24 +1,20 @@
-import BackButton from '../BackButton/BackButton';
 import './SearchFilter.css';
 
-function SearchFilter({ 
-  resultadosCount, 
-  ordenar, 
-  setOrdenar
-}) {
+function SearchFilter({ resultadosCount, ordenar, setOrdenar, onLimpiar }) {
   return (
     <div className="search-filter-wrapper">
-      <div className="search-info">
-        <p className="resultados-texto">
-          {resultadosCount} resultado{resultadosCount !== 1 ? 's' : ''}
-        </p>
-      </div>
-      
+      <p className="resultados-texto">
+        {resultadosCount} resultado{resultadosCount !== 1 ? 's' : ''}
+      </p>
+
       <div className="filtros-container">
-        <BackButton texto="Limpiar búsqueda" className="limpiar-btn" />
-        <select 
+        <button type="button" className="limpiar-btn" onClick={onLimpiar}>
+          Limpiar búsqueda
+        </button>
+        <select
           id="ordenar"
-          value={ordenar} 
+          aria-label="Ordenar resultados"
+          value={ordenar}
           onChange={(e) => setOrdenar(e.target.value)}
           className="filtro-select"
         >

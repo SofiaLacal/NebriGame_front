@@ -1,9 +1,8 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Gamepad2, Tv, Gift, Percent, User, Heart, ShoppingCart, Menu, X, Search as SearchIcon } from 'lucide-react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './Header.css';
-import logo from "../../../public/logo.png"
-import useUserStore from '../../stores/userStore'; 
+import useUserStore from '../../stores/userStore';
 
 function Header() {
   const location = useLocation();
@@ -11,11 +10,11 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef(null);
 
   const nombre = useUserStore((state) => state.nombre);
   const logout = useUserStore((state) => state.logout);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -42,47 +41,96 @@ function Header() {
     }
   };
 
+  const handleLogout = () => {
+    logout();
+    setIsDropdownOpen(false);
+    navigate('/');
+  };
+
+  // Cierra el dropdown al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest('.usuario-container')) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Cierra el menú móvil al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest('.navbar')) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
     <header className="header">
       <nav className="navbar">
         <Link to="/" className="logo">
-          <img src={logo} alt="Logo NebriGame" />
+          <img src="/logo.png" alt="Logo NebriGame" />
         </Link>
 
-        <button className="menu-toggle" onClick={toggleMenu}>
+        <button type="button" className="menu-toggle" onClick={toggleMenu}>
           {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
 
         <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
           <li>
-            <Link to="/" className={location.pathname === '/' ? 'active' : ''} onClick={toggleMenu}> 
-            Principal </Link>
-          </li>
-          <li> 
-            <Link to="/productos/videojuegos" className={location.pathname.startsWith('/productos/videojuegos') ? 'active' : ''} onClick={toggleMenu}> 
-              <Gamepad2 size={18} /> Juegos 
+            <Link
+              to="/"
+              className={location.pathname === '/' ? 'active' : ''}
+              onClick={toggleMenu}
+            >
+              Principal
             </Link>
           </li>
           <li>
-            <Link to="/productos/consolas" className={location.pathname.startsWith('/productos/consolas') ? 'active' : ''} onClick={toggleMenu}>
-              <Tv size={18} /> Consolas 
+            <Link
+              to="/productos/videojuegos"
+              className={location.pathname.startsWith('/productos/videojuegos') ? 'active' : ''}
+              onClick={toggleMenu}
+            >
+              <Gamepad2 size={18} /> Juegos
             </Link>
           </li>
           <li>
-            <Link to="/productos/merchandising" className={location.pathname.startsWith('/productos/merchandising') ? 'active' : ''} onClick={toggleMenu}>
-              <Gift size={18} /> Merchandising 
+            <Link
+              to="/productos/consolas"
+              className={location.pathname.startsWith('/productos/consolas') ? 'active' : ''}
+              onClick={toggleMenu}
+            >
+              <Tv size={18} /> Consolas
             </Link>
           </li>
           <li>
-            <Link to="/ofertas" className={location.pathname === '/ofertas' ? 'active' : ''} onClick={toggleMenu}> 
-              <Percent size={18} /> Ofertas 
+            <Link
+              to="/productos/merchandising"
+              className={location.pathname.startsWith('/productos/merchandising') ? 'active' : ''}
+              onClick={toggleMenu}
+            >
+              <Gift size={18} /> Merchandising
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/ofertas"
+              className={location.pathname === '/ofertas' ? 'active' : ''}
+              onClick={toggleMenu}
+            >
+              <Percent size={18} /> Ofertas
             </Link>
           </li>
 
-          {/* BUSCADOR */}
+          {/* Buscador */}
           <li className="search-item">
             <form onSubmit={handleSearch} className={`header-search ${isSearchExpanded ? 'expanded' : ''}`}>
-              <button 
+              <button
                 type={isSearchExpanded && searchTerm ? "submit" : "button"}
                 onClick={isSearchExpanded && searchTerm ? undefined : toggleSearch}
                 className="header-search-btn"
@@ -105,33 +153,51 @@ function Header() {
           <li className="usuario-container">
             {nombre ? (
               <>
-                <span className="hola-usuario" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                <button
+                  type="button"
+                  className="hola-usuario"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                >
                   <User size={24} /> ¡Hola, {nombre}!
-                </span>
+                </button>
                 {isDropdownOpen && (
                   <div className="usuario-dropdown">
                     <Link to="/perfil" onClick={() => setIsDropdownOpen(false)}>
                       Mi cuenta
                     </Link>
-                    <button onClick={() => { logout(); setIsDropdownOpen(false); window.location.reload() }}>
+                    <button type="button" onClick={handleLogout}>
                       Cerrar sesión
                     </button>
                   </div>
                 )}
               </>
             ) : (
-              <Link to="/login" className={location.pathname === '/login' ? 'active' : ''} onClick={toggleMenu}> 
+              <Link
+                to="/login"
+                className={location.pathname === '/login' ? 'active' : ''}
+                onClick={toggleMenu}
+              >
                 <User size={24} />
               </Link>
             )}
           </li>
           <li>
-            <Link to="/wishlist" className={location.pathname === '/wishlist' ? 'active' : ''} onClick={toggleMenu}>
-            <Heart size={24} /></Link>
+            <Link
+              to="/wishlist"
+              className={location.pathname === '/wishlist' ? 'active' : ''}
+              onClick={toggleMenu}
+            >
+              <Heart size={24} />
+            </Link>
           </li>
           <li>
-            <Link to="/carrito" className={location.pathname === '/carrito' ? 'active' : ''} onClick={toggleMenu}>
-            <ShoppingCart size={24} /></Link>
+            <Link
+              to="/carrito"
+              className={location.pathname === '/carrito' ? 'active' : ''}
+              onClick={toggleMenu}
+            >
+              <ShoppingCart size={24} />
+            </Link>
           </li>
         </ul>
       </nav>

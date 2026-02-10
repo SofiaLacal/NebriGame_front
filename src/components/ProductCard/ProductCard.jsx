@@ -1,21 +1,22 @@
-import { useNavigate } from "react-router-dom"
-import "./ProductCard.css"
+import { Link } from "react-router-dom";
+import "./ProductCard.css";
 
 function ProductCard({ id, imagen, nombre, precio, tipo }) {
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate(`/producto/${tipo}/${id}`);
-  };
-
   return (
-    <div className={`product-card product-card--${tipo}`} onClick={handleClick}>
-      <img src={imagen} alt={nombre} className="product-img" />
+    <Link to={`/producto/${tipo}/${id}`} className={`product-card product-card--${tipo}`}>
+      <img
+        src={imagen || "/placeholder.png"}
+        alt={nombre}
+        className="product-img"
+        onError={(e) => { e.target.src = "/placeholder.png"; }}
+      />
       <div className="product-info">
         <h3 className="product-name">{nombre}</h3>
-        <p className="product-price">{precio} €</p>
+        <p className="product-price">
+          {Number(precio).toLocaleString('es-ES', { minimumFractionDigits: 2 })} €
+        </p>
       </div>
-    </div>
+    </Link>
   );
 }
 
