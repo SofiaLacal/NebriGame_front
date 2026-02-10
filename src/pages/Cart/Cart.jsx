@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { AiOutlinePlus, AiOutlineMinus, AiOutlineDelete, AiOutlineShoppingCart } from 'react-icons/ai';
 import { useCart, useDeleteCart, useChangeQuantity } from '../../api/useCart';
 import Footer from '../../components/Footer/Footer';
-import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
 import './Cart.css';
 import useUserStore from '../../stores/userStore';
 import getImageUrl from '../../utils/getImage';
+import CartHeader from '../../components/CartHeader/CartHeader';
 
 function Cart() {
   const navigate = useNavigate();
@@ -57,7 +57,6 @@ function Cart() {
     }
   };
 
-  // Persist quantity change to API and local state
   const setCantidad = async (productoId, newCantidad) => {
     if (!userId || newCantidad < 1) return;
     try {
@@ -89,7 +88,6 @@ function Cart() {
     await setCantidad(producto.producto_id, newCantidad);
   };
 
-  // Commit manual input (blur or Enter)
   const commitQuantityInput = (producto) => {
     const raw = editingQuantity[producto.producto_id];
     if (raw === undefined || raw === '') {
@@ -116,27 +114,9 @@ function Cart() {
   return (
     <>
       <div className='cart-page'>
-        <SimpleHeader />
+        <CartHeader />
 
         <div className='cart-container'>
-          <div className="cart-header">
-            <div className="checkout-steps-cart">
-              <div className="step-cart active">
-                <div className="step-number-cart">1</div>
-                <span>Carro</span>
-              </div>
-              <div className="step-line-cart"></div>
-              <div className="step-cart">
-                <div className="step-number-cart">2</div>
-                <span>Pago</span>
-              </div>
-              <div className="step-line-cart"></div>
-              <div className="step-cart">
-                <div className="step-number-cart">3</div>
-                <span>Envío</span>
-              </div>
-            </div>
-          </div>
 
           {cartLoading ? (
             <div className="my-cart">

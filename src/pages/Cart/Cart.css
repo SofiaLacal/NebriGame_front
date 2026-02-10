@@ -48,45 +48,6 @@
   padding: 8px;
 }
 
-.checkout-steps-cart {
-  display: flex;
-  align-items: center;
-  color: white;
-  gap: 40px;
-}
-
-.step-cart {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-}
-
-.step-number-cart {
-  background: white;
-  color: #5b6ef5;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.step-cart.active .step-number-cart {
-  background: #44b385;
-  color: white;
-}
-
-.step-line-cart {
-  width: 80px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.4);
-}
-
 .cart-icon {
   background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
   width: 60px;
@@ -405,14 +366,6 @@
   .cart-summary {
     position: static;
   }
-
-  .checkout-steps-cart {
-    gap: 1rem;
-  }
-
-  .step-line-cart {
-    width: 40px;
-  }
 }
 
 @media (max-width: 768px) {
@@ -421,14 +374,6 @@
     flex-direction: column;
     gap: 1.5rem;
     padding: 1.5rem;
-  }
-
-  .checkout-steps-cart {
-    gap: 1rem;
-  }
-
-  .step-line-cart {
-    display: none;
   }
 
   .my-cart,
