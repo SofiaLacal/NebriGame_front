@@ -1,0 +1,29 @@
+.boton-volver {
+  background: #7439b3;
+  border: none;
+  color: white;
+  padding: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  z-index: 10;
+}
+
+.boton-volver:hover {
+  background: #65319c;
+}
+
+@media (max-width: 768px) {
+  .boton-volver {
+    left: 16px;
+    top: 16px;
+  }
+}

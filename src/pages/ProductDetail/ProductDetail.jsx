@@ -10,6 +10,7 @@ import getImageUrl from "../../utils/getImage";
 import useUserStore from "../../stores/userStore";
 import { useIsInWishlist, useAddWishlist, useDeleteWishlist } from "../../api/useWishlist";
 import { useAddCart } from "../../api/useCart";
+import BackButton from "../../components/BackButton/BackButton";
 
 function ProductDetail() {
   const { id, tipo } = useParams();
@@ -96,9 +97,9 @@ function ProductDetail() {
     <div>
       <Header />
       <div className="contenedor-detalle">
-        <button className="boton-volver" onClick={() => navigate(-1)}>
+        <BackButton>
           <ArrowLeft size={24} />
-        </button>
+        </BackButton>
         <div className="contenedor-principal">
           <div className="detalle">
             <div className={`imagen-container imagen-container--${tipo}`}>
