@@ -14,7 +14,7 @@ body {
 
 .perfil-container {
   max-width: 1000px;
-  margin: 40px auto;
+  margin-top: 40px;
   padding: 0 20px;
   display: flex;
   gap: 30px;
