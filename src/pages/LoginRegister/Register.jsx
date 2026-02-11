@@ -141,7 +141,7 @@ function Register() {
                   />
                 </div>
                   <div className="form-group-reg">
-                    <label htmlFor="apellidos">Apellido<span className="must-do"> *</span></label>
+                    <label htmlFor="apellidos">Apellido</label>
                     <input
                       type="text"
                       id="apellido2"
