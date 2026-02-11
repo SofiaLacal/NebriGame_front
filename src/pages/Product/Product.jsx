@@ -13,11 +13,12 @@ import "./Product.css";
 function Product() {
   const { tipo } = useParams();
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   
   const [buscando, setBuscando] = useState(false);
   const [resultados, setResultados] = useState([]);
   const [ordenar, setOrdenar] = useState("defecto");
+  const [busqueda, setBusqueda] = useState("");
 
   const { videojuegos, loading: loadingVideojuegos } = useVideojuegos();
   const { consolas, loading: loadingConsolas } = useConsolas();
@@ -26,10 +27,12 @@ function Product() {
   useEffect(() => {
     const query = searchParams.get('query');
     if (query) {
+      setBusqueda(query);
       realizarBusqueda(query);
     } else {
       setBuscando(false);
       setResultados([]);
+      setBusqueda("");
     }
   }, [searchParams]);
 
@@ -114,14 +117,16 @@ function Product() {
 
   return (
     <div>
-      <Header />
+      <Header busqueda={busqueda} setBusqueda={setBusqueda} />
       
       {/* SearchFilter solo aparece cuando hay búsqueda activa */}
       {buscando && (
         <SearchFilter
           resultadosCount={productos.length}
+          busqueda={busqueda}
           ordenar={ordenar}
           setOrdenar={setOrdenar}
+          onLimpiar={limpiarBusqueda}
         />
       )}
 
