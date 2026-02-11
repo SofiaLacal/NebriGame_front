@@ -15,7 +15,7 @@ const Wishlist = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (!userId) {
-      navigate('/login');
+      navigate('/login', { state: { from: '/wishlist' } });
     }
   }, [userId, navigate]);
 

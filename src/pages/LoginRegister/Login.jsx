@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import "./Login.css"
 import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
 import useUserStore from '../../stores/userStore';
@@ -7,14 +7,17 @@ import Footer from '../../components/Footer/Footer';
 
 
 function Login() {
-
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from;
+  const validFrom = ['/carrito', '/wishlist'].includes(from) ? from : null;
+
   useEffect(() => {
     const user = useUserStore.getState();
     if (user.id) {
-      navigate('/');
+      navigate(validFrom || '/', { replace: true });
     }
-  }, []);
+  }, [navigate, validFrom]);
   const [formData, setFormData] = useState({
     email: '',
     contrasenna: ''
@@ -64,7 +67,7 @@ function Login() {
         fecha_registro: data.usuarioData.fecha_registro
       });
       console.log(useUserStore.getState());
-      navigate('/');
+      navigate(validFrom || '/', { replace: true });
     } 
   };
 

@@ -16,6 +16,10 @@ function Cart() {
   const [editingQuantity, setEditingQuantity] = useState({});
 
   useEffect(() => {
+      if (!userId) {
+        navigate('/login', { state: { from: '/carrito' } });
+      }
+
     if (cart && cart.length > 0) {
       const productos = cart.map((item) => {
         const producto = item.producto || {};
@@ -32,7 +36,7 @@ function Cart() {
     } else {
       setProductosCarrito([]);
     }
-  }, [cart]);
+  }, [cart, userId, navigate]);
 
   const calcularTotal = () => {
     if (productosCarrito.length === 0) return '0.00';
