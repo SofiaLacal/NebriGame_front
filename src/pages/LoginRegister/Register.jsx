@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../../stores/userStore';
+import { toast } from '../../stores/toastStore';
 import SimpleHeader from "../../components/SimpleHeader/SimpleHeader";
 import Footer from '../../components/Footer/Footer';
 import "./Register.css"
@@ -85,10 +86,11 @@ function Register() {
       console.log('Respuesta del servidor:', data);
       
       if (data.success) {
-        console.log(useUserStore.getState());
+        toast.success("Cuenta creada correctamente, bienvenido " + data.usuario.nombre);
         navigate('/');
       } else {
         setError(data.message || 'Error al registrarse');
+        toast.error("Error al registrarse");
       }
     } catch (error) {
       console.error('Error en el registro:', error);
@@ -141,7 +143,7 @@ function Register() {
                   />
                 </div>
                   <div className="form-group-reg">
-                    <label htmlFor="apellidos">Apellido<span className="must-do"> *</span></label>
+                    <label htmlFor="apellidos">Apellido</label>
                     <input
                       type="text"
                       id="apellido2"

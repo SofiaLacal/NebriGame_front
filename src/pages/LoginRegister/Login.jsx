@@ -1,20 +1,24 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import "./Login.css"
 import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
 import useUserStore from '../../stores/userStore';
+import { toast } from '../../stores/toastStore';
 import Footer from '../../components/Footer/Footer';
 
 
 function Login() {
-
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from;
+  const validFrom = ['/carrito', '/wishlist'].includes(from) ? from : null;
+
   useEffect(() => {
     const user = useUserStore.getState();
     if (user.id) {
-      navigate('/');
+      navigate(validFrom || '/', { replace: true });
     }
-  }, []);
+  }, [navigate, validFrom]);
   const [formData, setFormData] = useState({
     email: '',
     contrasenna: ''
@@ -63,9 +67,11 @@ function Login() {
         email: data.usuarioData.email,
         fecha_registro: data.usuarioData.fecha_registro
       });
-      console.log(useUserStore.getState());
-      navigate('/');
-    } 
+      toast.success("Sesión iniciada, bienvenido de nuevo " + data.usuarioData.nombre);
+      navigate(validFrom || '/', { replace: true });
+    } else {
+      toast.error("Error al iniciar sesión");
+    }
   };
 
   return (

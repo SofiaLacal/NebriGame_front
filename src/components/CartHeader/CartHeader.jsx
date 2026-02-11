@@ -3,6 +3,7 @@ import { Heart, ShoppingCart, Menu, X } from 'lucide-react';
 import UsuarioDropdown from '../UsuarioDropdown/UsuarioDropdown';
 import { useState, useEffect } from 'react';
 import './CartHeader.css';
+import { toast } from '../../stores/toastStore';
 
 function CartHeader({ pasoActual = 1 }) {
   const location = useLocation();
@@ -37,6 +38,7 @@ function CartHeader({ pasoActual = 1 }) {
 
   const handleLogout = () => {
     logout();
+    toast.success("Sesión cerrada, hasta luego " + nombre);
     setIsDropdownOpen(false);
     navigate('/');
   };
@@ -60,7 +62,7 @@ function CartHeader({ pasoActual = 1 }) {
             {pasos.map((paso, index) => (
               <li
                 key={paso.numero}
-                className={`step-cart ${pasoActual === paso.numero ? 'active' : ''}`}
+                className={`step-cart ${pasoActual === paso.numero ? 'active' : ''} ${pasoActual > paso.numero ? 'completed' : ''}`}
               >
                 <div className="step-number-cart">{paso.numero}</div>
                 <span>{paso.label}</span>

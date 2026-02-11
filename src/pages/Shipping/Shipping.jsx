@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../api/useCart';
-import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
 import Footer from '../../components/Footer/Footer';
 import useUserStore from '../../stores/userStore';
 import './Shipping.css';
+import CartHeader from '../../components/CartHeader/CartHeader';
 
 function Shipping() {
   const navigate = useNavigate();
@@ -73,9 +73,9 @@ function Shipping() {
           ? ''
           : 'Solo números y letras (ej: 12, 4B)';
       case 'telefono':
-        return /^\+[0-9]{1,3}\s?[0-9]{6,12}$/.test(value)
+        return /^[0-9]{9}$/.test(value)
           ? ''
-          : 'Solo números, entre 9 y 15 dígitos';
+          : 'Debe tener exactamente 9 dígitos';
       default:
         return '';
     }
@@ -109,7 +109,7 @@ function Shipping() {
   return (
     <>
       <div className="shipping-page">
-        <SimpleHeader />
+        <CartHeader pasoActual={2} />
 
         <div className="shipping-container">
           <div className="shipping-content">
@@ -168,18 +168,23 @@ function Shipping() {
                     />
                     {errors.codigoPostal && <span className="field-error">{errors.codigoPostal}</span>}
                   </div>
+
                   <div className="form-group-shipping">
                     <label htmlFor="telefono">Nº de contacto</label>
-                    <input
-                      type="tel"
-                      id="telefono"
-                      name="telefono"
-                      value={formData.telefono}
-                      onChange={handleChange}
-                      placeholder="+34 600 123 456"
-                      className={errors.telefono ? 'input-error' : ''}
-                      required
-                    />
+                    <div className="input-prefix-wrapper">
+                      <span className="input-prefix">+34</span>
+                      <input
+                        type="tel"
+                        id="telefono"
+                        name="telefono"
+                        value={formData.telefono}
+                        onChange={handleChange}
+                        placeholder="600123456"
+                        maxLength={9}
+                        className={errors.telefono ? 'input-error' : ''}
+                        required
+                      />
+                    </div>
                     {errors.telefono && <span className="field-error">{errors.telefono}</span>}
                   </div>
                 </div>

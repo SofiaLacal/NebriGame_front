@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../../api/useCart';
 import { usePayment, useAddPaymentMethod, useDeletePaymentMethod } from '../../api/usePayment';
-import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
 import Footer from '../../components/Footer/Footer';
 import useUserStore from '../../stores/userStore';
 import './Payment.css';
+import CartHeader from '../../components/CartHeader/CartHeader';
 
 function Payment() {
   const navigate = useNavigate();
@@ -80,7 +80,7 @@ function Payment() {
   return (
     <>
       <div className="payment-page">
-        <SimpleHeader />
+        <CartHeader pasoActual={3} />
 
         <div className="payment-container">
           <div className="payment-content">
