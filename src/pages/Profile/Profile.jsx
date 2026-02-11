@@ -1,0 +1,265 @@
+import { useState } from 'react';
+import { X } from 'lucide-react';
+import useUserStore from '../../stores/userStore';
+import { updateProfile } from '../../api/useAuth';
+import { useOrders } from '../../api/useOrders';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import Loading from '../../components/Loading/Loading';
+import './Profile.css';
+
+function Profile() {
+  const { id, nombre, apellido1, apellido2, email, setUsuario } = useUserStore();
+  const { orders, loading: loadingOrders } = useOrders(id);
+
+  const [tabActiva, setTabActiva] = useState('info');
+  const [modalAbierto, setModalAbierto] = useState(false);
+  const [tipoModal, setTipoModal] = useState(''); // 'info' o 'password'
+
+  const [formInfo, setFormInfo] = useState({ nombre, apellido1, apellido2, email });
+  const [loadingInfo, setLoadingInfo] = useState(false);
+  const [mensajeInfo, setMensajeInfo] = useState(null);
+  const [errorInfo, setErrorInfo] = useState(null);
+
+  const [formPass, setFormPass] = useState({ contrasennaActual: '', contrasennaNueva: '', confirmar: '' });
+  const [loadingPass, setLoadingPass] = useState(false);
+  const [mensajePass, setMensajePass] = useState(null);
+  const [errorPass, setErrorPass] = useState(null);
+
+  const handleInfoChange = (e) => setFormInfo({ ...formInfo, [e.target.name]: e.target.value });
+  const handlePassChange = (e) => setFormPass({ ...formPass, [e.target.name]: e.target.value });
+
+  const abrirModal = (tipo) => {
+    setTipoModal(tipo);
+    setModalAbierto(true);
+    setMensajeInfo(null);
+    setErrorInfo(null);
+    setMensajePass(null);
+    setErrorPass(null);
+  };
+
+  const cerrarModal = () => {
+    setModalAbierto(false);
+    setTipoModal('');
+  };
+
+  const handleGuardarInfo = async (e) => {
+    e.preventDefault();
+    setLoadingInfo(true);
+    setMensajeInfo(null);
+    setErrorInfo(null);
+    try {
+      await updateProfile(id, {
+        nombre: formInfo.nombre,
+        apellido1: formInfo.apellido1,
+        apellido2: formInfo.apellido2,
+        email: formInfo.email,
+      });
+      setUsuario(id, formInfo.nombre, formInfo.apellido1, formInfo.apellido2, formInfo.email);
+      setMensajeInfo('Datos actualizados correctamente');
+      setTimeout(() => {
+        cerrarModal();
+      }, 1500);
+    } catch (err) {
+      setErrorInfo(err.message || 'Error al actualizar los datos');
+    } finally {
+      setLoadingInfo(false);
+    }
+  };
+
+  const handleGuardarPass = async (e) => {
+    e.preventDefault();
+    setMensajePass(null);
+    setErrorPass(null);
+    if (formPass.contrasennaNueva !== formPass.confirmar) {
+      setErrorPass('Las contraseñas nuevas no coinciden');
+      return;
+    }
+    setLoadingPass(true);
+    try {
+      await updateProfile(id, {
+        contrasenna: formPass.contrasennaNueva,
+        contrasennaActual: formPass.contrasennaActual,
+      });
+      setMensajePass('Contraseña actualizada correctamente');
+      setFormPass({ contrasennaActual: '', contrasennaNueva: '', confirmar: '' });
+      setTimeout(() => {
+        cerrarModal();
+      }, 1500);
+    } catch (err) {
+      setErrorPass(err.message || 'Error al actualizar la contraseña');
+    } finally {
+      setLoadingPass(false);
+    }
+  };
+
+  return (
+    <div>
+      <Header />
+      <div className="perfil-container">
+
+        <div className="perfil-tabs">
+          <button className={`perfil-tab ${tabActiva === 'info' ? 'activa' : ''}`} onClick={() => setTabActiva('info')}>
+            Mi cuenta
+          </button>
+          <button className={`perfil-tab ${tabActiva === 'pedidos' ? 'activa' : ''}`} onClick={() => setTabActiva('pedidos')}>
+            Mis pedidos
+          </button>
+        </div>
+
+        {tabActiva === 'info' && (
+          <div className="perfil-contenido">
+
+            {/* Vista de lectura - Datos personales */}
+            <div className="perfil-seccion">
+              <div className="perfil-seccion-header">
+                <h2>Datos personales</h2>
+                <button className="perfil-btn-editar" onClick={() => abrirModal('info')}>
+                  Editar
+                </button>
+              </div>
+              <div className="perfil-detalles">
+                <div className="perfil-detalle">
+                  <span className="perfil-label">Nombre</span>
+                  <span className="perfil-valor">{nombre || '-'}</span>
+                </div>
+                <div className="perfil-detalle">
+                  <span className="perfil-label">Primer apellido</span>
+                  <span className="perfil-valor">{apellido1 || '-'}</span>
+                </div>
+                <div className="perfil-detalle">
+                  <span className="perfil-label">Segundo apellido</span>
+                  <span className="perfil-valor">{apellido2 || '-'}</span>
+                </div>
+                <div className="perfil-detalle">
+                  <span className="perfil-label">Email</span>
+                  <span className="perfil-valor">{email || '-'}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Vista de lectura - Contraseña */}
+            <div className="perfil-seccion">
+              <div className="perfil-seccion-header">
+                <h2>Contraseña</h2>
+                <button className="perfil-btn-editar" onClick={() => abrirModal('password')}>
+                  Cambiar
+                </button>
+              </div>
+              <div className="perfil-detalles">
+                <div className="perfil-detalle">
+                  <span className="perfil-label">Contraseña</span>
+                  <span className="perfil-valor">••••••••</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        )}
+
+        {tabActiva === 'pedidos' && (
+          <div className="perfil-contenido">
+            <div className="perfil-seccion">
+              <h2>Mis pedidos</h2>
+              {loadingOrders ? (
+                <Loading />
+              ) : orders.length === 0 ? (
+                <p className="perfil-sin-pedidos">No tienes pedidos todavía</p>
+              ) : (
+                <div className="pedidos-lista">
+                  {orders.map((pedido) => (
+                    <div key={pedido.id} className="pedido-card">
+                      <div className="pedido-header">
+                        <span className="pedido-id">Pedido #{pedido.id}</span>
+                        <span className="pedido-fecha">{new Date(pedido.fecha).toLocaleDateString('es-ES')}</span>
+                        <span className={`pedido-estado pedido-estado--${pedido.estado}`}>{pedido.estado}</span>
+                      </div>
+                      <div className="pedido-productos">
+                        {pedido.productos?.map((producto, i) => (
+                          <div key={i} className="pedido-producto">
+                            <span>{producto.nombre}</span>
+                            <span>x{producto.cantidad}</span>
+                            <span>{producto.precio} €</span>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="pedido-total">Total: <strong>{pedido.total} €</strong></div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+      </div>
+
+      {/* Modal de edición */}
+      {modalAbierto && (
+        <div className="modal-overlay" onClick={cerrarModal}>
+          <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>{tipoModal === 'info' ? 'Editar datos personales' : 'Cambiar contraseña'}</h2>
+              <button className="modal-cerrar" onClick={cerrarModal}>
+                <X size={24} />
+              </button>
+            </div>
+
+            {tipoModal === 'info' && (
+              <form onSubmit={handleGuardarInfo} className="perfil-form">
+                <div className="perfil-campo">
+                  <label>Nombre</label>
+                  <input type="text" name="nombre" value={formInfo.nombre || ''} onChange={handleInfoChange} />
+                </div>
+                <div className="perfil-campo">
+                  <label>Primer apellido</label>
+                  <input type="text" name="apellido1" value={formInfo.apellido1 || ''} onChange={handleInfoChange} />
+                </div>
+                <div className="perfil-campo">
+                  <label>Segundo apellido</label>
+                  <input type="text" name="apellido2" value={formInfo.apellido2 || ''} onChange={handleInfoChange} />
+                </div>
+                <div className="perfil-campo">
+                  <label>Email</label>
+                  <input type="email" name="email" value={formInfo.email || ''} onChange={handleInfoChange} />
+                </div>
+                {mensajeInfo && <p className="perfil-exito">{mensajeInfo}</p>}
+                {errorInfo && <p className="perfil-error">{errorInfo}</p>}
+                <button type="submit" className="perfil-btn" disabled={loadingInfo}>
+                  {loadingInfo ? 'Guardando...' : 'Guardar cambios'}
+                </button>
+              </form>
+            )}
+
+            {tipoModal === 'password' && (
+              <form onSubmit={handleGuardarPass} className="perfil-form">
+                <div className="perfil-campo">
+                  <label>Contraseña actual</label>
+                  <input type="password" name="contrasennaActual" value={formPass.contrasennaActual} onChange={handlePassChange} placeholder="Escribe tu contraseña actual" />
+                </div>
+                <div className="perfil-campo">
+                  <label>Nueva contraseña</label>
+                  <input type="password" name="contrasennaNueva" value={formPass.contrasennaNueva} onChange={handlePassChange} placeholder="Escribe tu nueva contraseña" />
+                </div>
+                <div className="perfil-campo">
+                  <label>Confirmar nueva contraseña</label>
+                  <input type="password" name="confirmar" value={formPass.confirmar} onChange={handlePassChange} placeholder="Repite la nueva contraseña" />
+                </div>
+                {mensajePass && <p className="perfil-exito">{mensajePass}</p>}
+                {errorPass && <p className="perfil-error">{errorPass}</p>}
+                <button type="submit" className="perfil-btn" disabled={loadingPass}>
+                  {loadingPass ? 'Guardando...' : 'Cambiar contraseña'}
+                </button>
+              </form>
+            )}
+
+          </div>
+        </div>
+      )}
+
+      <Footer />
+    </div>
+  );
+}
+
+export default Profile;

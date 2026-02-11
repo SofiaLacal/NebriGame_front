@@ -9,6 +9,7 @@ import Wishlist from "../pages/Wishlist/Wishlist";
 import Cart from "../pages/Cart/Cart";
 import Shipping from "../pages/Shipping/Shipping";
 import Payment from "../pages/Payment/Payment";
+import Profile from "../pages/Profile/Profile";
 
 function PublicRoutes() {
   return (
@@ -20,6 +21,7 @@ function PublicRoutes() {
         <Route path="/producto/:tipo/:id" element={<ProductDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/perfil" element={<Profile />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/carrito" element={<Cart />} />
         <Route path="/envio" element={<Shipping />} />

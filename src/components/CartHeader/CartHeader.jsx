@@ -1,17 +1,14 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { User, Heart, ShoppingCart, Menu, X } from 'lucide-react';
+import { Heart, ShoppingCart, Menu, X } from 'lucide-react';
+import UsuarioDropdown from '../UsuarioDropdown/UsuarioDropdown';
 import { useState, useEffect } from 'react';
 import './CartHeader.css';
-import useUserStore from '../../stores/userStore';
+import { toast } from '../../stores/toastStore';
 
 function CartHeader({ pasoActual = 1 }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const nombre = useUserStore((state) => state.nombre);
-  const logout = useUserStore((state) => state.logout);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -41,6 +38,7 @@ function CartHeader({ pasoActual = 1 }) {
 
   const handleLogout = () => {
     logout();
+    toast.success("Sesión cerrada, hasta luego " + nombre);
     setIsDropdownOpen(false);
     navigate('/');
   };
@@ -83,37 +81,7 @@ function CartHeader({ pasoActual = 1 }) {
 
         {/* Links de usuario (derecha) */}
         <ul className={`nav-links-right-cart ${isMenuOpen ? 'active' : ''}`}>
-          <li className="usuario-container">
-            {nombre ? (
-              <>
-                <button
-                  type="button"
-                  className="hola-usuario"
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                >
-                  <User size={24} /> ¡Hola, {nombre}!
-                </button>
-                {isDropdownOpen && (
-                  <div className="usuario-dropdown">
-                    <Link to="/perfil" onClick={() => setIsDropdownOpen(false)}>
-                      Mi cuenta
-                    </Link>
-                    <button type="button" onClick={handleLogout}>
-                      Cerrar sesión
-                    </button>
-                  </div>
-                )}
-              </>
-            ) : (
-              <Link
-                to="/login"
-                className={location.pathname === '/login' ? 'active' : ''}
-                onClick={toggleMenu}
-              >
-                <User size={24} />
-              </Link>
-            )}
-          </li>
+          <UsuarioDropdown />
           <li>
             <Link
               to="/wishlist"

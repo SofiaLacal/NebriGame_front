@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import "./Login.css"
 import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
 import useUserStore from '../../stores/userStore';
+import { toast } from '../../stores/toastStore';
 import Footer from '../../components/Footer/Footer';
 
 
@@ -22,7 +23,6 @@ function Login() {
     email: '',
     contrasenna: ''
   });
-  const [error, setError] = useState(null);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -49,7 +49,7 @@ function Login() {
     console.log(data);
 
     if (data.error) {
-      setError(data.error);
+      toast.error(data.error);
       setFormData({
         email: '',
         contrasenna: ''
@@ -66,9 +66,11 @@ function Login() {
         email: data.usuarioData.email,
         fecha_registro: data.usuarioData.fecha_registro
       });
-      console.log(useUserStore.getState());
+      toast.success("Sesión iniciada, bienvenido de nuevo " + data.usuarioData.nombre);
       navigate(validFrom || '/', { replace: true });
-    } 
+    } else {
+      toast.error("Error al iniciar sesión");
+    }
   };
 
   return (
@@ -106,8 +108,6 @@ function Login() {
                 placeholder="••••••••"
               />
             </div>
-
-            {error && <div className="error-message-log">{error}</div>}
 
             <div className="form-footer-log">
               <a href="#" className="forgot-password-log">
