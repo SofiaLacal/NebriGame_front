@@ -23,7 +23,6 @@ function Login() {
     email: '',
     contrasenna: ''
   });
-  const [error, setError] = useState(null);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -50,7 +49,7 @@ function Login() {
     console.log(data);
 
     if (data.error) {
-      setError(data.error);
+      toast.error(data.error);
       setFormData({
         email: '',
         contrasenna: ''
@@ -109,8 +108,6 @@ function Login() {
                 placeholder="••••••••"
               />
             </div>
-
-            {error && <div className="error-message-log">{error}</div>}
 
             <div className="form-footer-log">
               <a href="#" className="forgot-password-log">
