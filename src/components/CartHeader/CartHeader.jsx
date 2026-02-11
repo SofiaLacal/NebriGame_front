@@ -10,6 +10,17 @@ function CartHeader({ pasoActual = 1 }) {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const handleStepClick = (numero) => {
+    if (numero === pasoActual || numero > pasoActual) {
+      return;
+    } else if (numero === 1) {
+      navigate(`/carrito`);
+    } else if (numero === 2) {
+      navigate(`/envio`);
+    } else if (numero === 3) {
+      navigate(`/pago`);
+    }
+  };
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -34,6 +45,7 @@ function CartHeader({ pasoActual = 1 }) {
               <li
                 key={paso.numero}
                 className={`step-cart ${pasoActual === paso.numero ? 'active' : ''} ${pasoActual > paso.numero ? 'completed' : ''}`}
+                onClick={() => handleStepClick(paso.numero)}
               >
                 <div className="step-number-cart">{paso.numero}</div>
                 <span>{paso.label}</span>
