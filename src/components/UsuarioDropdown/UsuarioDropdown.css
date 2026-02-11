@@ -18,6 +18,10 @@
   background-color: #7F30BC;
 }
 
+.hola-usuario.active {
+  background-color: #7F30BC;
+}
+
 .usuario-dropdown {
   position: absolute;
   top: calc(100% + 8px);

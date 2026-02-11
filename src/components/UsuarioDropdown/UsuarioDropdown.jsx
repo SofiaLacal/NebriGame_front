@@ -26,7 +26,10 @@ function UsuarioDropdown() {
     <li className="usuario-container">
       {nombre ? (
         <>
-          <span className="hola-usuario" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+          <span 
+            className={`hola-usuario ${isDropdownOpen ? 'active' : ''}`}
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          >
             <User size={24} /> ¡Hola, {nombre}!
           </span>
           {isDropdownOpen && (
