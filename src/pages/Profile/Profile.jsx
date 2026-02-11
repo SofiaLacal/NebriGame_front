@@ -55,7 +55,13 @@ function Profile() {
       if (formInfo.nombre === formInfoInitial.nombre && formInfo.apellido1 === formInfoInitial.apellido1 &&
         formInfo.apellido2 === formInfoInitial.apellido2 && formInfo.email === formInfoInitial.email) {
        setErrorInfo('No hay cambios para guardar');  
-        } else {
+        } else if (formInfo.nombre === '') {
+          setErrorInfo('El nombre no puede estar vacío');
+        } else if (formInfo.apellido1 === '') {
+          setErrorInfo('El primer apellido no puede estar vacío');
+        } else if (formInfo.email === '') {
+          setErrorInfo('El email no puede estar vacío');
+          } else {
       await updateProfile(id, {
         nombre: formInfo.nombre,
         apellido1: formInfo.apellido1,
