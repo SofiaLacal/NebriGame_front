@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { User } from 'lucide-react';
 import useUserStore from '../../stores/userStore';
@@ -11,6 +11,18 @@ function UsuarioDropdown() {
   const nombre = useUserStore((state) => state.nombre);
   const logout = useUserStore((state) => state.logout);
   const navigate = useNavigate();
+  
+  // Cierra el dropdown al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest('.usuario-container')) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   return (
     <li className="usuario-container">
       {nombre ? (
