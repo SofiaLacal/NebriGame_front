@@ -92,6 +92,9 @@ function Profile() {
     } else if (formPass.contrasennaActual === '') {
       setErrorPass('La contraseña actual no puede estar vacía');
       return;
+    } else if (formPass.contrasennaNueva === formPass.contrasennaActual) {
+      setErrorPass('La contraseña nueva no puede ser igual a la actual');
+      return;
     }
     setLoadingPass(true);
     try {
