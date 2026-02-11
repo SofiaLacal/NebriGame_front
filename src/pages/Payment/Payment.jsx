@@ -71,10 +71,8 @@ function Payment() {
     }
   };
 
-  // Confirmar pedido (aquí se implementaría la llamada a la API de pedido)
   const confirmarPedido = () => {
-    // TODO: llamar al endpoint de crear pedido
-    navigate('/confirmacion');
+    navigate('/pedidos');
   };
 
   return (

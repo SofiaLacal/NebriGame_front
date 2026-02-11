@@ -5,11 +5,12 @@ import Product from "../pages/Product/Product";
 import ProductDetail from "../pages/ProductDetail/ProductDetail";
 import Login from "../pages/LoginRegister/Login";
 import Register from "../pages/LoginRegister/Register";
+import Profile from "../pages/Profile/Profile";
+import Orders from "../pages/Orders/Orders";
 import Wishlist from "../pages/Wishlist/Wishlist";
 import Cart from "../pages/Cart/Cart";
 import Shipping from "../pages/Shipping/Shipping";
 import Payment from "../pages/Payment/Payment";
-import Profile from "../pages/Profile/Profile";
 
 function PublicRoutes() {
   return (
@@ -20,8 +21,9 @@ function PublicRoutes() {
         <Route path="/productos" element={<Product />} />
         <Route path="/producto/:tipo/:id" element={<ProductDetail />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/registro" element={<Register />} />
         <Route path="/perfil" element={<Profile />} />
+        <Route path="/pedidos" element={<Orders />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/carrito" element={<Cart />} />
         <Route path="/envio" element={<Shipping />} />
