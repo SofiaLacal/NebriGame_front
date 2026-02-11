@@ -5,12 +5,18 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import './Wishlist.css';
 
 const Wishlist = () => {
   const userId = useUserStore.getState().id;
   const { wishlist, loading, refetchWishlist } = useWishlist(userId);
   const navigate = useNavigate();
+  useEffect(() => {
+    if (!userId) {
+      navigate('/login');
+    }
+  }, [userId, navigate]);
 
   // Función para obtener el tipo correcto de producto
   const getTipoProducto = (producto) => {

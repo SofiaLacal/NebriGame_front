@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import { User } from 'lucide-react';
 import useUserStore from '../../stores/userStore';
 import './UsuarioDropdown.css';
+import { useNavigate } from 'react-router-dom';
 
 function UsuarioDropdown() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const nombre = useUserStore((state) => state.nombre);
   const logout = useUserStore((state) => state.logout);
-
+  const navigate = useNavigate();
   return (
     <li className="usuario-container">
       {nombre ? (
@@ -21,7 +22,7 @@ function UsuarioDropdown() {
               <Link to="/perfil" onClick={() => setIsDropdownOpen(false)}>
                 Mi cuenta
               </Link>
-              <button onClick={() => { logout(); setIsDropdownOpen(false); }}>
+              <button onClick={() => { logout(); setIsDropdownOpen(false); navigate('/'); }}>
                 Cerrar sesión
               </button>
             </div>
