@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { AiOutlinePlus, AiOutlineMinus, AiOutlineDelete, AiOutlineShoppingCart } from 'react-icons/ai';
 import { useCart, useDeleteCart, useChangeQuantity } from '../../api/useCart';
 import Footer from '../../components/Footer/Footer';
+import ConfirmModal from '../../components/ConfirmModal/ConfirmModal';
+import { toast } from '../../stores/toastStore';
 import './Cart.css';
 import useUserStore from '../../stores/userStore';
 import getImageUrl from '../../utils/getImage';
@@ -14,6 +16,8 @@ function Cart() {
   const { cart, loading: cartLoading } = useCart(userId);
   const [productosCarrito, setProductosCarrito] = useState([]);
   const [editingQuantity, setEditingQuantity] = useState({});
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
 
   useEffect(() => {
       if (!userId) {
@@ -45,7 +49,16 @@ function Cart() {
       .toFixed(2);
   };
 
-  // Eliminar producto
+  const openConfirmModal = (producto) => {
+    setProductToDelete({ productoId: producto.producto_id, nombre: producto.nombre });
+    setShowConfirmModal(true);
+  };
+
+  const closeConfirmModal = () => {
+    setShowConfirmModal(false);
+    setProductToDelete(null);
+  };
+
   const eliminarProducto = async (productoId) => {
     if (!userId) return;
     try {
@@ -56,9 +69,16 @@ function Cart() {
         delete next[productoId];
         return next;
       });
+      toast.success("Producto eliminado del carrito");
     } catch (error) {
       console.error('Error eliminando producto del carrito:', error);
+      toast.error("No se pudo eliminar del carrito");
     }
+  };
+
+  const handleConfirmEliminar = async () => {
+    if (!productToDelete) return;
+    await eliminarProducto(productToDelete.productoId);
   };
 
   const setCantidad = async (productoId, newCantidad) => {
@@ -82,14 +102,14 @@ function Cart() {
     await setCantidad(producto.producto_id, newCantidad);
   };
 
-  // Restar producto (si llega a 0, eliminar del carrito)
-  const restarProducto = async (producto) => {
+  // Restar producto (si llega a 0, mostrar modal de confirmación)
+  const restarProducto = (producto) => {
     const newCantidad = producto.cantidad - 1;
     if (newCantidad < 1) {
-      await eliminarProducto(producto.producto_id);
+      openConfirmModal(producto);
       return;
     }
-    await setCantidad(producto.producto_id, newCantidad);
+    setCantidad(producto.producto_id, newCantidad);
   };
 
   const commitQuantityInput = (producto) => {
@@ -105,7 +125,7 @@ function Cart() {
     const num = parseInt(raw, 10);
     const newCantidad = Number.isNaN(num) ? producto.cantidad : Math.max(1, num);
     if (newCantidad < 1) {
-      eliminarProducto(producto.producto_id);
+      openConfirmModal(producto);
     } else {
       setCantidad(producto.producto_id, newCantidad);
     }
@@ -179,7 +199,8 @@ function Cart() {
                             </button>
                             <button 
                               className="btn-icon-cart btn-delete-cart"
-                              onClick={() => eliminarProducto(producto.producto_id)}
+                              onClick={() => openConfirmModal(producto)}
+                              type="button"
                               title="Eliminar del carrito"
                             >
                               <AiOutlineDelete />
@@ -246,6 +267,14 @@ function Cart() {
       </div>
 
       <Footer />
+
+      <ConfirmModal
+        open={showConfirmModal}
+        onClose={closeConfirmModal}
+        onConfirm={handleConfirmEliminar}
+        title="Eliminar del carrito"
+        message={productToDelete ? `¿Eliminar ${productToDelete.nombre} del carrito?` : ""}
+      />
     </>
   );
 }

@@ -1,8 +1,11 @@
+import { useState } from "react";
 import { useDeleteWishlist, useWishlist } from "../../api/useWishlist";
 import useUserStore from "../../stores/userStore";
 import getImageUrl from "../../utils/getImage";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
+import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
+import { toast } from "../../stores/toastStore";
 import { Heart, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
@@ -13,6 +16,8 @@ const Wishlist = () => {
   const userId = useUserStore.getState().id;
   const { wishlist, loading, refetchWishlist } = useWishlist(userId);
   const navigate = useNavigate();
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
   useEffect(() => {
     if (!userId) {
       navigate('/login', { state: { from: '/wishlist' } });
@@ -27,14 +32,25 @@ const Wishlist = () => {
     return producto.tipo;
   };
 
-  // Función para eliminar producto de la wishlist
-  const handleRemoveFromWishlist = async (productId) => {
+  const openConfirmModal = (product) => {
+    setProductToDelete({ id: product.id, nombre: product.nombre });
+    setShowConfirmModal(true);
+  };
+
+  const closeConfirmModal = () => {
+    setShowConfirmModal(false);
+    setProductToDelete(null);
+  };
+
+  const handleConfirmRemove = async () => {
+    if (!productToDelete) return;
     try {
-      await useDeleteWishlist(userId, productId);
-      console.log("producto eliminado");
+      await useDeleteWishlist(userId, productToDelete.id);
       refetchWishlist();
+      toast.success("Producto eliminado de la wishlist");
     } catch (err) {
       console.error("No se pudo eliminar de la wishlist:", err);
+      toast.error("No se pudo eliminar de la wishlist");
     }
   };
 
@@ -93,7 +109,7 @@ const Wishlist = () => {
                         className="wishlist-heart-icon"
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleRemoveFromWishlist(product.id);
+                          openConfirmModal(product);
                         }}
                         title="Quitar de la wishlist"
                         aria-label="Quitar de la wishlist"
@@ -118,6 +134,14 @@ const Wishlist = () => {
       </div>
 
       <Footer />
+
+      <ConfirmModal
+        open={showConfirmModal}
+        onClose={closeConfirmModal}
+        onConfirm={handleConfirmRemove}
+        title="Eliminar de la wishlist"
+        message={productToDelete ? `¿Eliminar ${productToDelete.nombre} de tu lista de deseos?` : ""}
+      />
     </>
   );
 };
