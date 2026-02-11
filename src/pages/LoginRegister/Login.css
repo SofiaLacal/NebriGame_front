@@ -29,6 +29,7 @@ body {
   max-width: 450px;
   padding: 40px;
   animation: slideIn 0.4s ease-out;
+  margin: 40px 0;
 }
 
 @keyframes slideIn {
