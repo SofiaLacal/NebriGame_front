@@ -68,17 +68,6 @@ function Header({ busqueda = "", setBusqueda = null }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Cierra el menú móvil al hacer clic fuera
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (!e.target.closest('.navbar')) {
-        setIsMenuOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   // Cierra el buscador al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (e) => {

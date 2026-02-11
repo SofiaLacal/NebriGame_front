@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import useUserStore from '../../stores/userStore';
 import { updateProfile } from '../../api/useAuth';
 import Header from '../../components/Header/Header';
+import { toast } from '../../stores/toastStore';
 import Footer from '../../components/Footer/Footer';
 import './Profile.css';
 
@@ -24,7 +25,9 @@ function Profile() {
   const [errorPass, setErrorPass] = useState(null);
 
   const handleInfoChange = (e) => setFormInfo({ ...formInfo, [e.target.name]: e.target.value });
-  const handlePassChange = (e) => setFormPass({ ...formPass, [e.target.name]: e.target.value });
+  const handlePassChange = (e) => setFormPass({...formPass, [e.target.name]: e.target.value 
+    
+  });
 
   const abrirModal = (tipo) => {
     setTipoModal(tipo);
@@ -68,6 +71,12 @@ function Profile() {
     setErrorPass(null);
     if (formPass.contrasennaNueva !== formPass.confirmar) {
       setErrorPass('Las contraseñas nuevas no coinciden');
+      return;
+    } else if (formPass.contrasennaNueva === '') {
+      setErrorPass('La contraseña nueva no puede estar vacía');
+      return;
+    } else if (formPass.contrasennaActual === '') {
+      setErrorPass('La contraseña actual no puede estar vacía');
       return;
     }
     setLoadingPass(true);
