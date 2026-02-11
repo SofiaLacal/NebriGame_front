@@ -33,7 +33,7 @@ function Cart() {
           nombre: producto.nombre || 'Producto',
           precio: parseFloat(producto.precio || 0),
           imagen: producto.imagen_url ? getImageUrl(producto.imagen_url) : '',
-          cantidad: item.cantidad || 1 // Asegurar cantidad inicial
+          cantidad: item.cantidad || 1
         };
       });
       setProductosCarrito(productos);
@@ -138,7 +138,7 @@ function Cart() {
   return (
     <>
       <div className='cart-page'>
-        <CartHeader />
+        <CartHeader pasoActual={1} />
 
         <div className='cart-container'>
 

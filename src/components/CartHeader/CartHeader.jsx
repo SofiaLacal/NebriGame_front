@@ -66,7 +66,7 @@ function CartHeader({ pasoActual = 1 }) {
             {pasos.map((paso, index) => (
               <li
                 key={paso.numero}
-                className={`step-cart ${pasoActual === paso.numero ? 'active' : ''}`}
+                className={`step-cart ${pasoActual === paso.numero ? 'active' : ''} ${pasoActual > paso.numero ? 'completed' : ''}`}
               >
                 <div className="step-number-cart">{paso.numero}</div>
                 <span>{paso.label}</span>
