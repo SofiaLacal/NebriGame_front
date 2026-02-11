@@ -1,0 +1,255 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Página */
+.shipping-page {
+  background-image: url("../../assets/images/backgroundCart.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  border-radius: 20px;
+  min-height: 100vh;
+  margin-bottom: 12px;
+}
+
+.shipping-container {
+  max-width: 1400px;
+  margin: 60px auto 12px auto;
+  padding: 2rem;
+  min-height: calc(100vh - 200px);
+}
+
+/* Grid dos columnas (izquierda formulario / derecha resumen) */
+.shipping-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+/* Panel izquierdo */
+.shipping-form-panel {
+  background: rgba(91, 110, 245, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.shipping-form-panel h2 {
+  color: white;
+  font-size: 1.8rem;
+  margin: 0 0 1.5rem 0;
+  font-weight: 600;
+}
+
+/* Formulario */
+.shipping-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group-shipping {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group-shipping label {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form-group-shipping input,
+.form-group-shipping select {
+  padding: 12px 16px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group-shipping input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Los option del select necesitan fondo sólido para ser legibles */
+.form-group-shipping select option {
+  background: #3b4abf;
+  color: white;
+}
+
+.form-group-shipping input:focus,
+.form-group-shipping select:focus {
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+
+/* Fila doble (calle + número en la misma línea) */
+.form-row-shipping {
+  display: flex;
+  gap: 12px;
+}
+
+.form-row-shipping .form-group-shipping {
+  flex: 1;
+}
+
+.form-row-shipping .form-group-shipping.short {
+  flex: 0 0 140px;
+}
+
+.field-error {
+  color: #fca5a5;
+  font-size: 0.78rem;
+  margin-top: 2px;
+}
+
+.form-group-shipping input.input-error,
+.form-group-shipping select.input-error {
+  border-color: #f87171;
+}
+
+/* Panel derecho (resumen) */
+.shipping-summary {
+  background: rgba(91, 110, 245, 0.3);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
+}
+
+.shipping-summary h2 {
+  color: white;
+  font-size: 1.8rem;
+  margin: 0 0 1.5rem 0;
+  font-weight: 600;
+}
+
+.summary-content-shipping {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.summary-detail-shipping {
+  background: rgba(91, 110, 245, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.summary-detail-shipping h3 {
+  color: white;
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+  font-weight: 600;
+}
+
+.summary-line-shipping {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+}
+
+.summary-line-shipping span:last-child {
+  font-weight: 600;
+  color: white;
+}
+
+.summary-total-shipping {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.final-price-shipping {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  margin-top: 0.5rem;
+}
+
+/* ── Botón continuar ── */
+.btn-continue-shipping {
+  background-color: #44b385;
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(68, 179, 133, 0.3);
+  font-family: inherit;
+  width: 100%;
+}
+
+.btn-continue-shipping:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(68, 179, 133, 0.5);
+}
+
+.btn-continue-shipping:active {
+  transform: translateY(0);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+
+  .shipping-content {
+    grid-template-columns: 1fr;
+  }
+
+  .shipping-summary {
+    position: static;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .shipping-form-panel,
+  .shipping-summary {
+    padding: 1.5rem;
+  }
+
+  .form-row-shipping {
+    flex-direction: column;
+  }
+
+  .form-row-shipping .form-group-shipping.short {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .shipping-container {
+    padding: 1rem;
+  }
+
+  .shipping-form-panel h2,
+  .shipping-summary h2 {
+    font-size: 1.4rem;
+  }
+}
