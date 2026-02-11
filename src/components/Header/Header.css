@@ -199,15 +199,20 @@
   background-color: #7F30BC;
 }
 
+/* RESPONSIVE */
+
+@media (max-width: 1226px) {
+  
+  .nav-links-right {
+    gap: 0.3rem;
+    font-size: 10px;
+  }
+}
+
 /* RESPONSIVE: tablets */
 @media (max-width: 1024px) {
   .navbar {
     gap: 1rem;
-  }
-
-  .nav-links,
-  .nav-links-right {
-    gap: 0.3rem;
   }
 
   .nav-links a,
@@ -222,7 +227,7 @@
 }
 
 /* RESPONSIVE: móviles */
-@media (max-width: 930px) {
+@media (max-width: 960px) {
   .menu-toggle {
     display: block;
   }
