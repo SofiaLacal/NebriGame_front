@@ -2,6 +2,16 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.wishlist-background {
+  background-image: url("../../assets/images/wishlistBackground.jpeg");
+  background-size: cover;    
+  background-position: center;   
+  background-repeat: no-repeat;  
+  border-radius: 20px;
+  min-height: 100dvh;
+  margin-bottom: 12px;
+}
+
 .wishlist-container {
   max-width: 1200px;
   margin: 40px auto;
@@ -16,24 +26,14 @@ body {
 
 .wishlist-header h1 {
   font-size: 2rem;
-  color: #642f99dc;
+  color: #f3ededf2;
   margin: 0 0 8px 0;
 }
 
 .wishlist-header p {
-  color: #666;
+  color: #a8a2a2;
   font-size: 1rem;
   margin: 0;
-}
-
-.wishlist-content {
-  background-image: url("../../assets/images/wishlistBackground.jpeg");
-  background-size: cover;    
-  background-position: center;   
-  background-repeat: no-repeat;  
-  border-radius: 12px;
-  min-height: 100dvh;
-  padding: 24px;
 }
 
 .wishlist-grid {

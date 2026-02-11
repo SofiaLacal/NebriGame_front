@@ -47,8 +47,8 @@ function CartHeader({ pasoActual = 1 }) {
 
   const pasos = [
     { numero: 1, label: 'Carro' },
-    { numero: 2, label: 'Pago' },
-    { numero: 3, label: 'Envío' },
+    { numero: 2, label: 'Envío' },
+    { numero: 3, label: 'Pago' },
   ];
 
   return (

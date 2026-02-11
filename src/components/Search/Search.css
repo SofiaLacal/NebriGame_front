@@ -65,12 +65,14 @@
 
 /* Responsive */
 @media (max-width: 930px) {
+
   .search-form.expanded .search-input {
     width: 160px;
   }
 }
 
 @media (max-width: 480px) {
+  
   .search-form.expanded .search-input {
     width: 130px;
   }

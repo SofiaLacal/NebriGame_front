@@ -1,100 +1,243 @@
 import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../../api/useCart';
 import { usePayment, useAddPaymentMethod, useDeletePaymentMethod } from '../../api/usePayment';
-import { useNavigate } from 'react-router-dom';
-import Footer from '../../components/Footer/Footer';
 import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
+import Footer from '../../components/Footer/Footer';
 import useUserStore from '../../stores/userStore';
-
+import './Payment.css';
 
 function Payment() {
-    const navigate = useNavigate();
-    const userId = useUserStore.getState().id;
-    const { cart } = useCart(userId);
-    const [productosCarrito, setProductosCarrito] = useState([]);
-    const { payment, loading: paymentLoading, refetchPayment } = usePayment(userId);
-    const [isAddingPaymentMethod, setIsAddingPaymentMethod] = useState(false);
-    console.log(payment);
-    useEffect(() => {
-        if (cart && cart.length > 0) {
-            const productos = cart.map((item) => {
-                const producto = item.producto || {};
-                return {
-                    id: item.id,
-                    producto_id: item.producto_id,
-                    nombre: producto.nombre || 'Producto',
-                    precio: parseFloat(producto.precio || 0),
-                    cantidad: item.cantidad
-                };
-            });
-            setProductosCarrito(productos);
-        } else {
-            setProductosCarrito([]);
-        }
-    }, [cart]);
-    const handleAddPaymentMethod = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const tipo = formData.get('tipo')?.toString().trim();
-        const detalles = formData.get('detalles')?.toString().trim();
-        if (!tipo || !detalles) {
-            return;
-        }
-        try {
-            await useAddPaymentMethod(userId, tipo, detalles);
-            setIsAddingPaymentMethod(false);
-            e.target.reset();
-            refetchPayment();
-        } catch (error) {
-            console.error('Error adding payment method:', error);
-        }
-    };
+  const navigate = useNavigate();
+  const location = useLocation();
+  const userId = useUserStore.getState().id;
 
-    const deletePaymentMethod = async (metodoId) => {
-        try {
-            await useDeletePaymentMethod(userId, metodoId);
-            refetchPayment();
-        } catch (error) {
-            console.error('Error deleting payment method:', error);
-        }
-    };
-    const toggleAddPaymentMethod = () => {
-        if(isAddingPaymentMethod) {
-            setIsAddingPaymentMethod(false);
-        } else {
-            setIsAddingPaymentMethod(true);
-        }
+  const { direccion, total } = location.state || {};
+
+  const { cart, loading: cartLoading } = useCart(userId);
+  const [productosCarrito, setProductosCarrito] = useState([]);
+  const { payment, loading: paymentLoading, refetchPayment } = usePayment(userId);
+
+  const [isAddingMethod, setIsAddingMethod] = useState(false);
+  const [newMethod, setNewMethod] = useState({ tipo: 'tarjeta', detalles: '' });
+
+  // Sincronizar productos del carrito
+  useEffect(() => {
+    if (cart && cart.length > 0) {
+      const productos = cart.map((item) => {
+        const producto = item.producto || {};
+        return {
+          id: item.id,
+          nombre: producto.nombre || 'Producto',
+          precio: parseFloat(producto.precio || 0),
+          cantidad: item.cantidad || 1,
+        };
+      });
+      setProductosCarrito(productos);
+    } else {
+      setProductosCarrito([]);
     }
-    return (
-        <div className='payment-page'>
-            <SimpleHeader />
-            <div className='payment-container'>
-                <div className='payment-header'>
-                    <h1>Pago</h1>
-                    <div className='payment-methods'>
-                        {paymentLoading ? (
-                            <p>Cargando métodos de pago...</p>
-                        ) : payment.length === 0 ? (
-                            <p>No tienes métodos de pago guardados.</p>
-                        ) : payment.map((method) => (
-                            <div className='payment-method' key={method.id}>
-                                <h2>{method.tipo}</h2>
-                                <p>{method.detalles}</p>
-                                <button onClick={() => deletePaymentMethod(method.id)}>Eliminar método</button>
-                            </div>
-                        ))}
-                        <button className='payment-method-button' onClick={toggleAddPaymentMethod}>Añadir método de pago</button>
-                        <form className={isAddingPaymentMethod ? 'add-payment-method-form' : 'hidden'} onSubmit={handleAddPaymentMethod}>    
-                            <input type='text' name='tipo' placeholder='Tipo de método de pago' />
-                            <input type='text' name='detalles' placeholder='Detalles del método de pago' />
-                            <button type='submit'>Añadir método de pago</button>
-                        </form>
+  }, [cart]);
+
+  const calcularTotal = () => {
+    if (total) return total;
+    if (productosCarrito.length === 0) return '0.00';
+    return productosCarrito
+      .reduce((acc, p) => acc + p.precio * p.cantidad, 0)
+      .toFixed(2);
+  };
+
+  // Añadir método de pago
+  const handleAddMethod = async (e) => {
+    e.preventDefault();
+    if (!newMethod.tipo || !newMethod.detalles.trim()) return;
+    try {
+      await useAddPaymentMethod(userId, newMethod.tipo, newMethod.detalles.trim());
+      setNewMethod({ tipo: 'tarjeta', detalles: '' });
+      setIsAddingMethod(false);
+      refetchPayment();
+    } catch (error) {
+      console.error('Error añadiendo método de pago:', error);
+    }
+  };
+
+  // Eliminar método de pago
+  const handleDeleteMethod = async (metodoId) => {
+    try {
+      await useDeletePaymentMethod(userId, metodoId);
+      refetchPayment();
+    } catch (error) {
+      console.error('Error eliminando método de pago:', error);
+    }
+  };
+
+  // Confirmar pedido (aquí se implementaría la llamada a la API de pedido)
+  const confirmarPedido = () => {
+    // TODO: llamar al endpoint de crear pedido
+    navigate('/confirmacion');
+  };
+
+  return (
+    <>
+      <div className="payment-page">
+        <SimpleHeader />
+
+        <div className="payment-container">
+          <div className="payment-content">
+
+            {/* Métodos de pago (izquierda) */}
+            <div className="payment-form-panel">
+              <h2>Método de pago</h2>
+
+              {/* Lista de métodos guardados */}
+              {paymentLoading ? (
+                <p className="no-methods-msg">Cargando métodos de pago...</p>
+              ) : payment.length === 0 && !isAddingMethod ? (
+                <p className="no-methods-msg">No tienes métodos de pago guardados.</p>
+              ) : (
+                payment.map((method) => (
+                  <div className="payment-method-item" key={method.id}>
+                    <div className="payment-method-info">
+                      <h3>{method.tipo}</h3>
+                      <p>{method.detalles}</p>
                     </div>
+                    <button
+                      type="button"
+                      className="btn-delete-method"
+                      onClick={() => handleDeleteMethod(method.id)}
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                ))
+              )}
+
+              {/* Formulario de nuevo método */}
+              {isAddingMethod && (
+                <div className="add-method-form">
+                  <h3>Nuevo método de pago</h3>
+
+                  <div className="form-group-payment">
+                    <label htmlFor="tipo">Tipo</label>
+                    <select
+                      id="tipo"
+                      value={newMethod.tipo}
+                      onChange={(e) => setNewMethod((prev) => ({ ...prev, tipo: e.target.value }))}
+                    >
+                      <option value="tarjeta">Tarjeta de crédito / débito</option>
+                      <option value="paypal">PayPal</option>
+                      <option value="transferencia">Transferencia bancaria</option>
+                    </select>
+                  </div>
+
+                  <div className="form-group-payment">
+                    <label htmlFor="detalles">Detalles</label>
+                    <input
+                      type="text"
+                      id="detalles"
+                      value={newMethod.detalles}
+                      onChange={(e) => setNewMethod((prev) => ({ ...prev, detalles: e.target.value }))}
+                      placeholder="**** **** **** 1234"
+                    />
+                  </div>
+
+                  <div className="add-method-actions">
+                    <button type="button" className="btn-save-method" onClick={handleAddMethod}>
+                      Guardar
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-cancel-method"
+                      onClick={() => setIsAddingMethod(false)}
+                    >
+                      Cancelar
+                    </button>
+                  </div>
                 </div>
+              )}
+
+              {/* Botón para mostrar el formulario */}
+              {!isAddingMethod && (
+                <button
+                  type="button"
+                  className="btn-add-method"
+                  onClick={() => setIsAddingMethod(true)}
+                >
+                  + Añadir método de pago
+                </button>
+              )}
             </div>
-            <Footer />
+
+            {/* Resumen (derecha) */}
+            <div className="payment-summary">
+              <h2>Resumen</h2>
+
+              <div className="summary-content-payment">
+
+                {/* Productos */}
+                <div className="summary-detail-payment">
+                  <h3>Total productos</h3>
+
+                  {cartLoading ? (
+                    <p style={{ color: 'rgba(255,255,255,0.7)' }}>Cargando...</p>
+                  ) : (
+                    <>
+                      {productosCarrito.map((p) => (
+                        <div className="summary-line-payment" key={p.id}>
+                          <span>{p.nombre} x{p.cantidad}</span>
+                          <span>{(p.precio * p.cantidad).toFixed(2)}€</span>
+                        </div>
+                      ))}
+
+                      <div className="summary-line-payment">
+                        <span>Gastos de envío</span>
+                        <span>Gratis</span>
+                      </div>
+
+                      <div className="summary-total-payment">
+                        <div className="final-price-payment">
+                          <span>Precio final</span>
+                          <span>{calcularTotal()}€</span>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                {/* Dirección de envío (si viene de Shipping) */}
+                {direccion && (
+                  <div className="summary-address-payment">
+                    <h3>Dirección de envío</h3>
+                    <p>
+                      {direccion.calle}, {direccion.numeroCasa}<br />
+                      {direccion.codigoPostal} {direccion.ciudad}<br />
+                      {direccion.region === 'canarias' ? 'Islas Canarias' : 'Península y Baleares'}<br />
+                      Tel: {direccion.telefono}
+                    </p>
+                  </div>
+                )}
+
+                {/* Botón confirmar pedido */}
+                <button
+                  type="button"
+                  className="btn-pay"
+                  onClick={confirmarPedido}
+                  disabled={payment.length === 0}
+                  title={payment.length === 0 ? 'Añade un método de pago primero' : ''}
+                >
+                  Confirmar pedido
+                </button>
+
+              </div>
+            </div>
+
+          </div>
         </div>
-    );
+      </div>
+
+      <Footer />
+    </>
+  );
 }
 
 export default Payment;
