@@ -1,10 +1,10 @@
 import './SearchFilter.css';
 
-function SearchFilter({ resultadosCount, ordenar, setOrdenar, onLimpiar }) {
+function SearchFilter({ resultadosCount, busqueda, ordenar, setOrdenar, onLimpiar }) {
   return (
     <div className="search-filter-wrapper">
       <p className="resultados-texto">
-        {resultadosCount} resultado{resultadosCount !== 1 ? 's' : ''}
+        {resultadosCount} resultado{resultadosCount !== 1 ? 's' : ''} para "{ busqueda }"
       </p>
 
       <div className="filtros-container">

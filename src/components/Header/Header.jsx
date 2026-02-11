@@ -4,19 +4,21 @@ import { useState, useRef, useEffect } from 'react';
 import UsuarioDropdown from '../UsuarioDropdown/UsuarioDropdown';
 import './Header.css';
 import logo from "../../../public/logo.png"
-import useUserStore from '../../stores/userStore';
 
-function Header() {
+function Header({ busqueda = "", setBusqueda = null }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(busqueda);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef(null);
+  const searchFormRef = useRef(null);
 
-  const nombre = useUserStore((state) => state.nombre);
-  const logout = useUserStore((state) => state.logout);
+  // Sincronizar searchTerm con la prop busqueda
+  useEffect(() => {
+    setSearchTerm(busqueda);
+  }, [busqueda]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -30,6 +32,7 @@ function Header() {
       }, 100);
     } else if (searchTerm) {
       setSearchTerm("");
+      if (setBusqueda) setBusqueda("");
     }
   };
 
@@ -37,10 +40,16 @@ function Header() {
     e.preventDefault();
     if (searchTerm.trim()) {
       navigate(`/productos?query=${encodeURIComponent(searchTerm)}`);
-      setSearchTerm("");
-      setIsSearchExpanded(false);
+      // NO cerrar la barra de búsqueda
+      // NO limpiar el searchTerm
       setIsMenuOpen(false);
     }
+  };
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    if (setBusqueda) setBusqueda(value);
   };
 
   const handleLogout = () => {
@@ -70,6 +79,23 @@ function Header() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Cierra el buscador al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchFormRef.current && !searchFormRef.current.contains(e.target)) {
+        setIsSearchExpanded(false);
+      }
+    };
+    
+    if (isSearchExpanded) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isSearchExpanded]);
 
   return (
     <header className="header">
@@ -131,7 +157,7 @@ function Header() {
 
           {/* Buscador */}
           <li className="search-item">
-            <form onSubmit={handleSearch} className={`header-search ${isSearchExpanded ? 'expanded' : ''}`}>
+            <form ref={searchFormRef} onSubmit={handleSearch} className={`header-search ${isSearchExpanded ? 'expanded' : ''}`}>
               <button
                 type={isSearchExpanded && searchTerm ? "submit" : "button"}
                 onClick={isSearchExpanded && searchTerm ? undefined : toggleSearch}
@@ -144,7 +170,7 @@ function Header() {
                 type="text"
                 placeholder="Buscar..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={handleSearchChange}
                 className="header-search-input"
               />
             </form>
