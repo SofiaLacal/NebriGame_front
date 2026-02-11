@@ -3,6 +3,7 @@ import { User, Heart, ShoppingCart, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import './CartHeader.css';
 import useUserStore from '../../stores/userStore';
+import { toast } from '../../stores/toastStore';
 
 function CartHeader({ pasoActual = 1 }) {
   const location = useLocation();
@@ -41,6 +42,7 @@ function CartHeader({ pasoActual = 1 }) {
 
   const handleLogout = () => {
     logout();
+    toast.success("Sesión cerrada, hasta luego " + nombre);
     setIsDropdownOpen(false);
     navigate('/');
   };

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import "./Login.css"
 import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
 import useUserStore from '../../stores/userStore';
+import { toast } from '../../stores/toastStore';
 import Footer from '../../components/Footer/Footer';
 
 
@@ -66,9 +67,11 @@ function Login() {
         email: data.usuarioData.email,
         fecha_registro: data.usuarioData.fecha_registro
       });
-      console.log(useUserStore.getState());
+      toast.success("Sesión iniciada, bienvenido de nuevo " + data.usuarioData.nombre);
       navigate(validFrom || '/', { replace: true });
-    } 
+    } else {
+      toast.error("Error al iniciar sesión");
+    }
   };
 
   return (
