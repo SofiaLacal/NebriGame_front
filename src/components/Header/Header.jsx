@@ -3,8 +3,7 @@ import { Gamepad2, Tv, Gift, Percent, Heart, ShoppingCart, Menu, X, Search as Se
 import { useState, useRef, useEffect } from 'react';
 import UsuarioDropdown from '../UsuarioDropdown/UsuarioDropdown';
 import './Header.css';
-import logo from "../../../public/logo.png"
-import useUserStore from '../../stores/userStore';
+import logo from "../../../public/logo.png";
 
 function Header() {
   const location = useLocation();
@@ -12,11 +11,7 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef(null);
-
-  const nombre = useUserStore((state) => state.nombre);
-  const logout = useUserStore((state) => state.logout);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -43,23 +38,6 @@ function Header() {
     }
   };
 
-  const handleLogout = () => {
-    logout();
-    setIsDropdownOpen(false);
-    navigate('/');
-  };
-
-  // Cierra el dropdown al hacer clic fuera
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (!e.target.closest('.usuario-container')) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   // Cierra el menú móvil al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -75,7 +53,7 @@ function Header() {
     <header className="header">
       <nav className="navbar">
         <Link to="/" className="logo">
-          <img src="/logo.png" alt="Logo NebriGame" />
+          <img src={logo} alt="Logo NebriGame" />
         </Link>
 
         <button type="button" className="menu-toggle" onClick={toggleMenu}>

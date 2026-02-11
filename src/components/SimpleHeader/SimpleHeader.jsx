@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { User, Heart, ShoppingCart, Menu, X } from 'lucide-react';
+import { Heart, ShoppingCart, Menu, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import UsuarioDropdown from '../UsuarioDropdown/UsuarioDropdown';
 import './SimpleHeader.css';
