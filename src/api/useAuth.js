@@ -35,20 +35,21 @@ const logout = async () => {
     }
 };
 
-const updateProfile = async (userId, { nombre, apellido1, apellido2, DNI, email, contrasenna }) => {
+const updateProfile = async (userId, { nombre, apellido1, apellido2, email, contrasenna, contrasennaActual }) => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
     try {
         const res = await fetch(`${apiUrl}/usuarios/${userId}`, {
-            method: 'PUT',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ nombre, apellido1, apellido2, DNI, email, contrasenna })
+            body: JSON.stringify({ nombre, apellido1, apellido2, email, contrasenna, contrasennaActual })
         });
         const data = await res.json();
         if (!res.ok) {
             throw new Error(data.error || 'Error al actualizar el perfil');
         }
+        console.log(data);
         return data;
     } catch (err) {
         console.error('Error updating profile:', err);
