@@ -3,10 +3,11 @@ import useUserStore from "../../stores/userStore";
 import getImageUrl from "../../utils/getImage";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import { Heart } from "lucide-react";
+import { Heart, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import './Wishlist.css';
+import BackButton from "../../components/BackButton/BackButton";
 
 const Wishlist = () => {
   const userId = useUserStore.getState().id;
@@ -46,18 +47,21 @@ const Wishlist = () => {
       <div className="wishlist-background">
         <Header />
 
-        <div className="wishlist-container">
-          {/* Título de la página */}
-          <div className="wishlist-header">
-            <h1>Lista de deseos</h1>
-            <br/>
-            <p>
-              {wishlist.length > 0 
-                ? `Tienes ${wishlist.length} producto${wishlist.length !== 1 ? 's' : ''} guardado${wishlist.length !== 1 ? 's' : ''}`
-                : 'Aún no has añadido productos a tu wishlist'
-              }
-            </p>
-          </div>
+      <div className="wishlist-container">
+        <BackButton>
+          <ArrowLeft size={24} />
+        </BackButton>
+        {/* Título de la página */}
+        <div className="wishlist-header">
+          <h1>Lista de Deseos</h1>
+          <br/>
+          <p>
+            {wishlist.length > 0 
+              ? `Tienes ${wishlist.length} producto${wishlist.length !== 1 ? 's' : ''} guardado${wishlist.length !== 1 ? 's' : ''}`
+              : 'Aún no has añadido productos a tu wishlist'
+            }
+          </p>
+        </div>
 
           {/* Contenido principal */}
           <div>
