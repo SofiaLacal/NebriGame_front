@@ -2,19 +2,16 @@ import { useState } from 'react';
 import { X } from 'lucide-react';
 import useUserStore from '../../stores/userStore';
 import { updateProfile } from '../../api/useAuth';
-import { useOrders } from '../../api/useOrders';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import Loading from '../../components/Loading/Loading';
 import './Profile.css';
 
 function Profile() {
   const { id, nombre, apellido1, apellido2, email, setUsuario } = useUserStore();
-  const { orders, loading: loadingOrders } = useOrders(id);
 
   const [tabActiva, setTabActiva] = useState('info');
   const [modalAbierto, setModalAbierto] = useState(false);
-  const [tipoModal, setTipoModal] = useState(''); // 'info' o 'password'
+  const [tipoModal, setTipoModal] = useState('');
 
   const [formInfo, setFormInfo] = useState({ nombre, apellido1, apellido2, email });
   const [loadingInfo, setLoadingInfo] = useState(false);
@@ -57,9 +54,7 @@ function Profile() {
       });
       setUsuario(id, formInfo.nombre, formInfo.apellido1, formInfo.apellido2, formInfo.email);
       setMensajeInfo('Datos actualizados correctamente');
-      setTimeout(() => {
-        cerrarModal();
-      }, 1500);
+      setTimeout(() => cerrarModal(), 1500);
     } catch (err) {
       setErrorInfo(err.message || 'Error al actualizar los datos');
     } finally {
@@ -83,9 +78,7 @@ function Profile() {
       });
       setMensajePass('Contraseña actualizada correctamente');
       setFormPass({ contrasennaActual: '', contrasennaNueva: '', confirmar: '' });
-      setTimeout(() => {
-        cerrarModal();
-      }, 1500);
+      setTimeout(() => cerrarModal(), 1500);
     } catch (err) {
       setErrorPass(err.message || 'Error al actualizar la contraseña');
     } finally {
@@ -102,99 +95,114 @@ function Profile() {
           <button className={`perfil-tab ${tabActiva === 'info' ? 'activa' : ''}`} onClick={() => setTabActiva('info')}>
             Mi cuenta
           </button>
-          <button className={`perfil-tab ${tabActiva === 'pedidos' ? 'activa' : ''}`} onClick={() => setTabActiva('pedidos')}>
-            Mis pedidos
+          <button className={`perfil-tab ${tabActiva === 'ajustes' ? 'activa' : ''}`} onClick={() => setTabActiva('ajustes')}>
+            Ajustes
           </button>
         </div>
 
-        {tabActiva === 'info' && (
-          <div className="perfil-contenido">
+        <div className="perfil-contenido">
+          {tabActiva === 'info' && (
+            <>
+              <div className="perfil-seccion">
+                <div className="perfil-seccion-header">
+                  <h2>Datos personales</h2>
+                  <button className="perfil-btn-editar" onClick={() => abrirModal('info')}>
+                    Editar
+                  </button>
+                </div>
+                <div className="perfil-detalles">
+                  <div className="perfil-detalle">
+                    <span className="perfil-label">Nombre</span>
+                    <span className="perfil-valor">{nombre || '-'}</span>
+                  </div>
+                  <div className="perfil-detalle">
+                    <span className="perfil-label">Primer apellido</span>
+                    <span className="perfil-valor">{apellido1 || '-'}</span>
+                  </div>
+                  <div className="perfil-detalle">
+                    <span className="perfil-label">Segundo apellido</span>
+                    <span className="perfil-valor">{apellido2 || '-'}</span>
+                  </div>
+                  <div className="perfil-detalle">
+                    <span className="perfil-label">Email</span>
+                    <span className="perfil-valor">{email || '-'}</span>
+                  </div>
+                </div>
+              </div>
 
-            {/* Vista de lectura - Datos personales */}
+              <div className="perfil-seccion">
+                <div className="perfil-seccion-header">
+                  <h2>Contraseña</h2>
+                  <button className="perfil-btn-editar" onClick={() => abrirModal('password')}>
+                    Cambiar
+                  </button>
+                </div>
+                <div className="perfil-detalles">
+                  <div className="perfil-detalle">
+                    <span className="perfil-label">Contraseña</span>
+                    <span className="perfil-valor">••••••••</span>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {tabActiva === 'ajustes' && (
             <div className="perfil-seccion">
-              <div className="perfil-seccion-header">
-                <h2>Datos personales</h2>
-                <button className="perfil-btn-editar" onClick={() => abrirModal('info')}>
-                  Editar
+              <h2>Ajustes de la cuenta</h2>
+              
+              <div className="ajustes-grupo">
+                <div className="ajuste-item">
+                  <div className="ajuste-info">
+                    <h3>Notificaciones por email</h3>
+                    <p>Recibe actualizaciones sobre tus pedidos y ofertas</p>
+                  </div>
+                  <label className="ajuste-switch">
+                    <input type="checkbox" defaultChecked />
+                    <span className="ajuste-slider"></span>
+                  </label>
+                </div>
+
+                <div className="ajuste-item">
+                  <div className="ajuste-info">
+                    <h3>Newsletter</h3>
+                    <p>Mantente al día con las últimas novedades</p>
+                  </div>
+                  <label className="ajuste-switch">
+                    <input type="checkbox" />
+                    <span className="ajuste-slider"></span>
+                  </label>
+                </div>
+
+                <div className="ajuste-item">
+                  <div className="ajuste-info">
+                    <h3>Notificaciones de ofertas</h3>
+                    <p>Recibe alertas de descuentos y promociones</p>
+                  </div>
+                  <label className="ajuste-switch">
+                    <input type="checkbox" defaultChecked />
+                    <span className="ajuste-slider"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div className="ajustes-separador"></div>
+
+              <div className="ajustes-grupo">
+                <h3 className="ajustes-subtitulo">Zona de peligro</h3>
+                <button className="perfil-btn-peligro">
+                  Eliminar mi cuenta
                 </button>
-              </div>
-              <div className="perfil-detalles">
-                <div className="perfil-detalle">
-                  <span className="perfil-label">Nombre</span>
-                  <span className="perfil-valor">{nombre || '-'}</span>
-                </div>
-                <div className="perfil-detalle">
-                  <span className="perfil-label">Primer apellido</span>
-                  <span className="perfil-valor">{apellido1 || '-'}</span>
-                </div>
-                <div className="perfil-detalle">
-                  <span className="perfil-label">Segundo apellido</span>
-                  <span className="perfil-valor">{apellido2 || '-'}</span>
-                </div>
-                <div className="perfil-detalle">
-                  <span className="perfil-label">Email</span>
-                  <span className="perfil-valor">{email || '-'}</span>
-                </div>
+                <p className="ajustes-advertencia">
+                  Esta acción no se puede deshacer. Se eliminarán todos tus datos permanentemente.
+                </p>
               </div>
             </div>
-
-            {/* Vista de lectura - Contraseña */}
-            <div className="perfil-seccion">
-              <div className="perfil-seccion-header">
-                <h2>Contraseña</h2>
-                <button className="perfil-btn-editar" onClick={() => abrirModal('password')}>
-                  Cambiar
-                </button>
-              </div>
-              <div className="perfil-detalles">
-                <div className="perfil-detalle">
-                  <span className="perfil-label">Contraseña</span>
-                  <span className="perfil-valor">••••••••</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        )}
-
-        {tabActiva === 'pedidos' && (
-          <div className="perfil-contenido">
-            <div className="perfil-seccion">
-              <h2>Mis pedidos</h2>
-              {loadingOrders ? (
-                <Loading />
-              ) : orders.length === 0 ? (
-                <p className="perfil-sin-pedidos">No tienes pedidos todavía</p>
-              ) : (
-                <div className="pedidos-lista">
-                  {orders.map((pedido) => (
-                    <div key={pedido.id} className="pedido-card">
-                      <div className="pedido-header">
-                        <span className="pedido-id">Pedido #{pedido.id}</span>
-                        <span className="pedido-fecha">{new Date(pedido.fecha).toLocaleDateString('es-ES')}</span>
-                        <span className={`pedido-estado pedido-estado--${pedido.estado}`}>{pedido.estado}</span>
-                      </div>
-                      <div className="pedido-productos">
-                        {pedido.productos?.map((producto, i) => (
-                          <div key={i} className="pedido-producto">
-                            <span>{producto.nombre}</span>
-                            <span>x{producto.cantidad}</span>
-                            <span>{producto.precio} €</span>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="pedido-total">Total: <strong>{pedido.total} €</strong></div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+          )}
+        </div>
 
       </div>
 
-      {/* Modal de edición */}
       {modalAbierto && (
         <div className="modal-overlay" onClick={cerrarModal}>
           <div className="modal-contenido" onClick={(e) => e.stopPropagation()}>

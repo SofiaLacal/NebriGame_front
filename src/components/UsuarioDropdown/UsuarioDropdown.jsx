@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { User } from 'lucide-react';
 import useUserStore from '../../stores/userStore';
 import { toast } from '../../stores/toastStore';
 import './UsuarioDropdown.css';
-import { useNavigate } from 'react-router-dom';
 
 function UsuarioDropdown() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -35,7 +34,15 @@ function UsuarioDropdown() {
               <Link to="/perfil" onClick={() => setIsDropdownOpen(false)}>
                 Mi cuenta
               </Link>
-              <button onClick={() => { logout(); toast.success("Sesión cerrada, hasta luego " + nombre); setIsDropdownOpen(false); navigate('/'); }}>
+              <Link to="/pedidos" onClick={() => setIsDropdownOpen(false)}>
+                Mis pedidos
+              </Link>
+              <button onClick={() => { 
+                logout(); 
+                toast.success("Sesión cerrada, hasta luego " + nombre); 
+                setIsDropdownOpen(false); 
+                navigate('/'); 
+              }}>
                 Cerrar sesión
               </button>
             </div>

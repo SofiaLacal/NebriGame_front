@@ -1,0 +1,68 @@
+import useUserStore from '../../stores/userStore';
+import { useOrders } from '../../api/useOrders';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
+import Loading from '../../components/Loading/Loading';
+import './Orders.css';
+
+function Orders() {
+  const { id } = useUserStore();
+  const { orders, loading } = useOrders(id);
+
+  return (
+    <div>
+      <Header />
+      <div className="pedidos-page-wrapper">
+        <div className="pedidos-page-container">
+          <h2 className="pedidos-titulo">Mis pedidos</h2>
+          
+          {loading ? (
+            <Loading />
+          ) : orders.length === 0 ? (
+            <p className="pedidos-vacio">No tienes pedidos todavía</p>
+          ) : (
+            <div className="pedidos-lista">
+              {orders.map((pedido) => (
+              <div key={pedido.id} className="pedido-card">
+                <div className="pedido-header">
+                  <span className="pedido-id">Pedido #{pedido.id}</span>
+                  <span className="pedido-fecha">
+                    {new Date(pedido.fecha).toLocaleDateString('es-ES', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric'
+                    })}
+                  </span>
+                  <span className={`pedido-estado pedido-estado--${pedido.estado}`}>
+                    {pedido.estado}
+                  </span>
+                </div>
+                
+                <div className="pedido-productos">
+                  {pedido.productos?.map((producto, i) => (
+                    <div key={i} className="pedido-producto">
+                      <div className="pedido-producto-info">
+                        <span className="pedido-producto-nombre">{producto.nombre}</span>
+                        <span className="pedido-producto-cantidad">Cantidad: {producto.cantidad}</span>
+                      </div>
+                      <span className="pedido-producto-precio">{producto.precio} €</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="pedido-footer">
+                  <span className="pedido-total-label">Total:</span>
+                  <span className="pedido-total-valor">{pedido.total} €</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+}
+
+export default Orders;
