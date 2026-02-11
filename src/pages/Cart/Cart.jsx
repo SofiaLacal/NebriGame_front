@@ -108,7 +108,7 @@ function Cart() {
   };
 
   const continuarCompra = () => {
-    navigate('/pago');
+    navigate('/envio');
   };
 
   return (
@@ -217,7 +217,7 @@ function Cart() {
                     className="btn-continue-cart"
                     onClick={continuarCompra}
                   >
-                    Proceder al pago
+                    Continuar con la compra
                   </button>
                 </div>
               </div>
