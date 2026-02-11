@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Heart, ShoppingCart, Menu, X } from 'lucide-react';
 import UsuarioDropdown from '../UsuarioDropdown/UsuarioDropdown';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './CartHeader.css';
 import { toast } from '../../stores/toastStore';
 
@@ -12,35 +12,6 @@ function CartHeader({ pasoActual = 1 }) {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-  };
-
-  // Cierra el dropdown al hacer clic fuera
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (!e.target.closest('.usuario-container')) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  // Cierra el menú móvil al hacer clic fuera
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (!e.target.closest('.navbar-cart')) {
-        setIsMenuOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const handleLogout = () => {
-    logout();
-    toast.success("Sesión cerrada, hasta luego " + nombre);
-    setIsDropdownOpen(false);
-    navigate('/');
   };
 
   const pasos = [

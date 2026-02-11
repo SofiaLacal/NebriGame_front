@@ -31,7 +31,7 @@ body {
 /* Panel izquierdo */
 .payment-form-panel {
   background: rgba(91, 110, 245, 0.3);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(2px);
   border-radius: 16px;
   padding: 2rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
