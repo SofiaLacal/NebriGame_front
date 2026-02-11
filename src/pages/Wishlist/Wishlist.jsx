@@ -3,9 +3,10 @@ import useUserStore from "../../stores/userStore";
 import getImageUrl from "../../utils/getImage";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import { Heart } from "lucide-react";
+import { Heart, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import './Wishlist.css';
+import BackButton from "../../components/BackButton/BackButton";
 
 const Wishlist = () => {
   const userId = useUserStore.getState().id;
@@ -37,6 +38,9 @@ const Wishlist = () => {
       <Header />
 
       <div className="wishlist-container">
+        <BackButton>
+          <ArrowLeft size={24} />
+        </BackButton>
         {/* Título de la página */}
         <div className="wishlist-header">
           <h1>Lista de Deseos</h1>
