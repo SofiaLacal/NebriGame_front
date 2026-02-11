@@ -4,6 +4,8 @@ import { useVideojuegos, useConsolas, useMerchandising } from "../../api/useProd
 import { Heart, ArrowLeft } from 'lucide-react';
 import Header from "../../components/Header/Header";
 import Loading from "../../components/Loading/Loading";
+import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
+import { toast } from "../../stores/toastStore";
 import "./ProductDetail.css";
 import Footer from "../../components/Footer/Footer";
 import getImageUrl from "../../utils/getImage";
@@ -19,46 +21,64 @@ function ProductDetail() {
   const { isInWishlist, loading: loadingWishlist } = useIsInWishlist(userId, id);
   const [isUpdating, setIsUpdating] = useState(false);
   const [localIsInWishlist, setLocalIsInWishlist] = useState(isInWishlist);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [productToDeleteModal, setProductToDeleteModal] = useState(null);
  
   // Sincronizar el estado local con el hook cuando cambie
   useEffect(() => {
     setLocalIsInWishlist(isInWishlist);
   }, [isInWishlist]);
 
-  const handleToggleWishlist = async (productId) => {
-    if (isUpdating) return; // Evitar múltiples clicks
+  const handleToggleWishlist = (productId, productName) => {
+    if (isUpdating) return;
 
+    if (localIsInWishlist) {
+      setProductToDeleteModal({ id: productId, nombre: productName });
+      setShowConfirmModal(true);
+    } else {
+      handleAddToWishlist(productId);
+    }
+  };
+
+  const handleConfirmRemoveWishlist = async () => {
+    if (!productToDeleteModal) return;
     setIsUpdating(true);
-    // Actualizar el estado local inmediatamente para feedback visual
-    const newState = !localIsInWishlist;
-    setLocalIsInWishlist(newState);
-
     try {
-      if (localIsInWishlist) {
-        await useDeleteWishlist(userId, productId);
-        console.log("producto eliminado");
-      } else {
-        await useAddWishlist(userId, productId);
-        console.log("producto añadido");
-      }
-      // Si todo va bien, liberamos el estado de actualización
-      setIsUpdating(false);
+      await useDeleteWishlist(userId, productToDeleteModal.id);
+      setLocalIsInWishlist(false);
+      toast.success("Producto eliminado de la wishlist");
     } catch (error) {
       console.error("Error al actualizar wishlist:", error);
-      // Revertir el estado local si hay error
-      setLocalIsInWishlist(!newState);
+      toast.error("No se pudo eliminar de la wishlist");
+    } finally {
+      setIsUpdating(false);
+      setProductToDeleteModal(null);
+    }
+  };
+
+  const handleAddToWishlist = async (productId) => {
+    setIsUpdating(true);
+    try {
+      await useAddWishlist(userId, productId);
+      setLocalIsInWishlist(true);
+      toast.success("Producto añadido a la wishlist");
+    } catch (error) {
+      console.error("Error al añadir a la wishlist:", error);
+      toast.error("No se pudo añadir a la wishlist");
+    } finally {
       setIsUpdating(false);
     }
   };
 
   const handleAddToCart = async (productId) => {
-    if (isUpdating) return; // Evitar múltiples clicks
+    if (isUpdating) return;
     setIsUpdating(true);
     try {
       await useAddCart(userId, productId);
-      console.log("producto añadido");
+      toast.success("Producto añadido al carrito");
     } catch (error) {
       console.error("Error al añadir al carrito:", error);
+      toast.error("No se pudo añadir al carrito");
     } finally {
       setIsUpdating(false);
     }
@@ -115,7 +135,7 @@ function ProductDetail() {
               <div className="botones">
                 <button 
                   className="boton-wishlist"
-                  onClick={() => handleToggleWishlist(producto.id)}
+                  onClick={() => handleToggleWishlist(producto.id, producto.nombre)}
                   disabled={isUpdating || loadingWishlist}
                   title={localIsInWishlist ? "Quitar de la wishlist" : "Añadir a la wishlist"}
                 >
@@ -198,6 +218,14 @@ function ProductDetail() {
         </div>
       </div>
       <Footer />
+
+      <ConfirmModal
+        open={showConfirmModal}
+        onClose={() => { setShowConfirmModal(false); setProductToDeleteModal(null); }}
+        onConfirm={handleConfirmRemoveWishlist}
+        title="Eliminar de la wishlist"
+        message={productToDeleteModal ? `¿Eliminar ${productToDeleteModal.nombre} de tu lista de deseos?` : ""}
+      />
     </div>
   );
 }
