@@ -13,6 +13,7 @@ function Orders() {
     <>
       <div className="background-orders">
         <Header />
+
         <div className="pedidos-page-wrapper">
           <div className="pedidos-page-container">
             <h2 className="pedidos-titulo">Mis pedidos</h2>
@@ -74,6 +75,7 @@ function Orders() {
           </div>
         </div>
       </div>
+
       <Footer />
     </>
   );
