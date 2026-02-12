@@ -82,23 +82,27 @@
 }
 
 .pedido-estado--pendiente {
-  background: rgba(241, 196, 15, 0.2);
-  color: #f1c40f;
+  background: rgba(241, 196, 15, 0.35);
+  color: #ffffff;
+  border: 1px solid #f1c40f;
 }
 
 .pedido-estado--enviado {
-  background: rgba(52, 152, 219, 0.2);
-  color: #3498db;
+  background: rgba(52, 152, 219, 0.35);
+  color: #ffffff;
+  border: 1px solid #3498db;
 }
 
 .pedido-estado--entregado {
-  background: rgba(46, 204, 113, 0.2);
-  color: #2ecc71;
+  background: rgba(46, 204, 113, 0.35);
+  color: #ffffff;
+  border: 1px solid #2ecc71;
 }
 
 .pedido-estado--cancelado {
-  background: rgba(231, 76, 60, 0.2);
-  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.35);
+  color: #ffffff;
+  border: 1px solid #e74c3c;
 }
 
 .pedido-productos {
