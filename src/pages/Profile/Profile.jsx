@@ -1,18 +1,29 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X } from 'lucide-react';
 import useUserStore from '../../stores/userStore';
-import { updateProfile } from '../../api/useAuth';
+import { updateProfile, deleteProfile } from '../../api/useAuth';
 import Header from '../../components/Header/Header';
 import { toast } from '../../stores/toastStore';
 import Footer from '../../components/Footer/Footer';
 import './Profile.css';
 
+const DELETE_MODALS = [
+  { msg: '¿Eliminar tu cuenta? Esta acción no se puede deshacer.', pos: 'top-left' },
+  { msg: '¿Estás SEGURO? Todos tus pedidos, wishlist y datos... ¡desaparecerán para siempre!', pos: 'top-right' },
+  { msg: 'Los juegos de tu biblioteca te llorarán. Las ranas del carrito también. ¿Continuar?', pos: 'bottom-right' },
+  { msg: 'Ya está. Que la fuerza te acompañe... en otra cuenta. Adiós. 👋', pos: 'bottom-left' },
+];
+
 function Profile() {
-  const { id, nombre, apellido1, apellido2, email, setUsuario } = useUserStore();
+  const navigate = useNavigate();
+  const { id, nombre, apellido1, apellido2, email, setUsuario, logout } = useUserStore();
 
   const [tabActiva, setTabActiva] = useState('info');
   const [modalAbierto, setModalAbierto] = useState(false);
   const [tipoModal, setTipoModal] = useState('');
+  const [deleteModalStep, setDeleteModalStep] = useState(0);
+  const [deletingAccount, setDeletingAccount] = useState(false);
 
   const [formInfo, setFormInfo] = useState({ nombre, apellido1, apellido2, email });
   const formInfoInitial = { nombre, apellido1, apellido2, email };
@@ -43,6 +54,37 @@ function Profile() {
   const cerrarModal = () => {
     setModalAbierto(false);
     setTipoModal('');
+  };
+
+  const abrirModalEliminar = () => setDeleteModalStep(1);
+  const cerrarModalEliminar = () => setDeleteModalStep(0);
+  const confirmarEliminar = () => {
+    if (deleteModalStep < 4) {
+      setDeleteModalStep((s) => s + 1);
+    } else {
+      ejecutarEliminacion();
+    }
+  };
+
+  const ejecutarEliminacion = async () => {
+    const userId = id != null && !isNaN(Number(id)) ? Number(id) : null;
+    if (!userId) {
+      toast.error('No se pudo identificar tu cuenta. Intenta cerrar sesión y volver a iniciar.');
+      setDeleteModalStep(0);
+      return;
+    }
+    setDeletingAccount(true);
+    try {
+      await deleteProfile(userId);
+      logout();
+      toast.success('Cuenta eliminada');
+      navigate('/', { replace: true });
+    } catch (err) {
+      toast.error(err.message || 'Error al eliminar la cuenta');
+      setDeleteModalStep(0);
+    } finally {
+      setDeletingAccount(false);
+    }
   };
 
   const handleGuardarInfo = async (e) => {
@@ -217,7 +259,7 @@ function Profile() {
 
                 <div className="ajustes-subgrupo">
                   <h3 className="ajustes-subtitulo">Zona de peligro</h3>
-                    <button className="perfil-btn-peligro">
+                    <button className="perfil-btn-peligro" onClick={abrirModalEliminar}>
                       Eliminar mi cuenta
                     </button>
                     <p className="ajustes-advertencia">
@@ -229,6 +271,29 @@ function Profile() {
           </div>
 
         </div>
+
+        {deleteModalStep > 0 && (
+          <div className="modal-overlay modal-delete-overlay" onClick={cerrarModalEliminar}>
+            <div
+              className={`modal-delete modal-delete--${DELETE_MODALS[deleteModalStep - 1].pos}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <p className="modal-delete-msg">{DELETE_MODALS[deleteModalStep - 1].msg}</p>
+              <div className="modal-delete-actions">
+                <button className="modal-delete-btn modal-delete-btn--cancel" onClick={cerrarModalEliminar}>
+                  No, mejor no
+                </button>
+                <button
+                  className="modal-delete-btn modal-delete-btn--confirm"
+                  onClick={confirmarEliminar}
+                  disabled={deletingAccount}
+                >
+                  {deletingAccount ? 'Eliminando...' : deleteModalStep === 4 ? 'Sí, eliminar' : 'Sí, continuar'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {modalAbierto && (
           <div className="modal-overlay" onClick={cerrarModal}>

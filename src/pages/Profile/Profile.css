@@ -363,6 +363,111 @@ body {
   backdrop-filter: blur(4px);
 }
 
+/* Modales de confirmación eliminar cuenta (4 posiciones) */
+.modal-delete-overlay {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0;
+}
+
+.modal-delete {
+  position: absolute;
+  background: linear-gradient(135deg, #8a63b4 0%, #6b4399 100%);
+  border-radius: 12px;
+  padding: 24px 28px;
+  max-width: 380px;
+  width: calc(100vw - 40px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  animation: modalDeleteIn 0.3s ease;
+}
+
+@keyframes modalDeleteIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-delete--top-left {
+  top: 15%;
+  left: 8%;
+}
+
+.modal-delete--top-right {
+  top: 15%;
+  right: 8%;
+  left: auto;
+}
+
+.modal-delete--bottom-right {
+  bottom: 15%;
+  right: 8%;
+  left: auto;
+  top: auto;
+}
+
+.modal-delete--bottom-left {
+  bottom: 15%;
+  left: 8%;
+  top: auto;
+}
+
+.modal-delete-msg {
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0 0 20px 0;
+  font-weight: 500;
+}
+
+.modal-delete-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.modal-delete-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.modal-delete-btn--cancel {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: white;
+}
+
+.modal-delete-btn--cancel:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.modal-delete-btn--confirm {
+  background: #e74c3c;
+  border: none;
+  color: white;
+}
+
+.modal-delete-btn--confirm:hover:not(:disabled) {
+  background: #c0392b;
+}
+
+.modal-delete-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .modal-delete--top-left { top: 10%; left: 5%; }
+  .modal-delete--top-right { top: 10%; right: 5%; }
+  .modal-delete--bottom-right { bottom: 10%; right: 5%; }
+  .modal-delete--bottom-left { bottom: 10%; left: 5%; }
+}
+
 .modal-contenido {
   background: #8a63b4;
   border-radius: 12px;
