@@ -37,6 +37,10 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (formData.email === '' || formData.contrasenna === '') {
+      toast.error("Por favor, rellena todos los campos");
+      return;
+    }
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
     const res = await fetch(`${apiUrl}/usuarios/login`, {
       method: 'POST',

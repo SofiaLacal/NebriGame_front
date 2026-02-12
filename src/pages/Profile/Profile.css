@@ -2,9 +2,19 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.background-profile {
+  background-image: url("../../assets/images/perfilBackground.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 20px;
+  min-height: 100vh;
+  margin-bottom: 12px;
+}
+
 .perfil-container {
   max-width: 1000px;
-  margin: 40px auto;
+  margin-top: 40px;
   padding: 0 20px;
   display: flex;
   gap: 30px;
@@ -22,7 +32,7 @@ body {
 
 .perfil-tab {
   padding: 12px 28px;
-  background: #8a63b4;
+  background: #8a63b4cf;
   border: none;
   color: rgba(255, 255, 255, 0.7);
   font-size: 16px;
@@ -47,6 +57,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  margin-bottom: 60px;
 }
 
 .perfil-seccion {
@@ -218,6 +229,13 @@ body {
   gap: 20px;
 }
 
+.ajustes-subgrupo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
 .ajuste-item {
   display: flex;
   justify-content: space-between;
@@ -315,6 +333,7 @@ body {
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;
+  width: fit-content;
 }
 
 .perfil-btn-peligro:hover {
