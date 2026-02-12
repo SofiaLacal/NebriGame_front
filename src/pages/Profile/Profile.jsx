@@ -15,6 +15,7 @@ function Profile() {
   const [tipoModal, setTipoModal] = useState('');
 
   const [formInfo, setFormInfo] = useState({ nombre, apellido1, apellido2, email });
+  const formInfoInitial = { nombre, apellido1, apellido2, email };
   const [loadingInfo, setLoadingInfo] = useState(false);
   const [mensajeInfo, setMensajeInfo] = useState(null);
   const [errorInfo, setErrorInfo] = useState(null);
@@ -28,6 +29,7 @@ function Profile() {
   const handlePassChange = (e) => setFormPass({...formPass, [e.target.name]: e.target.value 
     
   });
+
 
   const abrirModal = (tipo) => {
     setTipoModal(tipo);
@@ -48,21 +50,33 @@ function Profile() {
     setLoadingInfo(true);
     setMensajeInfo(null);
     setErrorInfo(null);
+
     try {
+      if (formInfo.nombre === formInfoInitial.nombre && formInfo.apellido1 === formInfoInitial.apellido1 &&
+        formInfo.apellido2 === formInfoInitial.apellido2 && formInfo.email === formInfoInitial.email) {
+       setErrorInfo('No hay cambios para guardar');  
+        } else if (formInfo.nombre === '') {
+          setErrorInfo('El nombre no puede estar vacío');
+        } else if (formInfo.apellido1 === '') {
+          setErrorInfo('El primer apellido no puede estar vacío');
+        } else if (formInfo.email === '') {
+          setErrorInfo('El email no puede estar vacío');
+          } else {
       await updateProfile(id, {
         nombre: formInfo.nombre,
         apellido1: formInfo.apellido1,
         apellido2: formInfo.apellido2,
         email: formInfo.email,
       });
-      setUsuario(id, formInfo.nombre, formInfo.apellido1, formInfo.apellido2, formInfo.email);
-      setMensajeInfo('Datos actualizados correctamente');
-      setTimeout(() => cerrarModal(), 1500);
+        setUsuario(id, formInfo.nombre, formInfo.apellido1, formInfo.apellido2, formInfo.email);
+        setMensajeInfo('Datos actualizados correctamente');
+        setTimeout(() => cerrarModal(), 1500);
+      }
     } catch (err) {
       setErrorInfo(err.message || 'Error al actualizar los datos');
     } finally {
-      setLoadingInfo(false);
-    }
+        setLoadingInfo(false);
+      }
   };
 
   const handleGuardarPass = async (e) => {
@@ -77,6 +91,9 @@ function Profile() {
       return;
     } else if (formPass.contrasennaActual === '') {
       setErrorPass('La contraseña actual no puede estar vacía');
+      return;
+    } else if (formPass.contrasennaNueva === formPass.contrasennaActual) {
+      setErrorPass('La contraseña nueva no puede ser igual a la actual');
       return;
     }
     setLoadingPass(true);

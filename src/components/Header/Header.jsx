@@ -51,23 +51,6 @@ function Header({ busqueda = "", setBusqueda = null }) {
     if (setBusqueda) setBusqueda(value);
   };
 
-  const handleLogout = () => {
-    logout();
-    setIsDropdownOpen(false);
-    navigate('/');
-  };
-
-  // Cierra el dropdown al hacer clic fuera
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (!e.target.closest('.usuario-container')) {
-        setIsDropdownOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
   // Cierra el buscador al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (e) => {
