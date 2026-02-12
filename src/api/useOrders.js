@@ -39,4 +39,29 @@ const useOrders = (userId) => {
     return { orders, loading };
 };
 
-export { useOrders };
+// Crear un nuevo pedido
+const createOrder = async (userId, orderData) => {
+    const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+    
+    try {
+        const res = await fetch(`${apiUrl}/usuarios/${userId}/pedidos`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(orderData)
+        });
+
+        if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error('Error creating order:', error);
+        throw error;
+    }
+};
+
+export { useOrders, createOrder };

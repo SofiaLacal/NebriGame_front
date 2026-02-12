@@ -11,10 +11,12 @@ import Wishlist from "../pages/Wishlist/Wishlist";
 import Cart from "../pages/Cart/Cart";
 import Shipping from "../pages/Shipping/Shipping";
 import Payment from "../pages/Payment/Payment";
+import ToastContainer from "../components/Toast/ToastContainer";
 
 function PublicRoutes() {
   return (
     <>
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/productos/:tipo" element={<Product />} />

@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useCart } from '../../api/useCart';
 import { usePayment, useAddPaymentMethod, useDeletePaymentMethod } from '../../api/usePayment';
+import { createOrder } from '../../api/useOrders';
 import Footer from '../../components/Footer/Footer';
 import useUserStore from '../../stores/userStore';
+import { toast } from '../../stores/toastStore';
 import './Payment.css';
 import CartHeader from '../../components/CartHeader/CartHeader';
 
@@ -20,6 +22,7 @@ function Payment() {
 
   const [isAddingMethod, setIsAddingMethod] = useState(false);
   const [newMethod, setNewMethod] = useState({ tipo: 'tarjeta', detalles: '' });
+  const [processingOrder, setProcessingOrder] = useState(false);
 
   // Sincronizar productos del carrito
   useEffect(() => {
@@ -28,6 +31,7 @@ function Payment() {
         const producto = item.producto || {};
         return {
           id: item.id,
+          productoId: item.producto_id || producto.id,
           nombre: producto.nombre || 'Producto',
           precio: parseFloat(producto.precio || 0),
           cantidad: item.cantidad || 1,
@@ -56,8 +60,10 @@ function Payment() {
       setNewMethod({ tipo: 'tarjeta', detalles: '' });
       setIsAddingMethod(false);
       refetchPayment();
+      toast.success('Método de pago añadido');
     } catch (error) {
       console.error('Error añadiendo método de pago:', error);
+      toast.error('Error al añadir método de pago');
     }
   };
 
@@ -66,13 +72,60 @@ function Payment() {
     try {
       await useDeletePaymentMethod(userId, metodoId);
       refetchPayment();
+      toast.success('Método de pago eliminado');
     } catch (error) {
       console.error('Error eliminando método de pago:', error);
+      toast.error('Error al eliminar método de pago');
     }
   };
 
-  const confirmarPedido = () => {
-    navigate('/pedidos');
+  // Confirmar pedido
+  const confirmarPedido = async () => {
+    if (productosCarrito.length === 0) {
+      toast.error('Tu carrito está vacío');
+      return;
+    }
+
+    if (payment.length === 0) {
+      toast.error('Añade un método de pago primero');
+      return;
+    }
+
+    setProcessingOrder(true);
+
+    try {
+      // Preparar datos del pedido
+      const orderData = {
+        productos: productosCarrito.map(p => ({
+          producto_id: p.productoId,
+          nombre: p.nombre,
+          precio: p.precio,
+          cantidad: p.cantidad
+        })),
+        total: parseFloat(calcularTotal()),
+        direccion: direccion ? {
+          ...direccion,
+          telefono: direccion.telefono || direccion.telefonoContacto || '000000000'
+        } : null,
+        estado: 'pendiente',
+        fecha: new Date().toISOString()
+      };
+
+      // Crear el pedido
+      await createOrder(userId, orderData);
+
+      toast.success('¡Pedido realizado con éxito!');
+      
+      // Navegar a la página de pedidos después de 1 segundo
+      setTimeout(() => {
+        navigate('/pedidos');
+      }, 1000);
+
+    } catch (error) {
+      console.error('Error al crear pedido:', error);
+      toast.error('Error al procesar el pedido. Inténtalo de nuevo.');
+      setProcessingOrder(false);
+    }
   };
 
   return (
@@ -210,7 +263,7 @@ function Payment() {
                       {direccion.calle}, {direccion.numeroCasa}<br />
                       {direccion.codigoPostal} {direccion.ciudad}<br />
                       {direccion.region === 'canarias' ? 'Islas Canarias' : 'Península y Baleares'}<br />
-                      Tel: {direccion.telefono}
+                      Tel: {direccion.telefono || direccion.telefonoContacto}
                     </p>
                   </div>
                 )}
@@ -220,10 +273,16 @@ function Payment() {
                   type="button"
                   className="btn-pay"
                   onClick={confirmarPedido}
-                  disabled={payment.length === 0}
-                  title={payment.length === 0 ? 'Añade un método de pago primero' : ''}
+                  disabled={payment.length === 0 || processingOrder || productosCarrito.length === 0}
+                  title={
+                    payment.length === 0 
+                      ? 'Añade un método de pago primero' 
+                      : productosCarrito.length === 0 
+                      ? 'Tu carrito está vacío' 
+                      : ''
+                  }
                 >
-                  Confirmar pedido
+                  {processingOrder ? 'Procesando...' : 'Confirmar pedido'}
                 </button>
 
               </div>
