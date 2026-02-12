@@ -65,6 +65,17 @@ body {
   background: rgba(91, 110, 245, 0.55);
 }
 
+.payment-method-item.selected {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(91, 110, 245, 0.6);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+}
+
+.payment-method-info {
+  flex: 1;
+  cursor: pointer;
+}
+
 .payment-method-info h3 {
   color: white;
   font-size: 1rem;

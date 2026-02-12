@@ -22,10 +22,10 @@ function Orders() {
             <p className="pedidos-vacio">No tienes pedidos todavía</p>
           ) : (
             <div className="pedidos-lista">
-              {orders.map((pedido) => (
+              {orders.map((pedido, index) => (
               <div key={pedido.id} className="pedido-card">
                 <div className="pedido-header">
-                  <span className="pedido-id">Pedido #{pedido.id}</span>
+                  <span className="pedido-id">Pedido #{orders.length - index}</span>
                   <span className="pedido-fecha">
                     {new Date(pedido.fecha).toLocaleDateString('es-ES', {
                       day: 'numeric',
@@ -49,6 +49,18 @@ function Orders() {
                     </div>
                   ))}
                 </div>
+
+                {pedido.envio && (
+                  <div className="pedido-envio">
+                    <h4 className="pedido-envio-titulo">Información de envío</h4>
+                    <p className="pedido-envio-datos">
+                      {pedido.envio.calle}, {pedido.envio.numeroCasa}<br />
+                      {pedido.envio.codigoPostal} {pedido.envio.ciudad}<br />
+                      {pedido.envio.region === 'canarias' ? 'Islas Canarias' : 'Península y Baleares'}
+                      {pedido.envio.telefono && ` • Tel: +34 ${pedido.envio.telefono}`}
+                    </p>
+                  </div>
+                )}
                 
                 <div className="pedido-footer">
                   <span className="pedido-total-label">Total:</span>

@@ -20,6 +20,7 @@ function Payment() {
   const [productosCarrito, setProductosCarrito] = useState([]);
   const { payment, loading: paymentLoading, refetchPayment } = usePayment(userId);
 
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [isAddingMethod, setIsAddingMethod] = useState(false);
   const [newMethod, setNewMethod] = useState({ tipo: 'tarjeta', detalles: '' });
   const [processingOrder, setProcessingOrder] = useState(false);
@@ -56,10 +57,11 @@ function Payment() {
     e.preventDefault();
     if (!newMethod.tipo || !newMethod.detalles.trim()) return;
     try {
-      await useAddPaymentMethod(userId, newMethod.tipo, newMethod.detalles.trim());
+      const data = await useAddPaymentMethod(userId, newMethod.tipo, newMethod.detalles.trim());
       setNewMethod({ tipo: 'tarjeta', detalles: '' });
       setIsAddingMethod(false);
       refetchPayment();
+      if (data?.metodoPago) setSelectedPaymentMethod(data.metodoPago);
       toast.success('Método de pago añadido');
     } catch (error) {
       console.error('Error añadiendo método de pago:', error);
@@ -68,9 +70,11 @@ function Payment() {
   };
 
   // Eliminar método de pago
-  const handleDeleteMethod = async (metodoId) => {
+  const handleDeleteMethod = async (e, metodoId) => {
+    e.stopPropagation();
     try {
       await useDeletePaymentMethod(userId, metodoId);
+      if (selectedPaymentMethod?.id === metodoId) setSelectedPaymentMethod(null);
       refetchPayment();
       toast.success('Método de pago eliminado');
     } catch (error) {
@@ -86,8 +90,8 @@ function Payment() {
       return;
     }
 
-    if (payment.length === 0) {
-      toast.error('Añade un método de pago primero');
+    if (!selectedPaymentMethod) {
+      toast.error('Selecciona un método de pago');
       return;
     }
 
@@ -107,6 +111,7 @@ function Payment() {
           ...direccion,
           telefono: direccion.telefono || direccion.telefonoContacto || '000000000'
         } : null,
+        metodo_pago_id: selectedPaymentMethod.id,
         estado: 'pendiente',
         fecha: new Date().toISOString()
       };
@@ -147,15 +152,26 @@ function Payment() {
                 <p className="no-methods-msg">No tienes métodos de pago guardados.</p>
               ) : (
                 payment.map((method) => (
-                  <div className="payment-method-item" key={method.id}>
-                    <div className="payment-method-info">
+                  <div
+                    className={`payment-method-item ${selectedPaymentMethod?.id === method.id ? 'selected' : ''}`}
+                    key={method.id}
+                  >
+                    <div
+                      className="payment-method-info"
+                      onClick={() => setSelectedPaymentMethod(method)}
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') setSelectedPaymentMethod(method);
+                      }}
+                    >
                       <h3>{method.tipo}</h3>
                       <p>{method.detalles}</p>
                     </div>
                     <button
                       type="button"
                       className="btn-delete-method"
-                      onClick={() => handleDeleteMethod(method.id)}
+                      onClick={(e) => handleDeleteMethod(e, method.id)}
                     >
                       Eliminar
                     </button>
@@ -273,12 +289,12 @@ function Payment() {
                   type="button"
                   className="btn-pay"
                   onClick={confirmarPedido}
-                  disabled={payment.length === 0 || processingOrder || productosCarrito.length === 0}
+                  disabled={!selectedPaymentMethod || processingOrder || productosCarrito.length === 0}
                   title={
-                    payment.length === 0 
-                      ? 'Añade un método de pago primero' 
-                      : productosCarrito.length === 0 
-                      ? 'Tu carrito está vacío' 
+                    !selectedPaymentMethod
+                      ? 'Selecciona un método de pago'
+                      : productosCarrito.length === 0
+                      ? 'Tu carrito está vacío'
                       : ''
                   }
                 >

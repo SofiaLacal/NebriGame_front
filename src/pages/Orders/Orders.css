@@ -142,6 +142,29 @@
   white-space: nowrap;
 }
 
+.pedido-envio {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  border-left: 4px solid rgba(255, 255, 255, 0.3);
+}
+
+.pedido-envio-titulo {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pedido-envio-datos {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 0;
+}
+
 .pedido-footer {
   display: flex;
   justify-content: flex-end;
