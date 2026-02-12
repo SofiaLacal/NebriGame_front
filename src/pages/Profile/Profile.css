@@ -14,11 +14,10 @@ body {
 
 .perfil-container {
   max-width: 1000px;
-  margin-top: 40px;
+  margin: 40px auto 0;
   padding: 0 20px;
   display: flex;
   gap: 30px;
-  align-items: flex-start;
 }
 
 .perfil-tabs {
@@ -61,10 +60,12 @@ body {
 }
 
 .perfil-seccion {
-  background: #8a63b4;
+  background: #9c70ccaf;
   border-radius: 12px;
   padding: 30px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 18px rgba(60, 60, 226, 0.4);
+  width: 100%; 
+  box-sizing: border-box; 
 }
 
 .perfil-seccion h2 {
@@ -409,45 +410,129 @@ body {
 @media (max-width: 768px) {
   .perfil-container {
     flex-direction: column;
+    margin-top: 20px; /* Reducido en móvil */
+    padding: 0 16px; /* Reducido padding lateral */
   }
 
   .perfil-tabs {
     flex-direction: row;
     position: static;
     width: 100%;
+    overflow-x: auto; /* Por si los tabs no caben */
+    flex-wrap: wrap; /* Permite que se envuelvan */
   }
 
-  .modal-contenido {
-    padding: 24px;
+  .perfil-tab { 
+    padding: 10px 16px; 
+    font-size: 14px;
+    flex: 1; /* Distribuye equitativamente */
+    min-width: 120px; /* Ancho mínimo */
+    text-align: center;
   }
-  
+
   .perfil-seccion {
     padding: 20px;
+    border-radius: 8px; /* Bordes menos redondeados en móvil */
+  }
+  
+  .perfil-seccion h2 {
+    font-size: 18px; /* Título más pequeño */
   }
   
   .perfil-seccion-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
+    gap: 12px;
   }
   
   .perfil-btn-editar {
     width: 100%;
   }
   
-  .perfil-tab { 
-    padding: 10px 16px; 
-    font-size: 14px; 
+  .perfil-detalles {
+    gap: 16px; /* Reducido gap */
+  }
+  
+  .perfil-detalle {
+    padding-bottom: 16px;
+  }
+  
+  .perfil-label {
+    font-size: 13px;
+  }
+  
+  .perfil-valor {
+    font-size: 15px;
+    word-break: break-word; /* Evita overflow de textos largos */
   }
   
   .perfil-btn { 
     width: 100%; 
     text-align: center; 
   }
+  
+  .perfil-btn-peligro {
+    width: 100%;
+  }
+  
+  /* Modal en móvil */
+  .modal-contenido {
+    padding: 20px;
+    margin: 10px; /* Añade margen en los bordes */
+  }
+  
+  .modal-header h2 {
+    font-size: 20px;
+  }
 }
 
-@media (max-width: 600px) {
+/* Pantallas muy pequeñas */
+@media (max-width: 480px) {
   .perfil-container {
-    padding: 0 16px;
+    padding: 0 12px;
+    gap: 20px;
+  }
+  
+  .perfil-seccion {
+    padding: 16px;
+  }
+  
+  .perfil-seccion h2 {
+    font-size: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .perfil-detalles {
+    gap: 12px;
+  }
+  
+  .perfil-campo input,
+  .perfil-campo textarea {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  
+  .perfil-btn,
+  .perfil-btn-editar,
+  .perfil-btn-peligro {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  
+  .perfil-tab {
+    padding: 8px 12px;
+    font-size: 13px;
+    min-width: 100px;
+  }
+  
+  .ajuste-item {
+    padding: 12px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .ajuste-switch {
+    align-self: flex-end;
   }
 }

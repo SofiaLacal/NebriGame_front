@@ -1,3 +1,17 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.background-orders {
+  background-image: url("../../assets/images/perfilBackground.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 20px;
+  min-height: 100vh;
+  margin-bottom: 12px;
+}
+
 .pedidos-page-wrapper {
   min-height: calc(100vh - 200px);
   max-width: 1000px;
@@ -7,10 +21,12 @@
 
 .pedidos-page-container {
   min-height: 500px;
-  background: #8a63b4;
+  background: #9c70ccaf;
   border-radius: 12px;
   padding: 30px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 18px rgba(60, 60, 226, 0.4);
+  width: 100%; 
+  box-sizing: border-box; 
 }
 
 .pedidos-titulo {
