@@ -32,7 +32,7 @@ function Login() {
   };
 
   const goToRegister = () => {
-    navigate('/register');
+    navigate('/registro');
   };
 
   const handleSubmit = async (e) => {
@@ -84,7 +84,7 @@ function Login() {
       <div className="auth-container-log">
         <div className="auth-card-log">
           <div className="auth-header-log">
-            <h1>Inicia Sesión</h1>
+            <h1>Inicia sesión</h1>
             <p>Pon tu usuario y contraseña para entrar</p>
           </div>
 

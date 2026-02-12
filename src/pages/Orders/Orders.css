@@ -1,3 +1,17 @@
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.background-orders {
+  background-image: url("../../assets/images/perfilBackground.jpeg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 20px;
+  min-height: 100vh;
+  margin-bottom: 12px;
+}
+
 .pedidos-page-wrapper {
   min-height: calc(100vh - 200px);
   max-width: 1000px;
@@ -7,10 +21,12 @@
 
 .pedidos-page-container {
   min-height: 500px;
-  background: #8a63b4;
+  background: #9c70ccaf;
   border-radius: 12px;
   padding: 30px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 18px rgba(60, 60, 226, 0.4);
+  width: 100%; 
+  box-sizing: border-box; 
 }
 
 .pedidos-titulo {
@@ -82,23 +98,27 @@
 }
 
 .pedido-estado--pendiente {
-  background: rgba(241, 196, 15, 0.2);
-  color: #f1c40f;
+  background: rgba(241, 196, 15, 0.35);
+  color: #ffffff;
+  border: 1px solid #f1c40f;
 }
 
 .pedido-estado--enviado {
-  background: rgba(52, 152, 219, 0.2);
-  color: #3498db;
+  background: rgba(52, 152, 219, 0.35);
+  color: #ffffff;
+  border: 1px solid #3498db;
 }
 
 .pedido-estado--entregado {
-  background: rgba(46, 204, 113, 0.2);
-  color: #2ecc71;
+  background: rgba(46, 204, 113, 0.35);
+  color: #ffffff;
+  border: 1px solid #2ecc71;
 }
 
 .pedido-estado--cancelado {
-  background: rgba(231, 76, 60, 0.2);
-  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.35);
+  color: #ffffff;
+  border: 1px solid #e74c3c;
 }
 
 .pedido-productos {
