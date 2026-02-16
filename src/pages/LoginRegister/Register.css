@@ -7,9 +7,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 20px;
   min-height: 100vh;
-  margin-bottom: 12px;
 }
 
 .auth-container-reg {
@@ -18,7 +16,6 @@ body {
   align-items: center;
   justify-content: center;
   padding: 10px;
-  margin-bottom: 12px;
 }
 
 .auth-card-reg {

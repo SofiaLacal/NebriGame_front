@@ -7,10 +7,8 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 20px;
   min-height: 100vh;
   padding-bottom: 40px;
-  margin-bottom: 12px;
 }
 
 .pedidos-page-wrapper {
