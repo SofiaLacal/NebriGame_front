@@ -13,7 +13,7 @@ body {
 .wishlist-container {
   max-width: 1200px;
   margin: 40px auto 0 auto;
-  padding: 24px;
+  padding: 2rem;
   padding-left: 96px;
   position: relative;
 }

@@ -10,6 +10,8 @@
   padding: 0.8rem 0.8rem;
   margin: 0 20px;
   position: relative;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* LOGO */
@@ -19,6 +21,7 @@
   cursor: pointer;
   transition: transform 0.2s ease;
   order: 1;
+  flex-shrink: 0;
 }
 
 .logo-cart:hover {
@@ -36,6 +39,8 @@
   justify-content: center;
   flex: 1;
   order: 2;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .checkout-steps-cart {
@@ -46,6 +51,7 @@
   padding: 0;
   gap: 30px;
   color: white;
+  flex-shrink: 1;
 }
 
 .step-cart {
@@ -55,6 +61,9 @@
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
+  flex-shrink: 1;
+  min-width: 0; 
+  white-space: nowrap;
 }
 
 .step-number-cart {
@@ -112,6 +121,9 @@
   transition: all 0.3s ease;
   background: none;
   border: none;
+  flex-shrink: 1;
+  min-width: 0;
+  white-space: nowrap;
 }
 
 .hola-usuario:hover {
@@ -163,6 +175,8 @@
   margin: 0;
   padding: 0;
   order: 4;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .nav-links-right-cart a {
@@ -177,6 +191,8 @@
   align-items: center;
   gap: 0.4rem;
   font-size: 0.95rem;
+  flex-shrink: 1;
+  min-width: 0;
 }
 
 .nav-links-right-cart a:hover,
@@ -190,23 +206,133 @@
   margin: 0;
 }
 
+/* RESPONSIVE - REDUCCIÓN PROGRESIVA */
+
+@media (max-width: 1226px) {
+  .navbar-cart {
+    margin: 0 10px;
+  }
+  
+  .checkout-steps-cart {
+    gap: 20px;
+  }
+  
+  .step-cart {
+    gap: 0.4rem;
+    font-size: 0.95rem;
+  }
+  
+  .step-line-cart {
+    width: 60px;
+  }
+  
+  .nav-links-right-cart {
+    gap: 0.4rem;
+  }
+  
+  .nav-links-right-cart a {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .hola-usuario {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 1150px) {
+  .navbar-cart {
+    margin: 0 5px;
+  }
+  
+  .logo-cart img {
+    width: 75px;
+  }
+  
+  .checkout-steps-cart {
+    gap: 15px;
+  }
+  
+  .step-cart {
+    gap: 0.3rem;
+    font-size: 0.9rem;
+  }
+  
+  .step-number-cart {
+    width: 26px;
+    height: 26px;
+    font-size: 0.85rem;
+  }
+  
+  .step-line-cart {
+    width: 50px;
+  }
+  
+  .nav-links-right-cart {
+    gap: 0.3rem;
+  }
+  
+  .nav-links-right-cart a {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  
+  .hola-usuario {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 1098px) {
+  .navbar-cart {
+    margin: 0;
+    padding: 0.8rem 0.5rem;
+  }
+  
+  .logo-cart img {
+    width: 70px;
+  }
+  
+  .checkout-steps-cart {
+    gap: 10px;
+  }
+  
+  .step-cart {
+    gap: 0.25rem;
+    font-size: 0.85rem;
+  }
+  
+  .step-number-cart {
+    width: 24px;
+    height: 24px;
+    font-size: 0.8rem;
+  }
+  
+  .step-line-cart {
+    width: 40px;
+  }
+  
+  .nav-links-right-cart {
+    gap: 0.2rem;
+  }
+  
+  .nav-links-right-cart a {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8rem;
+  }
+  
+  .hola-usuario {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.8rem;
+    gap: 0.3rem;
+  }
+}
+
 /* RESPONSIVE: tablet */
 @media (max-width: 1024px) {
   .navbar-cart {
     gap: 1rem;
-  }
-
-  .nav-links-right-cart {
-    gap: 0.3rem;
-  }
-
-  .nav-links-right-cart a {
-    padding: 0.5rem 0.8rem;
-    font-size: 0.85rem;
-  }
-
-  .step-line-cart {
-    width: 40px;
   }
 }
 
