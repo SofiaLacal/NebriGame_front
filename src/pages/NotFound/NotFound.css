@@ -1,20 +1,20 @@
+.not-found-background {
+/*   background: linear-gradient(#8496e5, #8768a7); */
+  background: rgba(40, 62, 232, 0.377);
+  display: flex;
+  flex-direction: column;
+}
+
 .not-found {
   font-family: 'Teacher', sans-serif;
-  min-height: 98vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
-  gap: 1rem;
+  gap: 2.8rem;
   font-size: 1.2rem;
-}
-
-.not-found-background {
-  margin-top: 2px;
-  margin-bottom: 2px;
-  background: linear-gradient(#8496e5, #8768a7);
-  border-radius: 20px;
 }
 
 .not-found h2{

@@ -7,11 +7,7 @@ function App() {
   return (
     <>
       <Routes>
-        {/* Rutas públicas */}
         <Route path="/*" element={<PublicRoutes />} />
-
-        {/* Rutas privadas */}
-        {/* <Route path="/" element={<PrivateRoutes />} /> */}
       </Routes>
     </>
   );

@@ -8,9 +8,7 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 20px;
   min-height: 100vh;
-  margin-bottom: 12px;
 }
 
 .auth-container-log {

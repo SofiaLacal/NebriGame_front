@@ -7,16 +7,15 @@ body {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  border-radius: 20px;
   min-height: 100vh;
-  margin-bottom: 12px;
+  padding-bottom: 40px;
 }
 
 .pedidos-page-wrapper {
   min-height: calc(100vh - 200px);
   max-width: 1000px;
-  margin: 40px auto;
-  padding: 0 20px;
+  margin: 40px auto 0; 
+  padding: 0 20px 0 20px;
 }
 
 .pedidos-page-container {

@@ -9,14 +9,12 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  border-radius: 20px;
   min-height: 100vh;
-  margin-bottom: 12px;
 }
 
 .shipping-container {
   max-width: 1400px;
-  margin: 60px auto 12px auto;
+  margin: 60px auto 0 auto;
   padding: 2rem;
   min-height: calc(100vh - 200px);
 }
