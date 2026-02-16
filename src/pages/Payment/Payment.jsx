@@ -33,6 +33,7 @@ function Payment() {
         return {
           id: item.id,
           productoId: item.producto_id || producto.id,
+          plataforma_id: item.plataforma_id ?? 0,
           nombre: producto.nombre || 'Producto',
           precio: parseFloat(producto.precio || 0),
           cantidad: item.cantidad || 1,
@@ -102,6 +103,7 @@ function Payment() {
       const orderData = {
         productos: productosCarrito.map(p => ({
           producto_id: p.productoId,
+          plataforma_id: p.plataforma_id ?? 0,
           nombre: p.nombre,
           precio: p.precio,
           cantidad: p.cantidad

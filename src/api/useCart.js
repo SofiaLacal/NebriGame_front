@@ -41,15 +41,19 @@ const useCart = (userId) => {
     return { cart, loading };
 };
 
-const useAddCart = async (userId, productoId, cantidad) => {
+const useAddCart = async (userId, productoId, cantidad, plataformaId = null) => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+    const body = { producto_id: productoId, cantidad: cantidad ?? 1 };
+    if (plataformaId != null && plataformaId !== 0) {
+        body.plataforma_id = plataformaId;
+    }
     try {
         const res = await fetch(`${apiUrl}/usuarios/${userId}/carrito`, {
             headers: {
                 'Content-Type': 'application/json'
             },
         method: 'POST',
-        body: JSON.stringify({ producto_id: productoId, cantidad: cantidad })
+        body: JSON.stringify(body)
         });
         const data = await res.json();
         if (!res.ok) {
@@ -65,15 +69,17 @@ const useAddCart = async (userId, productoId, cantidad) => {
     }
 };
 
-const useChangeQuantity = async (userId, productoId, cantidad) => {
+const useChangeQuantity = async (userId, productoId, cantidad, plataformaId = 0) => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+    const body = { cantidad };
+    if (plataformaId != null) body.plataforma_id = plataformaId;
     try {
         const res = await fetch(`${apiUrl}/usuarios/${userId}/carrito/${productoId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ cantidad })
+            body: JSON.stringify(body)
         });
         const data = await res.json();
         if (!res.ok) {
@@ -89,11 +95,15 @@ const useChangeQuantity = async (userId, productoId, cantidad) => {
     }
 };
 
-const useDeleteCart = async (userId, productoId) => {
+const useDeleteCart = async (userId, productoId, plataformaId = 0) => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+    const url = new URL(`${apiUrl}/usuarios/${userId}/carrito/${productoId}`);
+    if (plataformaId != null) url.searchParams.set('plataforma_id', plataformaId);
     try {
-        const res = await fetch(`${apiUrl}/usuarios/${userId}/carrito/${productoId}`, {
-            method: 'DELETE'
+        const res = await fetch(url.toString(), {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ plataforma_id: plataformaId })
         });
         const data = await res.json();
         if (!res.ok) {

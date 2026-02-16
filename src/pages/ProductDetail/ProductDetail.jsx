@@ -23,7 +23,7 @@ function ProductDetail() {
   const { stock, plataformas, loading: loadingStock } = useProductStock(productoId);
   const [isUpdating, setIsUpdating] = useState(false);
   const [localIsInWishlist, setLocalIsInWishlist] = useState(isInWishlist);
-  const [plataformaSeleccionada, setPlataformaSeleccionada] = useState("");
+  const [plataformaSeleccionada, setPlataformaSeleccionada] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [productToDeleteModal, setProductToDeleteModal] = useState(null);
  
@@ -34,13 +34,14 @@ function ProductDetail() {
 
   // Plataforma por defecto cuando hay plataformas (videojuegos)
   useEffect(() => {
-    if (tipo === "videojuegos" && plataformas && plataformas.length > 0) {
+    if (tipo === "videojuegos" && Array.isArray(plataformas) && plataformas.length > 0) {
       setPlataformaSeleccionada(prev => {
-        const exists = prev && plataformas.some(p => String(p.id) === prev);
-        return exists ? prev : String(plataformas[0].id);
+        const prevStr = prev != null ? String(prev) : "";
+        const exists = prevStr && plataformas.some(p => String(p.id) === prevStr);
+        return exists ? prevStr : String(plataformas[0].id);
       });
     } else {
-      setPlataformaSeleccionada("");
+      setPlataformaSeleccionada(null);
     }
   }, [tipo, plataformas]);
 
@@ -85,11 +86,11 @@ function ProductDetail() {
     }
   };
 
-  const handleAddToCart = async (productId) => {
+  const handleAddToCart = async (productId, plataformaId = null) => {
     if (isUpdating) return;
     setIsUpdating(true);
     try {
-      await useAddCart(userId, productId);
+      await useAddCart(userId, productId, 1, plataformaId);
       toast.success("Producto añadido al carrito");
     } catch (error) {
       console.error("Error al añadir al carrito:", error);
@@ -118,10 +119,19 @@ function ProductDetail() {
 
   const producto = data.find(p => p.id === parseInt(id));
 
-  // Stock disponible: por plataforma si es videojuego, sino total
-  const stockDisponible = tipo === "videojuegos" && plataformas && plataformaSeleccionada
-    ? (plataformas.find(p => String(p.id) === plataformaSeleccionada)?.control_stock ?? 0)
-    : stock;
+  // Stock disponible: para videojuegos SIEMPRE por plataforma seleccionada (NUNCA el total "stock")
+  let stockDisponible;
+  if (tipo === "videojuegos") {
+    if (Array.isArray(plataformas) && plataformas.length > 0 && plataformaSeleccionada != null && plataformaSeleccionada !== "") {
+      const sel = String(plataformaSeleccionada);
+      const plataforma = plataformas.find(p => String(p.id) === sel);
+      stockDisponible = plataforma != null ? (Number(plataforma.control_stock) || 0) : 0;
+    } else {
+      stockDisponible = 0; // Nunca usar stock total para videojuegos
+    }
+  } else {
+    stockDisponible = stock;
+  }
 
   const handleAvisoReposicion = () => {
     toast.success("Te avisaremos cuando repongamos, muchas gracias");
@@ -160,11 +170,11 @@ function ProductDetail() {
                   <div className="select-plataforma-wrapper">
                     <select
                       className="select-plataforma"
-                      value={plataformaSeleccionada}
+                      value={plataformaSeleccionada ?? ""}
                       onChange={(e) => setPlataformaSeleccionada(e.target.value)}
                     >
                       {plataformas.map((p) => (
-                        <option key={p.id} value={p.id}>
+                        <option key={p.id} value={String(p.id)}>
                           {p.nombre}
                         </option>
                       ))}
@@ -191,7 +201,11 @@ function ProductDetail() {
                     Cargando...
                   </button>
                 ) : stockDisponible > 0 ? (
-                  <button className="boton-carrito" onClick={() => handleAddToCart(producto.id)} disabled={isUpdating}>
+                  <button
+                    className="boton-carrito"
+                    onClick={() => handleAddToCart(producto.id, tipo === "videojuegos" ? plataformaSeleccionada : null)}
+                    disabled={isUpdating}
+                  >
                     Añadir al carrito
                   </button>
                 ) : (

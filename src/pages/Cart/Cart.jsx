@@ -27,9 +27,12 @@ function Cart() {
     if (cart && cart.length > 0) {
       const productos = cart.map((item) => {
         const producto = item.producto || {};
+        const plataforma = item.plataforma;
         return {
           id: item.id,
           producto_id: item.producto_id,
+          plataforma_id: item.plataforma_id ?? 0,
+          plataformaNombre: plataforma?.nombre || null,
           nombre: producto.nombre || 'Producto',
           precio: parseFloat(producto.precio || 0),
           imagen: producto.imagen_url ? getImageUrl(producto.imagen_url) : '',
@@ -50,7 +53,11 @@ function Cart() {
   };
 
   const openConfirmModal = (producto) => {
-    setProductToDelete({ productoId: producto.producto_id, nombre: producto.nombre });
+    setProductToDelete({
+      productoId: producto.producto_id,
+      plataformaId: producto.plataforma_id ?? 0,
+      nombre: producto.nombre
+    });
     setShowConfirmModal(true);
   };
 
@@ -59,14 +66,14 @@ function Cart() {
     setProductToDelete(null);
   };
 
-  const eliminarProducto = async (productoId) => {
+  const eliminarProducto = async (productoId, plataformaId = 0) => {
     if (!userId) return;
     try {
-      await useDeleteCart(userId, productoId);
-      setProductosCarrito(prev => prev.filter(p => p.producto_id !== productoId));
+      await useDeleteCart(userId, productoId, plataformaId);
+      setProductosCarrito(prev => prev.filter(p => !(p.producto_id === productoId && (p.plataforma_id ?? 0) === plataformaId)));
       setEditingQuantity(prev => {
         const next = { ...prev };
-        delete next[productoId];
+        delete next[`${productoId}-${plataformaId}`];
         return next;
       });
       toast.success("Producto eliminado del carrito");
@@ -78,29 +85,31 @@ function Cart() {
 
   const handleConfirmEliminar = async () => {
     if (!productToDelete) return;
-    await eliminarProducto(productToDelete.productoId);
+    await eliminarProducto(productToDelete.productoId, productToDelete.plataformaId);
   };
 
-  const setCantidad = async (productoId, newCantidad) => {
+  const setCantidad = async (productoId, newCantidad, plataformaId = 0) => {
     if (!userId || newCantidad < 1) return;
     try {
-      await useChangeQuantity(userId, productoId, newCantidad);
+      await useChangeQuantity(userId, productoId, newCantidad, plataformaId);
       setProductosCarrito(prev =>
         prev.map(p =>
-          p.producto_id === productoId ? { ...p, cantidad: newCantidad } : p
+          p.producto_id === productoId && (p.plataforma_id ?? 0) === plataformaId ? { ...p, cantidad: newCantidad } : p
         )
       );
-      setEditingQuantity(prev => ({ ...prev, [productoId]: undefined }));
+      setEditingQuantity(prev => ({ ...prev, [`${productoId}-${plataformaId}`]: undefined }));
     } catch (err) {
       console.error('Error actualizando cantidad:', err);
       toast.error(err.message || 'No se pudo actualizar la cantidad');
     }
   };
 
+  const getItemKey = (p) => `${p.producto_id}-${p.plataforma_id ?? 0}`;
+
   // Sumar producto
   const sumarProducto = async (producto) => {
     const newCantidad = producto.cantidad + 1;
-    await setCantidad(producto.producto_id, newCantidad);
+    await setCantidad(producto.producto_id, newCantidad, producto.plataforma_id ?? 0);
   };
 
   // Restar producto (si llega a 0, mostrar modal de confirmación)
@@ -110,15 +119,15 @@ function Cart() {
       openConfirmModal(producto);
       return;
     }
-    setCantidad(producto.producto_id, newCantidad);
+    setCantidad(producto.producto_id, newCantidad, producto.plataforma_id ?? 0);
   };
 
   const commitQuantityInput = (producto) => {
-    const raw = editingQuantity[producto.producto_id];
+    const raw = editingQuantity[getItemKey(producto)];
     if (raw === undefined || raw === '') {
       setEditingQuantity(prev => {
         const next = { ...prev };
-        delete next[producto.producto_id];
+        delete next[getItemKey(producto)];
         return next;
       });
       return;
@@ -128,7 +137,7 @@ function Cart() {
     if (newCantidad < 1) {
       openConfirmModal(producto);
     } else {
-      setCantidad(producto.producto_id, newCantidad);
+      setCantidad(producto.producto_id, newCantidad, producto.plataforma_id ?? 0);
     }
   };
 
@@ -177,7 +186,12 @@ function Cart() {
                       />
 
                       <div className="product-info-cart">
-                        <h3 className="product-name-cart">{producto.nombre}</h3>
+                        <h3 className="product-name-cart">
+                          {producto.nombre}
+                          {producto.plataformaNombre && (
+                            <span className="producto-plataforma-cart"> ({producto.plataformaNombre})</span>
+                          )}
+                        </h3>
 
                         <div className="product-price-container-cart">
                           <span className="product-price-cart">
@@ -196,8 +210,8 @@ function Cart() {
                               type="number"
                               min={1}
                               className="product-quantity-cart product-quantity-input-cart"
-                              value={editingQuantity[producto.producto_id] ?? producto.cantidad}
-                              onChange={(e) => setEditingQuantity(prev => ({ ...prev, [producto.producto_id]: e.target.value }))}
+                              value={editingQuantity[getItemKey(producto)] ?? producto.cantidad}
+                              onChange={(e) => setEditingQuantity(prev => ({ ...prev, [getItemKey(producto)]: e.target.value }))}
                               onBlur={() => commitQuantityInput(producto)}
                               onKeyDown={(e) => e.key === 'Enter' && e.target.blur()}
                               aria-label={`Cantidad de ${producto.nombre}`}
