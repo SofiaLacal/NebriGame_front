@@ -180,6 +180,10 @@ body {
     padding-right: 2rem;
   }
   
+  .wishlist-header {
+    padding-left: 2rem;
+  }
+  
   .wishlist-grid {
     gap: 40px 20px;
   }
@@ -191,6 +195,10 @@ body {
     padding-right: 1.5rem;
   }
   
+  .wishlist-header {
+    padding-left: 3.2rem;
+  }
+  
   .wishlist-grid {
     gap: 60px 20px;
   }
@@ -200,6 +208,15 @@ body {
   .wishlist-container {
     padding: 2rem 1.5rem;
     padding-left: 1.5rem;
+  }
+  
+  .wishlist-container > button:first-child {
+    position: static;
+    margin-bottom: 1rem;
+  }
+  
+  .wishlist-header {
+    padding-left: 0;
   }
 }
 

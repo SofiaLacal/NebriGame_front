@@ -525,3 +525,53 @@ body {
     padding: 0.9rem 1.5rem;
   }
 }
+
+@media (max-width: 320px) {
+  .cart-container {
+    padding: 0.75rem;
+    margin-top: 40px;
+  }
+
+  .cart-header {
+    padding: 1rem;
+  }
+  
+  .cart-logo {
+    font-size: 1.2rem;
+  }
+  
+  .cart-logo img,
+  .cart-icon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .my-cart,
+  .cart-summary {
+    padding: 1rem;
+  }
+  
+  .my-cart h2,
+  .cart-summary h2 {
+    font-size: 1.2rem;
+  }
+
+  .product-item-cart {
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .product-image-cart {
+    width: 70px;
+    height: 70px;
+  }
+
+  .product-name-cart {
+    font-size: 0.9rem;
+  }
+
+  .btn-continue-cart {
+    font-size: 0.95rem;
+    padding: 0.8rem 1.2rem;
+  }
+}
