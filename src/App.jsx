@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import PublicRoutes from "./router/PublicRoutes";
-import ToastContainer from "./components/Toast/ToastContainer";
 /* import PrivateRoutes from "./router/PrivateRoutes" */
 
 
@@ -14,7 +13,6 @@ function App() {
         {/* Rutas privadas */}
         {/* <Route path="/" element={<PrivateRoutes />} /> */}
       </Routes>
-      <ToastContainer />
     </>
   );
 }
