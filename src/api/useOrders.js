@@ -52,11 +52,10 @@ const createOrder = async (userId, orderData) => {
             body: JSON.stringify(orderData)
         });
 
-        if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-        }
-
         const data = await res.json();
+        if (!res.ok) {
+            throw new Error(data.error || data.message || `Error al crear pedido`);
+        }
         return data;
     } catch (error) {
         console.error('Error creating order:', error);
