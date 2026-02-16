@@ -77,11 +77,11 @@ function Register() {
       
       const data = await res.json();
       useUserStore.setState({
+        id: data.usuario.id,
         nombre: data.usuario.nombre,
         apellido1: data.usuario.apellido1,
         apellido2: data.usuario.apellido2,
-        email: data.usuario.email,
-        fecha_registro: data.usuario.fecha_registro
+        email: data.usuario.email
       });
       console.log('Respuesta del servidor:', data);
       
