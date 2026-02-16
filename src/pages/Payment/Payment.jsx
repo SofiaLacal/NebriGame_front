@@ -128,7 +128,8 @@ function Payment() {
 
     } catch (error) {
       console.error('Error al crear pedido:', error);
-      toast.error('Error al procesar el pedido. Inténtalo de nuevo.');
+      toast.error(error.message || 'Error al procesar el pedido. Inténtalo de nuevo.');
+    } finally {
       setProcessingOrder(false);
     }
   };

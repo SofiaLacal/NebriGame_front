@@ -53,7 +53,10 @@ const useAddCart = async (userId, productoId, cantidad) => {
         });
         const data = await res.json();
         if (!res.ok) {
-            throw new Error(data.error || 'Error al añadir al carrito');
+            const msg = data.stockDisponible !== undefined
+                ? `${data.error || 'Stock insuficiente'}. Disponible: ${data.stockDisponible}`
+                : (data.error || 'Error al añadir al carrito');
+            throw new Error(msg);
         }
         return data;
     } catch (err) {
@@ -74,7 +77,10 @@ const useChangeQuantity = async (userId, productoId, cantidad) => {
         });
         const data = await res.json();
         if (!res.ok) {
-            throw new Error(data.error || 'Error al actualizar cantidad del producto');
+            const msg = data.stockDisponible !== undefined
+                ? `${data.error || 'Stock insuficiente'}. Disponible: ${data.stockDisponible}`
+                : (data.error || 'Error al actualizar cantidad del producto');
+            throw new Error(msg);
         }
         return data;
     } catch (err) {
@@ -101,4 +107,12 @@ const useDeleteCart = async (userId, productoId) => {
 };
 
 
-export { useCart, useAddCart, useChangeQuantity, useDeleteCart };
+const validateCartStock = async (userId) => {
+    const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+    const res = await fetch(`${apiUrl}/usuarios/${userId}/carrito/validar-stock`);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Error al validar stock');
+    return data;
+};
+
+export { useCart, useAddCart, useChangeQuantity, useDeleteCart, validateCartStock };

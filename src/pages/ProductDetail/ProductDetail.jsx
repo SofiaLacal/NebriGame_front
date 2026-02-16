@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useVideojuegos, useConsolas, useMerchandising } from "../../api/useProduct";
+import { useVideojuegos, useConsolas, useMerchandising, useProductStock } from "../../api/useProduct";
 import { Heart, ArrowLeft } from 'lucide-react';
 import Header from "../../components/Header/Header";
 import Loading from "../../components/Loading/Loading";
@@ -19,8 +19,11 @@ function ProductDetail() {
   const navigate = useNavigate();
   const userId = useUserStore.getState().id;
   const { isInWishlist, loading: loadingWishlist } = useIsInWishlist(userId, id);
+  const productoId = id ? parseInt(id, 10) : null;
+  const { stock, plataformas, loading: loadingStock } = useProductStock(productoId);
   const [isUpdating, setIsUpdating] = useState(false);
   const [localIsInWishlist, setLocalIsInWishlist] = useState(isInWishlist);
+  const [plataformaSeleccionada, setPlataformaSeleccionada] = useState("");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [productToDeleteModal, setProductToDeleteModal] = useState(null);
  
@@ -28,6 +31,18 @@ function ProductDetail() {
   useEffect(() => {
     setLocalIsInWishlist(isInWishlist);
   }, [isInWishlist]);
+
+  // Plataforma por defecto cuando hay plataformas (videojuegos)
+  useEffect(() => {
+    if (tipo === "videojuegos" && plataformas && plataformas.length > 0) {
+      setPlataformaSeleccionada(prev => {
+        const exists = prev && plataformas.some(p => String(p.id) === prev);
+        return exists ? prev : String(plataformas[0].id);
+      });
+    } else {
+      setPlataformaSeleccionada("");
+    }
+  }, [tipo, plataformas]);
 
   const handleToggleWishlist = (productId, productName) => {
     if (isUpdating) return;
@@ -78,7 +93,7 @@ function ProductDetail() {
       toast.success("Producto añadido al carrito");
     } catch (error) {
       console.error("Error al añadir al carrito:", error);
-      toast.error("No se pudo añadir al carrito");
+      toast.error(error.message || "No se pudo añadir al carrito");
     } finally {
       setIsUpdating(false);
     }
@@ -102,6 +117,15 @@ function ProductDetail() {
   }
 
   const producto = data.find(p => p.id === parseInt(id));
+
+  // Stock disponible: por plataforma si es videojuego, sino total
+  const stockDisponible = tipo === "videojuegos" && plataformas && plataformaSeleccionada
+    ? (plataformas.find(p => String(p.id) === plataformaSeleccionada)?.control_stock ?? 0)
+    : stock;
+
+  const handleAvisoReposicion = () => {
+    toast.success("Te avisaremos cuando repongamos, muchas gracias");
+  };
 
   if (loading) {
     return (
@@ -130,8 +154,25 @@ function ProductDetail() {
             </div>
             <div className="info">
               <h1>{producto.nombre}</h1>
-              <p className="precio">{producto.precio} €</p>
-              
+              <div className="precio-row">
+                <p className="precio">{producto.precio} €</p>
+                {tipo === "videojuegos" && plataformas && plataformas.length > 0 && (
+                  <div className="select-plataforma-wrapper">
+                    <select
+                      className="select-plataforma"
+                      value={plataformaSeleccionada}
+                      onChange={(e) => setPlataformaSeleccionada(e.target.value)}
+                    >
+                      {plataformas.map((p) => (
+                        <option key={p.id} value={p.id}>
+                          {p.nombre}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+              </div>
+
               <div className="botones">
                 <button 
                   className="boton-wishlist"
@@ -145,7 +186,19 @@ function ProductDetail() {
                     color={localIsInWishlist ? "#e74c3c" : "white"} 
                   />
                 </button>
-                <button className="boton-carrito" onClick={() => handleAddToCart(producto.id)} disabled={isUpdating}>Añadir al carrito</button>
+                {loadingStock ? (
+                  <button className="boton-carrito" disabled>
+                    Cargando...
+                  </button>
+                ) : stockDisponible > 0 ? (
+                  <button className="boton-carrito" onClick={() => handleAddToCart(producto.id)} disabled={isUpdating}>
+                    Añadir al carrito
+                  </button>
+                ) : (
+                  <button className="boton-aviso-reposicion" onClick={handleAvisoReposicion}>
+                    Recibir un email cuando se reponga stock
+                  </button>
+                )}
               </div>
             </div>
           </div>

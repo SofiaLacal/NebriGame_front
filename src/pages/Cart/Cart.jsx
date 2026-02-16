@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlinePlus, AiOutlineMinus, AiOutlineDelete, AiOutlineShoppingCart } from 'react-icons/ai';
-import { useCart, useDeleteCart, useChangeQuantity } from '../../api/useCart';
+import { useCart, useDeleteCart, useChangeQuantity, validateCartStock } from '../../api/useCart';
 import Footer from '../../components/Footer/Footer';
 import ConfirmModal from '../../components/ConfirmModal/ConfirmModal';
 import { toast } from '../../stores/toastStore';
@@ -93,6 +93,7 @@ function Cart() {
       setEditingQuantity(prev => ({ ...prev, [productoId]: undefined }));
     } catch (err) {
       console.error('Error actualizando cantidad:', err);
+      toast.error(err.message || 'No se pudo actualizar la cantidad');
     }
   };
 
@@ -131,8 +132,20 @@ function Cart() {
     }
   };
 
-  const continuarCompra = () => {
-    navigate('/envio');
+  const continuarCompra = async () => {
+    if (!userId) return;
+    try {
+      const { valido, errores } = await validateCartStock(userId);
+      if (!valido && errores?.length > 0) {
+        const primerError = errores[0];
+        toast.error(`Stock insuficiente para ${primerError.nombre}. Disponible: ${primerError.stockDisponible}`);
+        return;
+      }
+      navigate('/envio');
+    } catch (error) {
+      console.error('Error validando stock:', error);
+      toast.error(error.message || 'Error al validar el carrito');
+    }
   };
 
   return (

@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../../api/useCart';
+import { useCart, validateCartStock } from '../../api/useCart';
 import { useAddresses, useAddAddress, useDeleteAddress } from '../../api/useAddresses';
 import Footer from '../../components/Footer/Footer';
 import useUserStore from '../../stores/userStore';
 import './Shipping.css';
 import CartHeader from '../../components/CartHeader/CartHeader';
+import { toast } from '../../stores/toastStore';
 
 function Shipping() {
   const navigate = useNavigate();
@@ -138,19 +139,35 @@ function Shipping() {
     }
   };
 
-  const handleContinue = () => {
+  const navigateToPayment = (direccionCompleta) => {
+    navigate('/pago', { state: { direccion: direccionCompleta, total: calcularTotal() } });
+  };
+
+  const handleContinue = async () => {
+    if (!userId) return;
     if (selectedAddress) {
-      const direccionCompleta = {
-        ...selectedAddress,
-        telefono: selectedAddress.telefonoContacto,
-      };
-      navigate('/pago', { state: { direccion: direccionCompleta, total: calcularTotal() } });
+      try {
+        const { valido, errores } = await validateCartStock(userId);
+        if (!valido && errores?.length > 0) {
+          const primerError = errores[0];
+          toast.error(`Stock insuficiente para ${primerError.nombre}. Disponible: ${primerError.stockDisponible}`);
+          return;
+        }
+        const direccionCompleta = {
+          ...selectedAddress,
+          telefono: selectedAddress.telefonoContacto,
+        };
+        navigateToPayment(direccionCompleta);
+      } catch (error) {
+        console.error('Error validando stock:', error);
+        toast.error(error.message || 'Error al validar el carrito');
+      }
     } else if (isAddingAddress) {
       handleSelectNewAddressAndContinue();
     }
   };
 
-  const handleSelectNewAddressAndContinue = () => {
+  const handleSelectNewAddressAndContinue = async () => {
     if (!isAddingAddress) return;
     const campos = ['ciudad', 'codigoPostal', 'calle', 'numeroCasa', 'telefono'];
     const newErrors = {};
@@ -162,8 +179,19 @@ function Shipping() {
       setErrors(newErrors);
       return;
     }
-    const direccionCompleta = { ...newAddress };
-    navigate('/pago', { state: { direccion: direccionCompleta, total: calcularTotal() } });
+    try {
+      const { valido, errores } = await validateCartStock(userId);
+      if (!valido && errores?.length > 0) {
+        const primerError = errores[0];
+        toast.error(`Stock insuficiente para ${primerError.nombre}. Disponible: ${primerError.stockDisponible}`);
+        return;
+      }
+      const direccionCompleta = { ...newAddress };
+      navigateToPayment(direccionCompleta);
+    } catch (error) {
+      console.error('Error validando stock:', error);
+      toast.error(error.message || 'Error al validar el carrito');
+    }
   };
 
   const canContinue = () => {
