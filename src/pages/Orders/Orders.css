@@ -149,6 +149,11 @@ body {
   font-weight: 600;
 }
 
+.pedido-producto-plataforma {
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 500;
+}
+
 .pedido-producto-cantidad {
   color: rgba(255, 255, 255, 0.7);
   font-size: 13px;

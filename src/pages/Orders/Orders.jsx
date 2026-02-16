@@ -44,7 +44,12 @@ function Orders() {
                     {pedido.productos?.map((producto, i) => (
                       <div key={i} className="pedido-producto">
                         <div className="pedido-producto-info">
-                          <span className="pedido-producto-nombre">{producto.nombre}</span>
+                          <span className="pedido-producto-nombre">
+                            {producto.nombre}
+                            {producto.plataforma && (
+                              <span className="pedido-producto-plataforma"> ({producto.plataforma})</span>
+                            )}
+                          </span>
                           <span className="pedido-producto-cantidad">Cantidad: {producto.cantidad}</span>
                         </div>
                         <span className="pedido-producto-precio">{producto.precio} €</span>
