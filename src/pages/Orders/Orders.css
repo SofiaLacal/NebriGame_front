@@ -96,6 +96,12 @@ body {
   text-transform: capitalize;
 }
 
+.pedido-estado--procesando {
+  background: rgba(241, 15, 207, 0.35);
+  color: #ffffff;
+  border: 1px solid #f10fde;
+}
+
 .pedido-estado--pendiente {
   background: rgba(241, 196, 15, 0.35);
   color: #ffffff;
