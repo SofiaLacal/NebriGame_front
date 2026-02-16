@@ -1,13 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-import PublicRoutes from "./router/PublicRoutes";
-/* import PrivateRoutes from "./router/PrivateRoutes" */
+import WebRoutes from "./router/WebRoutes";
 
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/*" element={<PublicRoutes />} />
+        <Route path="/*" element={<WebRoutes />} />
       </Routes>
     </>
   );
