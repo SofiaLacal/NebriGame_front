@@ -13,6 +13,7 @@ import useUserStore from "../../stores/userStore";
 import { useIsInWishlist, useAddWishlist, useDeleteWishlist } from "../../api/useWishlist";
 import { useAddCart } from "../../api/useCart";
 import BackButton from "../../components/BackButton/BackButton";
+import PlataformaDropdown from "../../components/PlataformaDropdown/PlataformaDropdown";
 
 function ProductDetail() {
   const { id, tipo } = useParams();
@@ -26,13 +27,11 @@ function ProductDetail() {
   const [plataformaSeleccionada, setPlataformaSeleccionada] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [productToDeleteModal, setProductToDeleteModal] = useState(null);
- 
-  // Sincronizar el estado local con el hook cuando cambie
+
   useEffect(() => {
     setLocalIsInWishlist(isInWishlist);
   }, [isInWishlist]);
 
-  // Plataforma por defecto cuando hay plataformas (videojuegos)
   useEffect(() => {
     if (tipo === "videojuegos" && Array.isArray(plataformas) && plataformas.length > 0) {
       setPlataformaSeleccionada(prev => {
@@ -47,7 +46,6 @@ function ProductDetail() {
 
   const handleToggleWishlist = (productId, productName) => {
     if (isUpdating) return;
-
     if (localIsInWishlist) {
       setProductToDeleteModal({ id: productId, nombre: productName });
       setShowConfirmModal(true);
@@ -99,13 +97,14 @@ function ProductDetail() {
       setIsUpdating(false);
     }
   };
+
   const { videojuegos, loading: loadingVideojuegos } = useVideojuegos();
   const { consolas, loading: loadingConsolas } = useConsolas();
   const { merchandising, loading: loadingMerch } = useMerchandising();
 
   let data = [];
   let loading = false;
-  
+
   if (tipo === "videojuegos") {
     data = videojuegos;
     loading = loadingVideojuegos;
@@ -119,15 +118,13 @@ function ProductDetail() {
 
   const producto = data.find(p => p.id === parseInt(id));
 
-  // Stock disponible: para videojuegos SIEMPRE por plataforma seleccionada (NUNCA el total "stock")
   let stockDisponible;
   if (tipo === "videojuegos") {
     if (Array.isArray(plataformas) && plataformas.length > 0 && plataformaSeleccionada != null && plataformaSeleccionada !== "") {
-      const sel = String(plataformaSeleccionada);
-      const plataforma = plataformas.find(p => String(p.id) === sel);
+      const plataforma = plataformas.find(p => String(p.id) === String(plataformaSeleccionada));
       stockDisponible = plataforma != null ? (Number(plataforma.control_stock) || 0) : 0;
     } else {
-      stockDisponible = 0; // Nunca usar stock total para videojuegos
+      stockDisponible = 0;
     }
   } else {
     stockDisponible = stock;
@@ -157,45 +154,47 @@ function ProductDetail() {
         <BackButton>
           <ArrowLeft size={24} />
         </BackButton>
+
         <div className="contenedor-principal">
           <div className="detalle">
+
             <div className={`imagen-container imagen-container--${tipo}`}>
-              <img src={getImageUrl(producto.imagen_url)} alt={producto.nombre} className="imagen" />
+              <img
+                src={getImageUrl(producto.imagen_url)}
+                alt={producto.nombre}
+                className="imagen"
+              />
             </div>
+
             <div className="info">
               <h1>{producto.nombre}</h1>
+
               <div className="precio-row">
                 <p className="precio">{producto.precio} €</p>
+
                 {tipo === "videojuegos" && plataformas && plataformas.length > 0 && (
-                  <div className="select-plataforma-wrapper">
-                    <select
-                      className="select-plataforma"
-                      value={plataformaSeleccionada ?? ""}
-                      onChange={(e) => setPlataformaSeleccionada(e.target.value)}
-                    >
-                      {plataformas.map((p) => (
-                        <option key={p.id} value={String(p.id)}>
-                          {p.nombre}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <PlataformaDropdown
+                    plataformas={plataformas}
+                    plataformaSeleccionada={plataformaSeleccionada}
+                    onSeleccionar={setPlataformaSeleccionada}
+                  />
                 )}
               </div>
 
               <div className="botones">
-                <button 
+                <button
                   className="boton-wishlist"
                   onClick={() => handleToggleWishlist(producto.id, producto.nombre)}
                   disabled={isUpdating || loadingWishlist}
                   title={localIsInWishlist ? "Quitar de la wishlist" : "Añadir a la wishlist"}
                 >
-                  <Heart 
-                    size={24} 
-                    fill={localIsInWishlist ? "#e74c3c" : "none"} 
-                    color={localIsInWishlist ? "#e74c3c" : "white"} 
+                  <Heart
+                    size={24}
+                    fill={localIsInWishlist ? "#e74c3c" : "none"}
+                    color={localIsInWishlist ? "#e74c3c" : "white"}
                   />
                 </button>
+
                 {loadingStock ? (
                   <button className="boton-carrito" disabled>
                     Cargando...
@@ -209,14 +208,17 @@ function ProductDetail() {
                     Añadir al carrito
                   </button>
                 ) : (
-                  <button className="boton-aviso-reposicion" onClick={handleAvisoReposicion}>
+                  <button
+                    className="boton-aviso-reposicion"
+                    onClick={handleAvisoReposicion}
+                  >
                     Recibir un email cuando se reponga stock
                   </button>
                 )}
               </div>
             </div>
           </div>
-          
+
           <div className="seccion-descripcion">
             <h2>Acerca de</h2>
             <p className="descripcion">
@@ -230,10 +232,12 @@ function ProductDetail() {
                     <span className="etiqueta">Género:</span>
                     <span className="valor">{producto.juego.genero}</span>
                   </div>
+
                   <div className="dato">
                     <span className="etiqueta">Edad mínima:</span>
                     <span className="valor">{producto.juego.edad_minima}+</span>
                   </div>
+
                   {producto.juego.plataformas && producto.juego.plataformas.length > 0 && (
                     <div className="dato">
                       <span className="etiqueta">Plataformas disponibles:</span>
@@ -255,16 +259,19 @@ function ProductDetail() {
                     <span className="etiqueta">Fabricante:</span>
                     <span className="valor">{producto.consola.fabricante}</span>
                   </div>
+
                   <div className="dato">
                     <span className="etiqueta">Capacidad:</span>
                     <span className="valor">{producto.consola.capacidad_almacenamiento}</span>
                   </div>
+
                   {producto.consola.plataforma && (
                     <div className="dato">
                       <span className="etiqueta">Plataforma:</span>
                       <span className="valor">{producto.consola.plataforma.nombre}</span>
                     </div>
                   )}
+
                   {producto.consola.color && (
                     <div className="dato">
                       <span className="etiqueta">Color:</span>
@@ -284,14 +291,22 @@ function ProductDetail() {
           </div>
         </div>
       </div>
+
       <Footer />
 
       <ConfirmModal
         open={showConfirmModal}
-        onClose={() => { setShowConfirmModal(false); setProductToDeleteModal(null); }}
+        onClose={() => {
+          setShowConfirmModal(false);
+          setProductToDeleteModal(null);
+        }}
         onConfirm={handleConfirmRemoveWishlist}
         title="Eliminar de la wishlist"
-        message={productToDeleteModal ? `¿Eliminar ${productToDeleteModal.nombre} de tu lista de deseos?` : ""}
+        message={
+          productToDeleteModal
+            ? `¿Eliminar ${productToDeleteModal.nombre} de tu lista de deseos?`
+            : ""
+        }
       />
     </div>
   );
