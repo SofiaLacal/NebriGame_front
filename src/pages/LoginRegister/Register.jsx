@@ -64,7 +64,6 @@ function Register() {
       email: formData.email,
       contrasenna: formData.contrasenna,
     }
-
     try {
       const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
       const res = await fetch(`${apiUrl}/usuarios/registro`, {
@@ -76,26 +75,30 @@ function Register() {
       });
       
       const data = await res.json();
-      useUserStore.setState({
-        id: data.usuario.id,
-        nombre: data.usuario.nombre,
-        apellido1: data.usuario.apellido1,
-        apellido2: data.usuario.apellido2,
-        email: data.usuario.email
-      });
+
       console.log('Respuesta del servidor:', data);
       
       if (data.success) {
+        useUserStore.setState({
+          id: data.usuario.id,
+          nombre: data.usuario.nombre,
+          apellido1: data.usuario.apellido1,
+          apellido2: data.usuario.apellido2,
+          email: data.usuario.email
+        });
         toast.success("Cuenta creada correctamente, bienvenido " + data.usuario.nombre);
         navigate('/');
       } else {
         setError(data.message || 'Error al registrarse');
-        toast.error("Error al registrarse");
+        toast.error(data.message || 'Error al registrarse');
       }
-    } catch (error) {
-      console.error('Error en el registro:', error);
-      setError('Error de conexión. Por favor, intenta de nuevo.');
-    }
+
+  } catch (error) {
+    console.error('Error en el registro:', error);
+    setError(error.message || 'Error al registrarse');
+    toast.error("Error al registrarse");
+    return;
+  }
   };
 
   return (
