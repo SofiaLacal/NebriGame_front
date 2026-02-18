@@ -10,13 +10,8 @@ import "./Register.css"
 function Register() {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const user = useUserStore.getState();
-    if (user.id) {
-      navigate('/');
-    }
-  }, []);
   const [error, setError] = useState(null);
+  
   const [formData, setFormData] = useState({
     nombre: '',
     apellido1: '',
@@ -27,8 +22,16 @@ function Register() {
     contrasennaConfirmar: ''
   });
 
+  useEffect(() => {
+    const user = useUserStore.getState();
+    if (user.id) {
+      navigate('/');
+    }
+  }, []);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -45,13 +48,13 @@ function Register() {
     
     e.preventDefault();
 
-    // Validar que los emails coincidan
+    // Validación emails
     if (formData.email !== formData.emailConfirmar) {
       setError('Los emails no coinciden');
       return;
     }
     
-    // Validar que las contraseñas coincidan
+    // Validación contraseñas
     if (formData.contrasenna !== formData.contrasennaConfirmar) {
       setError('Las contraseñas no coinciden');
       return;
@@ -63,22 +66,20 @@ function Register() {
       apellido2: formData.apellido2,
       email: formData.email,
       contrasenna: formData.contrasenna,
-    }
+    };
+
     try {
       const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
       const res = await fetch(`${apiUrl}/usuarios/registro`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(envioForm)
       });
       
       const data = await res.json();
-
-      console.log('Respuesta del servidor:', data);
       
       if (data.success) {
+        
         useUserStore.setState({
           id: data.usuario.id,
           nombre: data.usuario.nombre,
@@ -86,8 +87,10 @@ function Register() {
           apellido2: data.usuario.apellido2,
           email: data.usuario.email
         });
+
         toast.success("Cuenta creada correctamente, bienvenido " + data.usuario.nombre);
         navigate('/');
+
       } else {
         setError(data.message || 'Error al registrarse');
         toast.error(data.message || 'Error al registrarse');
@@ -113,7 +116,6 @@ function Register() {
               <h1>Crear cuenta</h1>
               <p>Rellena el formulario para registrarte</p>
             </div>
-            {error && <div className="error-message-reg">{error}</div>}
           
             <form onSubmit={handleSubmit} className="auth-form-reg">
 
@@ -214,6 +216,8 @@ function Register() {
                 </div>
               </div>
               
+              {error && <div className="error-message-reg">{error}</div>}
+
               <div className="btn-cont-reg">
                 <button type="submit" className="btn-primary-reg">
                   Registrarse

@@ -298,6 +298,7 @@
 
   .nav-links-right.active {
     display: flex;
+    margin-left: 20px;
   }
 
   .nav-links a {

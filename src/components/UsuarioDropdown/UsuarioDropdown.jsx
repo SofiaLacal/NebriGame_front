@@ -11,7 +11,6 @@ function UsuarioDropdown() {
   const logout = useUserStore((state) => state.logout);
   const navigate = useNavigate();
   
-  // Cierra el dropdown al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (!e.target.closest('.usuario-container')) {

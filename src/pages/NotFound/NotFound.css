@@ -1,36 +1,49 @@
 .not-found-background {
-/*   background: linear-gradient(#8496e5, #8768a7); */
-  background: rgba(40, 62, 232, 0.377);
-  display: flex;
-  flex-direction: column;
-}
-
-.not-found {
-  font-family: 'Teacher', sans-serif;
+  background-image: url("../../assets/images/backgroundNotFound.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   min-height: 100dvh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  gap: 2.8rem;
-  font-size: 1.2rem;
+  justify-content: center;  
 }
 
-.not-found h2{
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;        
+  gap: 2.8rem;
+  max-width: 600px;
+  margin-bottom: 80px;
+}
+
+.not-found-content {
+    font-family: 'Teacher', sans-serif;
+    color: aliceblue;
+    font-size: 1.2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6rem;
+    margin-top: 40px;
+}
+
+.not-found-content h2 {
   font-family: 'Gameplay', sans-serif;
   font-size: 3.4rem;
-  margin: 0;
+  margin: 0 0 1rem 0;
 }
 
-.not-found button {
+.not-found-content button {
   padding: 0.6rem 1.2rem;
   border-radius: 20px;
   border: solid rgb(0, 0, 0);
   font-weight: bold;
   cursor: pointer;
-  background-color: #7143bbc5;
-  color:aliceblue;
+  background-color: #7143bbd8;
+  width: fit-content;
 }
 
 .tipo-unown {
@@ -39,25 +52,25 @@
 }
 
 
-/*FUENTES*/
+/* FUENTES */
 
 @font-face {
   font-family: 'Gameplay';
-  src: url('../../../src/assets/fonts/Gameplay.ttf') format(truetype);
+  src: url('../../../src/assets/fonts/Gameplay.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Unown';
-  src: url('../../../src/assets/fonts/unown.ttf') format(truetype);
+  src: url('../../../src/assets/fonts/unown.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Teacher';
-  src: url('../../../src/assets/fonts/KGTeacherBrady.ttf') format(truetype);
+  src: url('../../../src/assets/fonts/KGTeacherBrady.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
