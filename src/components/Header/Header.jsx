@@ -37,10 +37,13 @@ function Header({ busqueda = "", setBusqueda = null }) {
 
   const handleSearch = (e) => {
     e.preventDefault();
+        const value = e.target.value;
+    setSearchTerm(value);
+
+    if (setBusqueda) setBusqueda(value);
+
     if (searchTerm.trim()) {
       navigate(`/productos?query=${encodeURIComponent(searchTerm)}`);
-      // NO cerrar la barra de búsqueda
-      // NO limpiar el searchTerm
       setIsMenuOpen(false);
     }
   };
