@@ -93,12 +93,15 @@ function Register() {
 
       } else {
         setError(data.message || 'Error al registrarse');
-        toast.error("Error al registrarse");
+        toast.error(data.message || 'Error al registrarse');
       }
-    } catch (error) {
-      console.error('Error en el registro:', error);
-      setError('Error de conexión. Por favor, intenta de nuevo.');
-    }
+
+  } catch (error) {
+    console.error('Error en el registro:', error);
+    setError(error.message || 'Error al registrarse');
+    toast.error("Error al registrarse");
+    return;
+  }
   };
 
   return (
