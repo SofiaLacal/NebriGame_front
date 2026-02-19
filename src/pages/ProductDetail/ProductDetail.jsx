@@ -30,6 +30,10 @@ function ProductDetail() {
   const [productToDeleteModal, setProductToDeleteModal] = useState(null);
   const [isFallback, setIsFallback] = useState(false);
 
+    useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id, tipo]);
+
   useEffect(() => {
     setLocalIsInWishlist(isInWishlist);
   }, [isInWishlist]);
