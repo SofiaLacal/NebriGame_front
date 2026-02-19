@@ -25,6 +25,10 @@
   object-fit: cover;
 }
 
+.product-card--videojuegos .product-img--fallback {
+  object-fit: contain;
+}
+
 .product-info {
   padding: 12px 16px;
   background: linear-gradient(to bottom, #7439b3, #65319c);

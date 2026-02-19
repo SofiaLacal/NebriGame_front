@@ -8,6 +8,7 @@ import { toast } from '../../stores/toastStore';
 import './Cart.css';
 import useUserStore from '../../stores/userStore';
 import getImageUrl from '../../utils/getImage';
+import noDisponible from "../../assets/images/no-disponible.jpg";
 import CartHeader from '../../components/CartHeader/CartHeader';
 
 function Cart() {
@@ -206,6 +207,10 @@ function Cart() {
                         src={producto.imagen} 
                         alt={producto.nombre}
                         className="product-image-cart"
+                        onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = noDisponible;
+                      }}
                       />
 
                       <div className="product-info-cart">

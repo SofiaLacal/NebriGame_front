@@ -34,6 +34,10 @@
   object-fit: cover;
 }
 
+.imagen-container--videojuegos .imagen--fallback {
+  object-fit: contain;
+}
+
 .info {
   display: flex;
   flex-direction: column;

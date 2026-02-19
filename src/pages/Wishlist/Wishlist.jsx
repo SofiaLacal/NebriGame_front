@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDeleteWishlist, useWishlist } from "../../api/useWishlist";
 import useUserStore from "../../stores/userStore";
 import getImageUrl from "../../utils/getImage";
+import noDisponible from "../../assets/images/no-disponible.jpg";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import ConfirmModal from "../../components/ConfirmModal/ConfirmModal";
@@ -99,6 +100,10 @@ const Wishlist = () => {
                         src={getImageUrl(product.imagen_url)} 
                         alt={product.nombre}
                         onClick={() => handleClick(product)}
+                        onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = noDisponible;
+                      }}
                       />
                     </div>
 
