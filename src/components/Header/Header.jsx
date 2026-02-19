@@ -14,7 +14,6 @@ function Header({ busqueda = "", setBusqueda = null }) {
   const searchInputRef = useRef(null);
   const searchFormRef = useRef(null);
 
-  // Sincronizar searchTerm con la prop busqueda
   useEffect(() => {
     setSearchTerm(busqueda);
   }, [busqueda]);
@@ -40,13 +39,14 @@ function Header({ busqueda = "", setBusqueda = null }) {
 
   const handleSearch = (e) => {
     e.preventDefault();
-        const value = e.target.value;
-    setSearchTerm(value);
 
-    if (setBusqueda) setBusqueda(value);
+    if (setBusqueda) setBusqueda(searchTerm);
 
     if (searchTerm.trim()) {
-      navigate(`/productos?query=${encodeURIComponent(searchTerm)}`);
+      const from = location.state?.from ?? location.pathname;
+      navigate(`/productos?query=${encodeURIComponent(searchTerm)}`, {
+        state: { from },
+      });
       setIsMenuOpen(false);
     }
   };

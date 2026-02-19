@@ -9,12 +9,16 @@ import Loading from "../../components/Loading/Loading";
 import getImageUrl from "../../utils/getImage";
 import imagenUps from "../../assets/images/ups.jpg";
 import "./Product.css";
-
+import { useLocation } from "react-router-dom";
 function Product() {
   const { tipo } = useParams();
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   
+  const location = useLocation();
+  const from = location.state?.from;
+  const validFrom = ['/productos/consolas', '/productos/videojuegos', '/productos/merchandising'].includes(from) ? from : null;
+
   const [buscando, setBuscando] = useState(false);
   const [resultados, setResultados] = useState([]);
   const [ordenar, setOrdenar] = useState("defecto");
@@ -67,7 +71,7 @@ function Product() {
     setBuscando(false);
     setResultados([]);
     setOrdenar("defecto");
-    navigate(-1);
+    navigate(validFrom || '/', { replace: true });
   };
 
   const ordenarProductos = (productos) => {
