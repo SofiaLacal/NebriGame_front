@@ -5,6 +5,7 @@ const useOrders = (userId) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+
         if (!userId) {
             setOrders([]);
             setLoading(false);
@@ -22,10 +23,12 @@ const useOrders = (userId) => {
                 }
                 return res.json();
             })
+
             .then(data => {
                 setOrders(data.pedidos || []);
                 setLoading(false);
             })
+
             .catch(err => {
                 if (err.name === 'AbortError') return;
                 console.error('Error fetching orders:', err);
@@ -34,6 +37,7 @@ const useOrders = (userId) => {
             });
 
         return () => controller.abort();
+
     }, [userId]);
 
     return { orders, loading };
@@ -56,7 +60,9 @@ const createOrder = async (userId, orderData) => {
         if (!res.ok) {
             throw new Error(data.error || data.message || `Error al crear pedido`);
         }
+
         return data;
+        
     } catch (error) {
         console.error('Error creating order:', error);
         throw error;

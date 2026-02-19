@@ -46,9 +46,11 @@ function ProductDetail() {
 
   const handleToggleWishlist = (productId, productName) => {
     if (isUpdating) return;
+
     if (localIsInWishlist) {
       setProductToDeleteModal({ id: productId, nombre: productName });
       setShowConfirmModal(true);
+
     } else {
       handleAddToWishlist(productId);
     }
@@ -57,13 +59,16 @@ function ProductDetail() {
   const handleConfirmRemoveWishlist = async () => {
     if (!productToDeleteModal) return;
     setIsUpdating(true);
+
     try {
       await useDeleteWishlist(userId, productToDeleteModal.id);
       setLocalIsInWishlist(false);
       toast.success("Producto eliminado de la wishlist");
+
     } catch (error) {
       console.error("Error al actualizar wishlist:", error);
       toast.error("No se pudo eliminar de la wishlist");
+
     } finally {
       setIsUpdating(false);
       setProductToDeleteModal(null);
@@ -76,9 +81,11 @@ function ProductDetail() {
       await useAddWishlist(userId, productId);
       setLocalIsInWishlist(true);
       toast.success("Producto añadido a la wishlist");
+
     } catch (error) {
       console.error("Error al añadir a la wishlist:", error);
       toast.error("No se pudo añadir a la wishlist");
+
     } finally {
       setIsUpdating(false);
     }
@@ -87,12 +94,15 @@ function ProductDetail() {
   const handleAddToCart = async (productId, plataformaId = null) => {
     if (isUpdating) return;
     setIsUpdating(true);
+
     try {
       await useAddCart(userId, productId, 1, plataformaId);
       toast.success("Producto añadido al carrito");
+
     } catch (error) {
       console.error("Error al añadir al carrito:", error);
       toast.error(error.message || "No se pudo añadir al carrito");
+
     } finally {
       setIsUpdating(false);
     }
@@ -108,24 +118,28 @@ function ProductDetail() {
   if (tipo === "videojuegos") {
     data = videojuegos;
     loading = loadingVideojuegos;
+
   } else if (tipo === "consolas") {
     data = consolas;
     loading = loadingConsolas;
+
   } else if (tipo === "merchandising") {
     data = merchandising;
     loading = loadingMerch;
   }
 
   const producto = data.find(p => p.id === parseInt(id));
-
   let stockDisponible;
+
   if (tipo === "videojuegos") {
     if (Array.isArray(plataformas) && plataformas.length > 0 && plataformaSeleccionada != null && plataformaSeleccionada !== "") {
       const plataforma = plataformas.find(p => String(p.id) === String(plataformaSeleccionada));
       stockDisponible = plataforma != null ? (Number(plataforma.control_stock) || 0) : 0;
+
     } else {
       stockDisponible = 0;
     }
+    
   } else {
     stockDisponible = stock;
   }

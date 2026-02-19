@@ -13,11 +13,14 @@ function UsuarioDropdown() {
   
   useEffect(() => {
     const handleClickOutside = (e) => {
+
       if (!e.target.closest('.usuario-container')) {
         setIsDropdownOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
+    
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 

@@ -30,6 +30,7 @@ function Payment() {
     if (cart && cart.length > 0) {
       const productos = cart.map((item) => {
         const producto = item.producto || {};
+
         return {
           id: item.id,
           productoId: item.producto_id || producto.id,
@@ -39,7 +40,9 @@ function Payment() {
           cantidad: item.cantidad || 1,
         };
       });
+
       setProductosCarrito(productos);
+
     } else {
       setProductosCarrito([]);
     }
@@ -47,7 +50,9 @@ function Payment() {
 
   const calcularTotal = () => {
     if (total) return total;
+
     if (productosCarrito.length === 0) return '0.00';
+
     return productosCarrito
       .reduce((acc, p) => acc + p.precio * p.cantidad, 0)
       .toFixed(2);
@@ -56,7 +61,9 @@ function Payment() {
   // Añadir método de pago
   const handleAddMethod = async (e) => {
     e.preventDefault();
+
     if (!newMethod.tipo || !newMethod.detalles.trim()) return;
+
     try {
       const data = await useAddPaymentMethod(userId, newMethod.tipo, newMethod.detalles.trim());
       setNewMethod({ tipo: 'tarjeta', detalles: '' });
@@ -64,6 +71,7 @@ function Payment() {
       refetchPayment();
       if (data?.metodoPago) setSelectedPaymentMethod(data.metodoPago);
       toast.success('Método de pago añadido');
+
     } catch (error) {
       console.error('Error añadiendo método de pago:', error);
       toast.error('Error al añadir método de pago');
@@ -73,11 +81,13 @@ function Payment() {
   // Eliminar método de pago
   const handleDeleteMethod = async (e, metodoId) => {
     e.stopPropagation();
+
     try {
       await useDeletePaymentMethod(userId, metodoId);
       if (selectedPaymentMethod?.id === metodoId) setSelectedPaymentMethod(null);
       refetchPayment();
       toast.success('Método de pago eliminado');
+
     } catch (error) {
       console.error('Error eliminando método de pago:', error);
       toast.error('Error al eliminar método de pago');
@@ -86,6 +96,7 @@ function Payment() {
 
   // Confirmar pedido
   const confirmarPedido = async () => {
+
     if (productosCarrito.length === 0) {
       toast.error('Tu carrito está vacío');
       return;
@@ -108,6 +119,7 @@ function Payment() {
           precio: p.precio,
           cantidad: p.cantidad
         })),
+
         total: parseFloat(calcularTotal()),
         direccion: direccion ? {
           ...direccion,
@@ -131,6 +143,7 @@ function Payment() {
     } catch (error) {
       console.error('Error al crear pedido:', error);
       toast.error(error.message || 'Error al procesar el pedido. Inténtalo de nuevo.');
+
     } finally {
       setProcessingOrder(false);
     }
@@ -303,10 +316,8 @@ function Payment() {
                 >
                   {processingOrder ? 'Procesando...' : 'Confirmar pedido'}
                 </button>
-
               </div>
             </div>
-
           </div>
         </div>
       </div>

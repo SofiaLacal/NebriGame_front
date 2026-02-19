@@ -24,6 +24,7 @@ function Register() {
 
   useEffect(() => {
     const user = useUserStore.getState();
+    
     if (user.id) {
       navigate('/');
     }

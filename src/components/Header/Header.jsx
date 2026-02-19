@@ -25,12 +25,15 @@ function Header({ busqueda = "", setBusqueda = null }) {
 
   const toggleSearch = () => {
     setIsSearchExpanded(!isSearchExpanded);
+
     if (!isSearchExpanded) {
       setTimeout(() => {
         searchInputRef.current?.focus();
       }, 100);
+
     } else if (searchTerm) {
       setSearchTerm("");
+
       if (setBusqueda) setBusqueda("");
     }
   };
@@ -51,12 +54,14 @@ function Header({ busqueda = "", setBusqueda = null }) {
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
+
     if (setBusqueda) setBusqueda(value);
   };
 
   // Cierra el buscador al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (e) => {
+
       if (searchFormRef.current && !searchFormRef.current.contains(e.target)) {
         setIsSearchExpanded(false);
       }
@@ -69,6 +74,7 @@ function Header({ busqueda = "", setBusqueda = null }) {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
+    
   }, [isSearchExpanded]);
 
   return (

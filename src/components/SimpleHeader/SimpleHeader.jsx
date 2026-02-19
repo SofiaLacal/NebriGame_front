@@ -15,11 +15,14 @@ function SimpleHeader() {
   // Cierra el menú móvil al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (e) => {
+
       if (!e.target.closest('.navbar-sh')) {
         setIsMenuOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
+    
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 

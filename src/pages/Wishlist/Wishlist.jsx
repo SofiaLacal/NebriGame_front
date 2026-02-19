@@ -18,6 +18,7 @@ const Wishlist = () => {
   const navigate = useNavigate();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
+  
   useEffect(() => {
     if (!userId) {
       navigate('/login', { state: { from: '/wishlist' } });
@@ -29,6 +30,7 @@ const Wishlist = () => {
     if (producto.tipo === "juego") return "videojuegos";
     if (producto.tipo === "consola") return "consolas";
     if (producto.tipo === "merchandising") return "merchandising";
+
     return producto.tipo;
   };
 
@@ -44,10 +46,12 @@ const Wishlist = () => {
 
   const handleConfirmRemove = async () => {
     if (!productToDelete) return;
+
     try {
       await useDeleteWishlist(userId, productToDelete.id);
       refetchWishlist();
       toast.success("Producto eliminado de la wishlist");
+      
     } catch (err) {
       console.error("No se pudo eliminar de la wishlist:", err);
       toast.error("No se pudo eliminar de la wishlist");

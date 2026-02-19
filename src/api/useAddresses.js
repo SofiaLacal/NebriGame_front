@@ -5,6 +5,7 @@ const useAddresses = (userId) => {
   const [loading, setLoading] = useState(true);
 
   const fetchAddresses = (signal) => {
+
     if (!userId) {
       setAddresses([]);
       setLoading(false);
@@ -17,15 +18,18 @@ const useAddresses = (userId) => {
 
     return fetch(`${apiUrl}/usuarios/${userId}/direcciones`, opts)
       .then((res) => {
+
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
         return res.json();
       })
+
       .then((data) => {
         setAddresses(data.direcciones || []);
         setLoading(false);
       })
+
       .catch((err) => {
         if (err.name !== "AbortError") {
           console.error("Error fetching addresses:", err);
@@ -38,6 +42,7 @@ const useAddresses = (userId) => {
   useEffect(() => {
     const controller = new AbortController();
     fetchAddresses(controller.signal);
+
     return () => controller.abort();
   }, [userId]);
 
@@ -50,6 +55,7 @@ const useAddresses = (userId) => {
 
 const useAddAddress = async (userId, data) => {
   const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+
   try {
     const res = await fetch(`${apiUrl}/usuarios/${userId}/direcciones`, {
       method: "POST",
@@ -58,19 +64,26 @@ const useAddAddress = async (userId, data) => {
       },
       body: JSON.stringify(data),
     });
+
     const result = await res.json();
+
     if (!res.ok) {
       throw new Error(result.error || "Error al añadir dirección");
     }
+
     return result;
+
   } catch (err) {
+
     console.error("Error adding address:", err);
     throw err;
   }
 };
 
 const useDeleteAddress = async (userId, direccionId) => {
+
   const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+
   try {
     const res = await fetch(
       `${apiUrl}/usuarios/${userId}/direcciones/${direccionId}`,
@@ -81,11 +94,15 @@ const useDeleteAddress = async (userId, direccionId) => {
         },
       }
     );
+
     const data = await res.json();
+
     if (!res.ok) {
       throw new Error(data.error || "Error al eliminar dirección");
     }
+
     return data;
+
   } catch (err) {
     console.error("Error deleting address:", err);
     throw err;

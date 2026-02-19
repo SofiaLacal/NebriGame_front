@@ -7,6 +7,7 @@ function Search({ busqueda, setBusqueda, handleSearch }) {
 
   const handleToggle = () => {
     setIsExpanded(!isExpanded);
+
     if (isExpanded && busqueda) {
       setBusqueda("");
     }
@@ -14,6 +15,7 @@ function Search({ busqueda, setBusqueda, handleSearch }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     if (busqueda.trim()) {
       handleSearch(busqueda.trim());
       setIsExpanded(false);

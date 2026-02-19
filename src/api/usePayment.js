@@ -5,6 +5,7 @@ const usePayment = (userId) => {
     const [loading, setLoading] = useState(true);
 
     const fetchPayment = (signal) => {
+
         if (!userId) {
             setPayment([]);
             setLoading(false);
@@ -22,10 +23,12 @@ const usePayment = (userId) => {
                 }
                 return res.json();
             })
+
             .then(data => {
                 setPayment(data.metodosPago || []);
                 setLoading(false);
             })
+
             .catch(err => {
                 if (err.name === 'AbortError') return;
                 console.error('Error fetching payment methods:', err);
@@ -37,7 +40,9 @@ const usePayment = (userId) => {
     useEffect(() => {
         const controller = new AbortController();
         fetchPayment(controller.signal);
+
         return () => controller.abort();
+
     }, [userId]);
 
     const refetchPayment = () => {
@@ -50,6 +55,7 @@ const usePayment = (userId) => {
 
 const useAddPaymentMethod = async (userId, tipo, detalles) => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+
     try {
         const res = await fetch(`${apiUrl}/usuarios/${userId}/metodos-pago`, {
             method: 'POST',
@@ -58,11 +64,15 @@ const useAddPaymentMethod = async (userId, tipo, detalles) => {
             },
             body: JSON.stringify({ tipo, detalles })
         });
+
         const data = await res.json();
+
         if (!res.ok) {
             throw new Error(data.error || 'Error al añadir método de pago');
         }
+
         return data;
+
     } catch (err) {
         console.error('Error adding payment method:', err);
         throw err;
@@ -71,6 +81,7 @@ const useAddPaymentMethod = async (userId, tipo, detalles) => {
 
 const useDeletePaymentMethod = async (userId, metodoId) => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
+
     try {
         const res = await fetch(`${apiUrl}/usuarios/${userId}/metodos-pago/${metodoId}`, {
             method: 'DELETE',
@@ -78,11 +89,15 @@ const useDeletePaymentMethod = async (userId, metodoId) => {
                 'Content-Type': 'application/json'
             }
         });
+
         const data = await res.json();
+
         if (!res.ok) {
             throw new Error(data.error || 'Error al eliminar método de pago');
-        }   
+        }
+
         return data;
+        
     } catch (err) {
         console.error('Error deleting payment method:', err);
         throw err;

@@ -25,6 +25,7 @@ function Shipping() {
     numeroCasa: '',
     telefono: '',
   });
+
   const [errors, setErrors] = useState({});
 
   // Sincronizar productos del carrito
@@ -32,6 +33,7 @@ function Shipping() {
     if (cart && cart.length > 0) {
       const productos = cart.map((item) => {
         const producto = item.producto || {};
+        
         return {
           id: item.id,
           nombre: producto.nombre || 'Producto',
@@ -39,7 +41,9 @@ function Shipping() {
           cantidad: item.cantidad || 1,
         };
       });
+
       setProductosCarrito(productos);
+
     } else {
       setProductosCarrito([]);
     }
@@ -60,22 +64,26 @@ function Shipping() {
           : /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s]+$/.test(value)
           ? ''
           : 'Solo se permiten letras';
+
       case 'calle':
         return value.trim() === ''
           ? 'Este campo es obligatorio'
           : /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s,.\-/]+$/.test(value)
           ? ''
           : 'No se permiten caracteres especiales';
+
       case 'codigoPostal':
         return /^[0-9]{5}$/.test(value)
           ? ''
           : 'Debe tener exactamente 5 dígitos numéricos';
+
       case 'numeroCasa':
         return value.trim() === ''
           ? 'Este campo es obligatorio'
           : /^[0-9a-zA-Z\-/]+$/.test(value)
           ? ''
           : 'Solo números y letras (ej: 12, 4B)';
+
       case 'telefono':
         return /^[0-9]{9}$/.test(value)
           ? ''
@@ -95,14 +103,17 @@ function Shipping() {
     e.preventDefault();
     const campos = ['ciudad', 'codigoPostal', 'calle', 'numeroCasa', 'telefono'];
     const newErrors = {};
+
     campos.forEach((campo) => {
       const err = validar(campo, newAddress[campo]);
       if (err) newErrors[campo] = err;
     });
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
+
     try {
       await useAddAddress(userId, {
         region: newAddress.region,
@@ -112,6 +123,7 @@ function Shipping() {
         numeroCasa: newAddress.numeroCasa,
         telefono: newAddress.telefono,
       });
+
       setNewAddress({
         region: 'peninsula',
         ciudad: '',
@@ -120,8 +132,10 @@ function Shipping() {
         numeroCasa: '',
         telefono: '',
       });
+
       setIsAddingAddress(false);
       refetchAddresses();
+
     } catch (error) {
       console.error('Error añadiendo dirección:', error);
     }
@@ -130,10 +144,13 @@ function Shipping() {
   const handleDeleteAddress = async (direccionId) => {
     try {
       await useDeleteAddress(userId, direccionId);
+
       if (selectedAddress?.id === direccionId) {
         setSelectedAddress(null);
       }
+
       refetchAddresses();
+
     } catch (error) {
       console.error('Error eliminando dirección:', error);
     }
@@ -145,23 +162,29 @@ function Shipping() {
 
   const handleContinue = async () => {
     if (!userId) return;
+
     if (selectedAddress) {
       try {
         const { valido, errores } = await validateCartStock(userId);
+
         if (!valido && errores?.length > 0) {
           const primerError = errores[0];
           toast.error(`Stock insuficiente para ${primerError.nombre}. Disponible: ${primerError.stockDisponible}`);
           return;
         }
+
         const direccionCompleta = {
           ...selectedAddress,
           telefono: selectedAddress.telefonoContacto,
         };
+
         navigateToPayment(direccionCompleta);
+
       } catch (error) {
         console.error('Error validando stock:', error);
         toast.error(error.message || 'Error al validar el carrito');
       }
+
     } else if (isAddingAddress) {
       handleSelectNewAddressAndContinue();
     }
@@ -171,23 +194,29 @@ function Shipping() {
     if (!isAddingAddress) return;
     const campos = ['ciudad', 'codigoPostal', 'calle', 'numeroCasa', 'telefono'];
     const newErrors = {};
+
     campos.forEach((campo) => {
       const err = validar(campo, newAddress[campo]);
       if (err) newErrors[campo] = err;
     });
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
     }
+
     try {
       const { valido, errores } = await validateCartStock(userId);
+
       if (!valido && errores?.length > 0) {
         const primerError = errores[0];
         toast.error(`Stock insuficiente para ${primerError.nombre}. Disponible: ${primerError.stockDisponible}`);
         return;
       }
+
       const direccionCompleta = { ...newAddress };
       navigateToPayment(direccionCompleta);
+
     } catch (error) {
       console.error('Error validando stock:', error);
       toast.error(error.message || 'Error al validar el carrito');
@@ -198,10 +227,12 @@ function Shipping() {
     if (selectedAddress) {
       return !!selectedAddress.telefonoContacto;
     }
+
     if (isAddingAddress) {
       const campos = ['ciudad', 'codigoPostal', 'calle', 'numeroCasa', 'telefono'];
       return campos.every((c) => validar(c, newAddress[c]) === '');
     }
+    
     return false;
   };
 

@@ -15,14 +15,18 @@ function Login() {
 
   useEffect(() => {
     const user = useUserStore.getState();
+
     if (user.id) {
       navigate(validFrom || '/', { replace: true });
     }
+
   }, [navigate, validFrom]);
+
   const [formData, setFormData] = useState({
     email: '',
     contrasenna: ''
   });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -37,10 +41,12 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (formData.email === '' || formData.contrasenna === '') {
       toast.error("Por favor, rellena todos los campos");
       return;
     }
+
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
     const res = await fetch(`${apiUrl}/usuarios/login`, {
       method: 'POST',
@@ -49,6 +55,7 @@ function Login() {
       },
       body: JSON.stringify(formData)
     });
+
     const data = await res.json();
     console.log(data);
 
@@ -70,8 +77,10 @@ function Login() {
         email: data.usuarioData.email,
         fecha_registro: data.usuarioData.fecha_registro
       });
+
       toast.success("Sesión iniciada, bienvenido de nuevo " + data.usuarioData.nombre);
       navigate(validFrom || '/', { replace: true });
+      
     } else {
       toast.error("Error al iniciar sesión");
     }

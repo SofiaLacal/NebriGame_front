@@ -61,6 +61,7 @@ function Profile() {
   const confirmarEliminar = () => {
     if (deleteModalStep < 4) {
       setDeleteModalStep((s) => s + 1);
+
     } else {
       ejecutarEliminacion();
     }
@@ -73,15 +74,19 @@ function Profile() {
       setDeleteModalStep(0);
       return;
     }
+
     setDeletingAccount(true);
+
     try {
       await deleteProfile(userId);
       logout();
       toast.success('Cuenta eliminada');
       navigate('/', { replace: true });
+
     } catch (err) {
       toast.error(err.message || 'Error al eliminar la cuenta');
       setDeleteModalStep(0);
+      
     } finally {
       setDeletingAccount(false);
     }
@@ -97,25 +102,32 @@ function Profile() {
       if (formInfo.nombre === formInfoInitial.nombre && formInfo.apellido1 === formInfoInitial.apellido1 &&
         formInfo.apellido2 === formInfoInitial.apellido2 && formInfo.email === formInfoInitial.email) {
        setErrorInfo('No hay cambios para guardar');  
+
         } else if (formInfo.nombre === '') {
           setErrorInfo('El nombre no puede estar vacío');
+
         } else if (formInfo.apellido1 === '') {
           setErrorInfo('El primer apellido no puede estar vacío');
+
         } else if (formInfo.email === '') {
           setErrorInfo('El email no puede estar vacío');
+
           } else {
-      await updateProfile(id, {
-        nombre: formInfo.nombre,
-        apellido1: formInfo.apellido1,
-        apellido2: formInfo.apellido2,
-        email: formInfo.email,
+            await updateProfile(id, {
+              nombre: formInfo.nombre,
+              apellido1: formInfo.apellido1,
+              apellido2: formInfo.apellido2,
+              email: formInfo.email,
       });
+
         setUsuario(id, formInfo.nombre, formInfo.apellido1, formInfo.apellido2, formInfo.email);
         setMensajeInfo('Datos actualizados correctamente');
         setTimeout(() => cerrarModal(), 1500);
       }
+
     } catch (err) {
       setErrorInfo(err.message || 'Error al actualizar los datos');
+
     } finally {
         setLoadingInfo(false);
       }
@@ -125,30 +137,38 @@ function Profile() {
     e.preventDefault();
     setMensajePass(null);
     setErrorPass(null);
+
     if (formPass.contrasennaNueva !== formPass.confirmar) {
       setErrorPass('Las contraseñas nuevas no coinciden');
       return;
+
     } else if (formPass.contrasennaNueva === '') {
       setErrorPass('La contraseña nueva no puede estar vacía');
       return;
+
     } else if (formPass.contrasennaActual === '') {
       setErrorPass('La contraseña actual no puede estar vacía');
       return;
+
     } else if (formPass.contrasennaNueva === formPass.contrasennaActual) {
       setErrorPass('La contraseña nueva no puede ser igual a la actual');
       return;
     }
     setLoadingPass(true);
+
     try {
       await updateProfile(id, {
         contrasenna: formPass.contrasennaNueva,
         contrasennaActual: formPass.contrasennaActual,
       });
+
       setMensajePass('Contraseña actualizada correctamente');
       setFormPass({ contrasennaActual: '', contrasennaNueva: '', confirmar: '' });
       setTimeout(() => cerrarModal(), 1500);
+
     } catch (err) {
       setErrorPass(err.message || 'Error al actualizar la contraseña');
+      
     } finally {
       setLoadingPass(false);
     }

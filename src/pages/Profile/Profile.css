@@ -512,33 +512,33 @@ body {
 @media (max-width: 768px) {
   .perfil-container {
     flex-direction: column;
-    margin-top: 20px; /* Reducido en móvil */
-    padding: 0 16px; /* Reducido padding lateral */
+    margin-top: 20px; 
+    padding: 0 16px; 
   }
 
   .perfil-tabs {
     flex-direction: row;
     position: static;
     width: 100%;
-    overflow-x: auto; /* Por si los tabs no caben */
-    flex-wrap: wrap; /* Permite que se envuelvan */
+    overflow-x: auto; 
+    flex-wrap: wrap;
   }
 
   .perfil-tab { 
     padding: 10px 16px; 
     font-size: 14px;
-    flex: 1; /* Distribuye equitativamente */
-    min-width: 120px; /* Ancho mínimo */
+    flex: 1; 
+    min-width: 120px; 
     text-align: center;
   }
 
   .perfil-seccion {
     padding: 20px;
-    border-radius: 8px; /* Bordes menos redondeados en móvil */
+    border-radius: 8px; 
   }
   
   .perfil-seccion h2 {
-    font-size: 18px; /* Título más pequeño */
+    font-size: 18px; 
   }
   
   .perfil-seccion-header {
@@ -552,7 +552,7 @@ body {
   }
   
   .perfil-detalles {
-    gap: 16px; /* Reducido gap */
+    gap: 16px; 
   }
   
   .perfil-detalle {
@@ -565,7 +565,7 @@ body {
   
   .perfil-valor {
     font-size: 15px;
-    word-break: break-word; /* Evita overflow de textos largos */
+    word-break: break-word; 
   }
   
   .perfil-btn { 
@@ -580,7 +580,7 @@ body {
   /* Modal en móvil */
   .modal-contenido {
     padding: 20px;
-    margin: 10px; /* Añade margen en los bordes */
+    margin: 10px; 
   }
   
   .modal-header h2 {

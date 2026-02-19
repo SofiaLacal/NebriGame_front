@@ -39,25 +39,31 @@ function Cart() {
           cantidad: item.cantidad || 1
         };
       });
+
       setProductosCarrito(productos);
+
     } else {
       setProductosCarrito([]);
     }
   }, [cart, userId, navigate]);
 
   const calcularTotal = () => {
+
     if (productosCarrito.length === 0) return '0.00';
+
     return productosCarrito
       .reduce((total, producto) => total + producto.precio * producto.cantidad, 0)
       .toFixed(2);
   };
 
   const openConfirmModal = (producto) => {
+
     setProductToDelete({
       productoId: producto.producto_id,
       plataformaId: producto.plataforma_id ?? 0,
       nombre: producto.nombre
     });
+
     setShowConfirmModal(true);
   };
 
@@ -67,7 +73,9 @@ function Cart() {
   };
 
   const eliminarProducto = async (productoId, plataformaId = 0) => {
+
     if (!userId) return;
+
     try {
       await useDeleteCart(userId, productoId, plataformaId);
       setProductosCarrito(prev => prev.filter(p => !(p.producto_id === productoId && (p.plataforma_id ?? 0) === plataformaId)));
@@ -77,6 +85,7 @@ function Cart() {
         return next;
       });
       toast.success("Producto eliminado del carrito");
+      
     } catch (error) {
       console.error('Error eliminando producto del carrito:', error);
       toast.error("No se pudo eliminar del carrito");
@@ -90,6 +99,7 @@ function Cart() {
 
   const setCantidad = async (productoId, newCantidad, plataformaId = 0) => {
     if (!userId || newCantidad < 1) return;
+
     try {
       await useChangeQuantity(userId, productoId, newCantidad, plataformaId);
       setProductosCarrito(prev =>
@@ -97,7 +107,9 @@ function Cart() {
           p.producto_id === productoId && (p.plataforma_id ?? 0) === plataformaId ? { ...p, cantidad: newCantidad } : p
         )
       );
+
       setEditingQuantity(prev => ({ ...prev, [`${productoId}-${plataformaId}`]: undefined }));
+
     } catch (err) {
       console.error('Error actualizando cantidad:', err);
       toast.error(err.message || 'No se pudo actualizar la cantidad');
@@ -115,27 +127,34 @@ function Cart() {
   // Restar producto (si llega a 0, mostrar modal de confirmación)
   const restarProducto = (producto) => {
     const newCantidad = producto.cantidad - 1;
+
     if (newCantidad < 1) {
       openConfirmModal(producto);
       return;
     }
+
     setCantidad(producto.producto_id, newCantidad, producto.plataforma_id ?? 0);
   };
 
   const commitQuantityInput = (producto) => {
     const raw = editingQuantity[getItemKey(producto)];
+
     if (raw === undefined || raw === '') {
       setEditingQuantity(prev => {
         const next = { ...prev };
         delete next[getItemKey(producto)];
         return next;
       });
+
       return;
     }
+
     const num = parseInt(raw, 10);
     const newCantidad = Number.isNaN(num) ? producto.cantidad : Math.max(1, num);
+
     if (newCantidad < 1) {
       openConfirmModal(producto);
+
     } else {
       setCantidad(producto.producto_id, newCantidad, producto.plataforma_id ?? 0);
     }
@@ -143,14 +162,18 @@ function Cart() {
 
   const continuarCompra = async () => {
     if (!userId) return;
+
     try {
       const { valido, errores } = await validateCartStock(userId);
+
       if (!valido && errores?.length > 0) {
         const primerError = errores[0];
         toast.error(`Stock insuficiente para ${primerError.nombre}. Disponible: ${primerError.stockDisponible}`);
         return;
       }
+
       navigate('/envio');
+      
     } catch (error) {
       console.error('Error validando stock:', error);
       toast.error(error.message || 'Error al validar el carrito');

@@ -3,7 +3,7 @@ import { Heart, ShoppingCart, Menu, X } from 'lucide-react';
 import UsuarioDropdown from '../UsuarioDropdown/UsuarioDropdown';
 import { useState } from 'react';
 import './CartHeader.css';
-import { toast } from '../../stores/toastStore';
+/* import { toast } from '../../stores/toastStore'; */
 
 function CartHeader({ pasoActual = 1 }) {
   const location = useLocation();

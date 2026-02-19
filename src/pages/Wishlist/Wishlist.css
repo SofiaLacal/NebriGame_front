@@ -173,7 +173,6 @@ body {
 }
 
 /* RESPONSIVE - REDUCCIÓN PROGRESIVA */
-
 @media (max-width: 1226px) {
   .wishlist-container {
     padding-left: 60px;

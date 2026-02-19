@@ -10,11 +10,14 @@ function PlataformaDropdown({ plataformas, plataformaSeleccionada, onSeleccionar
 
   useEffect(() => {
     const handleClickOutside = (e) => {
+
       if (!e.target.closest('.plataforma-container')) {
         setIsOpen(false);
       }
     };
+
     document.addEventListener('mousedown', handleClickOutside);
+    
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 

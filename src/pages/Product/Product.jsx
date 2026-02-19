@@ -26,14 +26,17 @@ function Product() {
 
   useEffect(() => {
     const query = searchParams.get('query');
+    
     if (query) {
       setBusqueda(query);
       realizarBusqueda(query);
+
     } else {
       setBuscando(false);
       setResultados([]);
       setBusqueda("");
     }
+
   }, [searchParams]);
 
   const realizarBusqueda = async (termino) => {
@@ -53,6 +56,7 @@ function Product() {
       if (data.success) {
         setResultados(data.resultados);
       }
+
     } catch (err) {
       console.error('Error en búsqueda:', err);
       setResultados([]);
