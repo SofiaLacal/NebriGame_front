@@ -7,9 +7,11 @@ const useToastStore = create((set) => ({
 
   addToast: (type, message, duration = DEFAULT_DURATION) => {
     const id = crypto.randomUUID();
+
     set((state) => ({
       toasts: [...state.toasts, { id, type, message }]
     }));
+    
     setTimeout(() => {
       set((state) => ({
         toasts: state.toasts.filter((t) => t.id !== id)
