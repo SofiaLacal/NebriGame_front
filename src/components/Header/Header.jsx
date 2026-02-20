@@ -54,11 +54,8 @@ function Header({ busqueda = "", setBusqueda = null }) {
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-
-    if (setBusqueda) setBusqueda(value);
   };
 
-  // Cierra el buscador al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (e) => {
 
