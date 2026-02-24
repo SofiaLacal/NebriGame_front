@@ -47,19 +47,8 @@ function Login() {
       toast.error("Por favor, rellena todos los campos");
       return;
     }
-
-    const data = await login(formData.email, formData.contrasenna);
-
-    if (data.error) {
-      toast.error(data.error);
-      setFormData({
-        email: '',
-        contrasenna: ''
-      });
-      return;
-    }
-
-    if (data.success) {
+    try {
+      const data = await login(formData.email, formData.contrasenna);
       useUserStore.setState({
         id: data.usuarioData.id,
         nombre: data.usuarioData.nombre,
@@ -71,10 +60,15 @@ function Login() {
 
       toast.success("Sesión iniciada, bienvenido de nuevo " + data.usuarioData.nombre);
       navigate(validFrom || '/', { replace: true });
-      
-    } else {
-      toast.error("Error al iniciar sesión");
+    } catch (error) {
+      toast.error(error.message);
+      setFormData({
+        email: '',
+        contrasenna: ''
+      });
     }
+
+      
   };
 
   return (
