@@ -48,7 +48,7 @@ const createOrder = async (userId, orderData) => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
     
     try {
-        const res = await fetch(`${apiUrl}/usuarios/${userId}/pedidos`, {
+        const res = await fetch(`${apiUrl}/usuarios/${userId}/carrito/comprar`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

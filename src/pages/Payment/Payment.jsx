@@ -112,22 +112,10 @@ function Payment() {
     try {
       // Preparar datos del pedido
       const orderData = {
-        productos: productosCarrito.map(p => ({
-          producto_id: p.productoId,
-          plataforma_id: p.plataforma_id ?? 0,
-          nombre: p.nombre,
-          precio: p.precio,
-          cantidad: p.cantidad
-        })),
-
-        total: parseFloat(calcularTotal()),
-        direccion: direccion ? {
-          ...direccion,
-          telefono: direccion.telefono || direccion.telefonoContacto || '000000000'
-        } : null,
+        direccion_id: direccion.id,
+        telefono_contacto: direccion.telefono || direccion.telefonoContacto || '000000000',
         metodo_pago_id: selectedPaymentMethod.id,
-        estado: 'pendiente',
-        fecha: new Date().toISOString()
+        notas: 'Notas del pedido'
       };
 
       // Crear el pedido
