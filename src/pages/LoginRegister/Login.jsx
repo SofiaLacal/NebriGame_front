@@ -5,6 +5,7 @@ import SimpleHeader from '../../components/SimpleHeader/SimpleHeader';
 import useUserStore from '../../stores/userStore';
 import { toast } from '../../stores/toastStore';
 import Footer from '../../components/Footer/Footer';
+import { login } from '../../api/useAuth';
 
 
 function Login() {
@@ -47,17 +48,7 @@ function Login() {
       return;
     }
 
-    const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
-    const res = await fetch(`${apiUrl}/usuarios/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
-
-    const data = await res.json();
-    console.log(data);
+    const data = await login(formData.email, formData.contrasenna);
 
     if (data.error) {
       toast.error(data.error);
