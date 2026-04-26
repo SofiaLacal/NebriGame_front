@@ -24,7 +24,10 @@ const login = async (email, contrasenna) => {
     }
 };
 
-const logout = async () => {
+//No nos hace falta logout, porque el token se guarda en el localStorage y se borra al cerrar sesión. 
+// En UsuarioDropdown.jsx se usa el logout del store, que borra los datos del usuario. 
+//En Profile.jsx pasa lo mismo, por eso no hace falta llamar a la función logout de la API. 
+/* const logout = async () => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
 
     try {
@@ -41,7 +44,7 @@ const logout = async () => {
         console.error('Error in logout:', err);
         throw err;
     }
-};
+}; */
 
 const updateProfile = async (userId, { nombre, apellido1, apellido2, email, contrasenna, contrasennaActual }) => {
     const apiUrl = import.meta.env.VITE_BACK_CONNECTION;
@@ -94,4 +97,8 @@ const deleteProfile = async (userId) => {
     }
 };
 
-export { login, logout, updateProfile, deleteProfile };
+/* Si hiciera falta logout, habría que volver a ponerlo en el export. 
+export { login, logout, updateProfile, deleteProfile }; 
+*/
+
+export { login, updateProfile, deleteProfile };
