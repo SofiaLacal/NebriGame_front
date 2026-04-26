@@ -154,7 +154,7 @@ function ProductDetail() {
   }
 
   return (
-    <div>
+    <div className="page-wrapper">
       <Header />
       <div className="contenedor-detalle">
         <BackButton>
